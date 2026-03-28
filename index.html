@@ -4,781 +4,897 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LoopLayer — EU Textile Compliance Infrastruktur</title>
-<meta name="description" content="LoopLayer automatisiert EPR-Zertifikate, CSRD-Berichte und Digitale Produktpässe aus realen Recyclingtransaktionen.">
-<meta property="og:title" content="LoopLayer — EU Textile Compliance Infrastruktur">
-<meta property="og:description" content="Eine Recyclingtransaktion. Drei prüfungssichere Compliance-Dokumente. Automatisch.">
-<meta property="og:type" content="website">
+<meta name="description" content="LoopLayer automatisiert EPR-Zertifikate, CSRD-Berichte und Digitale Produktpässe aus realen Recyclingtransaktionen. Für mittelständische Textilunternehmen in der EU.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --navy:#08111C; --navy-mid:#0E1F30; --navy-card:#132538;
-  --navy-border:rgba(255,255,255,0.08);
-  --blue:#1A6DA8; --blue-bright:#2E9BDA;
-  --teal:#1BC47D; --amber:#E8A020;
-  --text:#ffffff; --text-muted:#7A9BB8; --text-dim:#4A6A85;
-  --radius:10px; --max:1080px;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --ink:#0C0E10;
+  --ink-2:#161A1E;
+  --ink-3:#1E2530;
+  --wire:rgba(255,255,255,0.07);
+  --wire-2:rgba(255,255,255,0.12);
+  --cream:#F2EDE6;
+  --cream-dim:#8A8780;
+  --cream-faint:#3A3835;
+  --teal:#00C896;
+  --teal-dim:rgba(0,200,150,0.12);
+  --teal-wire:rgba(0,200,150,0.25);
+  --amber:#F0A500;
+  --amber-dim:rgba(240,165,0,0.12);
+  --blue:#3A8FD4;
+  --blue-dim:rgba(58,143,212,0.12);
+  --violet:#7B68EE;
+  --violet-dim:rgba(123,104,238,0.12);
+  --red:#E05555;
+  --max:1120px;
+  --r:8px;
 }
-html { scroll-behavior: smooth; }
-body { font-family:'DM Sans',sans-serif; background:var(--navy); color:var(--text); line-height:1.6; -webkit-font-smoothing:antialiased; }
 
-/* NAV */
-nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:0 24px; height:64px; display:flex; align-items:center; justify-content:space-between; background:rgba(8,17,28,0.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--navy-border); }
-.nav-logo { font-family:'Fraunces',serif; font-size:20px; font-weight:600; color:#fff; text-decoration:none; letter-spacing:-0.3px; }
-.nav-logo span { color:var(--blue-bright); }
-.nav-right { display:flex; align-items:center; gap:20px; }
-.nav-links { display:flex; gap:22px; list-style:none; }
-.nav-links a { color:var(--text-muted); text-decoration:none; font-size:14px; font-weight:500; transition:color 0.2s; }
-.nav-links a:hover { color:#fff; }
-.nav-cta { background:var(--blue); color:#fff !important; padding:8px 18px; border-radius:6px; font-size:14px !important; transition:background 0.2s !important; }
-.nav-cta:hover { background:var(--blue-bright) !important; }
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--ink);color:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-/* LANG TOGGLE */
-.lang-toggle { display:flex; align-items:center; gap:2px; background:rgba(255,255,255,0.05); border:1px solid var(--navy-border); border-radius:6px; padding:3px; flex-shrink:0; }
-.lang-btn { font-size:12px; font-weight:700; letter-spacing:0.5px; padding:5px 10px; border-radius:4px; cursor:pointer; border:none; background:transparent; color:var(--text-dim); transition:all 0.2s; font-family:'DM Sans',sans-serif; }
-.lang-btn.active { background:var(--blue); color:#fff; }
-.lang-btn:not(.active):hover { color:#fff; }
+/* ── UTILITY ── */
+.wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:4px;border:1px solid}
+.tag-teal{color:var(--teal);border-color:var(--teal-wire);background:var(--teal-dim)}
+.tag-amber{color:var(--amber);border-color:rgba(240,165,0,0.25);background:var(--amber-dim)}
+.tag-blue{color:var(--blue);border-color:rgba(58,143,212,0.25);background:var(--blue-dim)}
+.tag-violet{color:var(--violet);border-color:rgba(123,104,238,0.25);background:var(--violet-dim)}
+.tag-wire{color:var(--cream-dim);border-color:var(--wire-2);background:transparent}
+.divline{height:1px;background:var(--wire);width:100%;max-width:var(--max);margin:0 auto}
+.mono{font-family:'DM Mono',monospace}
+section{padding:96px 28px}
+section>.wrap{max-width:var(--max);margin:0 auto}
 
-/* URGENCY */
-.urgency-bar { background:linear-gradient(90deg,#0E2840 0%,#0F2F50 50%,#0E2840 100%); border-bottom:1px solid rgba(46,155,218,0.2); padding:10px 20px; text-align:center; font-size:13px; font-weight:500; color:#fff; margin-top:64px; }
-.urgency-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--amber); margin:0 10px; vertical-align:middle; animation:pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;display:flex;align-items:center;background:rgba(12,14,16,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--wire)}
+.nav-inner{width:100%;max-width:var(--max);margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--cream);text-decoration:none;letter-spacing:-0.3px}
+.logo em{font-style:italic;color:var(--teal)}
+.nav-links{display:flex;align-items:center;gap:6px;list-style:none}
+.nav-links a{color:var(--cream-dim);text-decoration:none;font-size:13px;font-weight:400;padding:6px 12px;border-radius:6px;transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--cream);background:var(--wire)}
+.nav-links .cta-link{background:var(--teal);color:var(--ink) !important;font-weight:600;padding:7px 16px}
+.nav-links .cta-link:hover{background:#00DFA8;transform:translateY(-1px)}
+.nav-right{display:flex;align-items:center;gap:16px}
+.lang-sw{display:flex;background:var(--wire);border:1px solid var(--wire-2);border-radius:6px;padding:2px;gap:2px}
+.lang-sw button{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:4px 10px;border:none;border-radius:4px;cursor:pointer;background:transparent;color:var(--cream-dim);transition:all .2s}
+.lang-sw button.on{background:var(--teal);color:var(--ink)}
 
-/* HERO */
-.hero { padding:96px 24px 80px; max-width:var(--max); margin:auto; text-align:center; }
-.hero-eyebrow { display:inline-block; font-size:11px; font-weight:700; letter-spacing:1.8px; text-transform:uppercase; color:var(--blue-bright); background:rgba(46,155,218,0.08); border:1px solid rgba(46,155,218,0.2); padding:5px 14px; border-radius:20px; margin-bottom:28px; }
-.hero h1 { font-family:'Fraunces',serif; font-size:clamp(36px,5.5vw,62px); font-weight:600; line-height:1.1; letter-spacing:-1.5px; margin-bottom:24px; }
-.hero h1 em { font-style:italic; color:var(--blue-bright); font-weight:300; }
-.hero-sub { max-width:580px; margin:0 auto 14px; color:var(--text-muted); font-size:17px; line-height:1.7; }
-.hero-icp { font-size:14px; color:var(--text-dim); margin-bottom:36px; }
-.hero-icp strong { color:var(--text-muted); }
-.hero-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:52px; }
+/* ── TICKER ── */
+.ticker{background:var(--ink-2);border-bottom:1px solid var(--wire);padding:9px 0;margin-top:60px;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-flex;gap:0;animation:tick 30s linear infinite}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;padding:0 32px;font-size:12px;font-family:'DM Mono',monospace;color:var(--cream-dim);letter-spacing:.5px}
+.ticker-item strong{color:var(--amber);font-weight:500}
+.ticker-dot{width:4px;height:4px;border-radius:50%;background:var(--amber);flex-shrink:0;animation:blink 2s infinite}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* BUTTONS */
-.btn { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; border-radius:var(--radius); font-size:15px; font-weight:600; text-decoration:none; cursor:pointer; border:none; transition:all 0.2s; font-family:'DM Sans',sans-serif; }
-.btn-primary { background:var(--blue); color:#fff; }
-.btn-primary:hover { background:var(--blue-bright); transform:translateY(-1px); }
-.btn-secondary { background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.2); }
-.btn-secondary:hover { border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.04); }
-.btn-ghost { background:rgba(27,196,125,0.1); color:var(--teal); border:1px solid rgba(27,196,125,0.25); font-size:14px; padding:11px 22px; }
-.btn-ghost:hover { background:rgba(27,196,125,0.16); }
+/* ── HERO ── */
+.hero{padding:80px 28px 72px;position:relative}
+.hero-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(var(--wire) 1px,transparent 1px),linear-gradient(90deg,var(--wire) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,black,transparent)}
+.hero-bg-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,150,0.06) 0%,transparent 70%);top:-100px;left:50%;transform:translateX(-50%)}
+.hero-inner{max-width:var(--max);margin:0 auto;position:relative}
+.hero-kicker{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+.hero-kicker-line{height:1px;width:40px;background:var(--teal);flex-shrink:0}
+.hero-kicker span{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:2px;text-transform:uppercase}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,88px);font-weight:400;line-height:1.0;letter-spacing:-2px;margin-bottom:28px;max-width:820px}
+.hero h1 em{font-style:italic;color:var(--teal);font-weight:300}
+.hero-sub{font-size:17px;color:var(--cream-dim);max-width:560px;line-height:1.75;margin-bottom:14px;font-weight:300}
+.hero-icp{font-size:13px;color:var(--cream-faint);margin-bottom:40px;font-family:'DM Mono',monospace;letter-spacing:.3px}
+.hero-icp strong{color:var(--cream-dim)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:64px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;padding:13px 26px;border-radius:var(--r);text-decoration:none;cursor:pointer;border:none;transition:all .2s}
+.btn-teal{background:var(--teal);color:var(--ink)}
+.btn-teal:hover{background:#00DFA8;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--cream);border:1px solid var(--wire-2)}
+.btn-outline:hover{border-color:rgba(255,255,255,0.3);background:var(--wire)}
+.btn-ghost-teal{background:var(--teal-dim);color:var(--teal);border:1px solid var(--teal-wire);font-size:13px;padding:11px 22px}
+.btn-ghost-teal:hover{background:rgba(0,200,150,0.18)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--wire);border-radius:var(--r);overflow:hidden;background:var(--ink-2)}
+.hstat{padding:20px 18px;border-right:1px solid var(--wire);text-align:center}
+.hstat:last-child{border-right:none}
+.hstat-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--cream);line-height:1;display:block;letter-spacing:-1px}
+.hstat-l{font-family:'DM Mono',monospace;font-size:10px;color:var(--cream-faint);text-transform:uppercase;letter-spacing:1.2px;display:block;margin-top:4px}
 
-/* STATS */
-.hero-stats { display:flex; border:1px solid var(--navy-border); border-radius:var(--radius); overflow:hidden; max-width:560px; margin:0 auto; background:var(--navy-card); }
-.stat { flex:1; padding:18px 16px; text-align:center; border-right:1px solid var(--navy-border); }
-.stat:last-child { border-right:none; }
-.stat-num { font-family:'Fraunces',serif; font-size:22px; font-weight:600; color:#fff; display:block; }
-.stat-label { font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.8px; font-weight:600; display:block; margin-top:2px; }
+/* ── SECTION HEADER ── */
+.sh{margin-bottom:48px}
+.sh .tag{margin-bottom:16px}
+.sh h2{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4vw,50px);font-weight:400;letter-spacing:-1.2px;line-height:1.1;margin-bottom:14px}
+.sh p{color:var(--cream-dim);font-size:16px;max-width:540px;line-height:1.75;font-weight:300}
+.sh.center{text-align:center}
+.sh.center p{margin:0 auto}
 
-/* SECTIONS */
-.section { padding:80px 24px; max-width:var(--max); margin:auto; }
-.section-label { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue-bright); display:block; margin-bottom:14px; }
-.section h2 { font-family:'Fraunces',serif; font-size:clamp(24px,3.5vw,38px); font-weight:600; letter-spacing:-0.8px; line-height:1.2; margin-bottom:14px; }
-.section-sub { color:var(--text-muted); font-size:16px; max-width:560px; line-height:1.7; margin-bottom:48px; }
-.center { text-align:center; }
-.center .section-sub { margin-left:auto; margin-right:auto; }
-.divider { height:1px; background:var(--navy-border); max-width:var(--max); margin:0 auto; }
+/* ── HOW IT WORKS ── */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--wire);border-radius:12px;overflow:hidden;border:1px solid var(--wire)}
+.step{background:var(--ink-2);padding:32px 24px;position:relative}
+.step::after{content:attr(data-arrow);position:absolute;right:-14px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:var(--ink);border:1px solid var(--wire);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--cream-faint);z-index:2}
+.step:last-child::after{display:none}
+.step-n{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);letter-spacing:2px;margin-bottom:20px;display:block}
+.step h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:10px;letter-spacing:-.3px}
+.step p{font-size:13px;color:var(--cream-dim);line-height:1.65;font-weight:300}
 
-/* CHAIN */
-.chain { display:flex; align-items:stretch; background:var(--navy-card); border:1px solid var(--navy-border); border-radius:14px; overflow:hidden; }
-.chain-step { flex:1; padding:30px 24px; border-right:1px solid var(--navy-border); position:relative; }
-.chain-step:last-child { border-right:none; }
-.chain-num { font-family:'Fraunces',serif; font-size:34px; font-weight:300; color:rgba(255,255,255,0.05); line-height:1; margin-bottom:12px; }
-.chain-step h3 { font-size:15px; font-weight:600; margin-bottom:8px; }
-.chain-step p { font-size:13px; color:var(--text-muted); line-height:1.6; }
-.chain-arrow { position:absolute; right:-11px; top:50%; transform:translateY(-50%); width:22px; height:22px; background:var(--navy-mid); border:1px solid var(--navy-border); border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:2; font-size:10px; color:var(--text-dim); }
+/* ── THREE DOCS ── */
+.docs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--wire);border-radius:12px;overflow:hidden;border:1px solid var(--wire)}
+.doc-card{background:var(--ink-2);padding:32px 28px;position:relative}
+.doc-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+.doc-card h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;letter-spacing:-.3px;margin-bottom:10px}
+.doc-card-desc{font-size:13px;color:var(--cream-dim);line-height:1.65;margin-bottom:22px;font-weight:300}
+.doc-fields{display:flex;flex-direction:column;gap:7px}
+.doc-field{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--cream-faint);font-family:'DM Mono',monospace}
+.doc-field::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.doc-card.epr .doc-field::before{background:var(--blue)}
+.doc-card.csrd .doc-field::before{background:var(--teal)}
+.doc-card.dpp .doc-field::before{background:var(--amber)}
+.doc-card-bar{position:absolute;top:0;left:0;right:0;height:2px}
+.doc-card.epr .doc-card-bar{background:linear-gradient(90deg,var(--blue),#5AAFEF)}
+.doc-card.csrd .doc-card-bar{background:linear-gradient(90deg,var(--teal),#00F0B5)}
+.doc-card.dpp .doc-card-bar{background:linear-gradient(90deg,var(--amber),#FFD060)}
 
-/* OUTPUT GRID */
-.output-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--navy-border); border-radius:14px; overflow:hidden; border:1px solid var(--navy-border); }
-.output-card { background:var(--navy-card); padding:28px 24px; }
-.output-card-tag { display:inline-flex; align-items:center; font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; padding:4px 10px; border-radius:4px; margin-bottom:16px; }
-.tag-epr { background:rgba(26,109,168,0.2); color:#5BAEE8; }
-.tag-csrd { background:rgba(27,196,125,0.15); color:var(--teal); }
-.tag-dpp { background:rgba(232,160,32,0.15); color:var(--amber); }
-.output-card h3 { font-family:'Fraunces',serif; font-size:19px; font-weight:600; margin-bottom:10px; letter-spacing:-0.3px; }
-.output-card p { color:var(--text-muted); font-size:13px; line-height:1.65; margin-bottom:16px; }
-.output-fields { display:flex; flex-direction:column; gap:6px; }
-.output-field { font-size:13px; color:var(--text-dim); padding-left:12px; position:relative; }
-.output-field::before { content:'·'; position:absolute; left:0; color:var(--text-dim); }
+/* ── LAYERS ── */
+.layers-intro{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;margin-bottom:64px}
+.layers-intro h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,46px);font-weight:400;letter-spacing:-1px;line-height:1.15;margin-bottom:16px}
+.layers-intro p{color:var(--cream-dim);font-size:15px;line-height:1.75;font-weight:300}
+.market-gap{background:var(--ink-2);border:1px solid var(--wire);border-left:3px solid var(--amber);border-radius:var(--r);padding:24px 26px}
+.market-gap p{font-size:14px;color:var(--cream-dim);line-height:1.7;font-weight:300}
+.market-gap strong{color:var(--cream)}
+.layers-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.lcard{background:var(--ink-2);border:1px solid var(--wire);border-radius:12px;padding:32px;position:relative;overflow:hidden;transition:border-color .3s}
+.lcard:hover{border-color:var(--wire-2)}
+.lcard-bar{position:absolute;top:0;left:0;right:0;height:2px}
+.lcard.l1 .lcard-bar{background:linear-gradient(90deg,var(--blue),#5AAFEF)}
+.lcard.l2 .lcard-bar{background:linear-gradient(90deg,var(--teal),#00F0B5)}
+.lcard.l3 .lcard-bar{background:linear-gradient(90deg,var(--amber),#FFD060)}
+.lcard.l4 .lcard-bar{background:linear-gradient(90deg,var(--violet),#A08FFF)}
+.lcard-num{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.lcard.l1 .lcard-num{color:var(--blue)}
+.lcard.l2 .lcard-num{color:var(--teal)}
+.lcard.l3 .lcard-num{color:var(--amber)}
+.lcard.l4 .lcard-num{color:var(--violet)}
+.lcard-num .ln{width:26px;height:26px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.lcard.l1 .ln{background:var(--blue-dim);color:var(--blue)}
+.lcard.l2 .ln{background:var(--teal-dim);color:var(--teal)}
+.lcard.l3 .ln{background:var(--amber-dim);color:var(--amber)}
+.lcard.l4 .ln{background:var(--violet-dim);color:var(--violet)}
+.lcard h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;letter-spacing:-.5px;margin-bottom:10px}
+.lcard>p{font-size:14px;color:var(--cream-dim);line-height:1.7;margin-bottom:20px;font-weight:300}
+.lcard-pts{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.lcard-pt{display:flex;gap:10px;font-size:13px;color:var(--cream-dim);line-height:1.5;font-weight:300}
+.lcard-pt-dot{width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.lcard.l1 .lcard-pt-dot{background:var(--blue)}
+.lcard.l2 .lcard-pt-dot{background:var(--teal)}
+.lcard.l3 .lcard-pt-dot{background:var(--amber)}
+.lcard.l4 .lcard-pt-dot{background:var(--violet)}
+.lcard-hl{border-radius:6px;padding:14px 16px;font-size:13px;line-height:1.55;font-weight:400}
+.lcard.l1 .lcard-hl{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(58,143,212,0.2)}
+.lcard.l2 .lcard-hl{background:var(--teal-dim);color:var(--teal);border:1px solid var(--teal-wire)}
+.lcard.l3 .lcard-hl{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(240,165,0,0.2)}
+.lcard.l4 .lcard-hl{background:var(--violet-dim);color:var(--violet);border:1px solid rgba(123,104,238,0.2)}
 
-/* PROOF */
-.proof-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
-.proof-pillar { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:26px; }
-.proof-icon { width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:14px; }
-.proof-pillar h3 { font-size:15px; font-weight:600; margin-bottom:8px; }
-.proof-pillar p { color:var(--text-muted); font-size:13px; line-height:1.65; }
-.proof-quote { background:linear-gradient(135deg,#0E2840 0%,#0C1E30 100%); border:1px solid rgba(46,155,218,0.2); border-left:3px solid var(--blue-bright); border-radius:var(--radius); padding:32px; grid-column:1/-1; }
-.proof-quote blockquote { font-family:'Fraunces',serif; font-size:17px; font-style:italic; color:#C8DFF0; line-height:1.65; margin-bottom:14px; font-weight:300; }
-.proof-attribution { font-size:13px; color:var(--text-dim); font-weight:500; }
-.proof-attribution strong { color:var(--text-muted); }
+/* ── TRUST ── */
+.trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tcard{background:var(--ink-2);border:1px solid var(--wire);border-radius:var(--r);padding:26px}
+.tcard-icon{font-size:22px;margin-bottom:14px;display:block}
+.tcard h3{font-size:15px;font-weight:600;margin-bottom:8px}
+.tcard p{font-size:13px;color:var(--cream-dim);line-height:1.65;font-weight:300}
+.tquote{background:linear-gradient(135deg,var(--ink-2) 0%,#101418 100%);border:1px solid var(--wire);border-left:3px solid var(--teal);border-radius:var(--r);padding:36px;grid-column:1/-1}
+.tquote blockquote{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;font-weight:300;color:var(--cream);line-height:1.65;margin-bottom:16px}
+.tquote-attr{font-family:'DM Mono',monospace;font-size:11px;color:var(--cream-faint);letter-spacing:.5px}
+.tquote-attr strong{color:var(--cream-dim)}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px}
+.pillar{background:var(--ink-2);border:1px solid var(--wire);border-radius:var(--r);padding:20px;text-align:center}
+.pillar-icon{font-size:20px;display:block;margin-bottom:10px}
+.pillar h4{font-size:13px;font-weight:600;margin-bottom:5px}
+.pillar p{font-size:11px;color:var(--cream-faint);line-height:1.5;font-family:'DM Mono',monospace}
 
-/* REG CARDS */
-.reg-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-.reg-card { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:26px 22px; }
-.reg-badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:4px 10px; border-radius:4px; margin-bottom:14px; }
-.badge-epr { background:rgba(26,109,168,0.2); color:#5BAEE8; }
-.badge-csrd { background:rgba(27,196,125,0.15); color:var(--teal); }
-.badge-dpp { background:rgba(232,160,32,0.15); color:var(--amber); }
-.reg-card h3 { font-family:'Fraunces',serif; font-size:17px; font-weight:600; margin-bottom:10px; letter-spacing:-0.2px; }
-.reg-card p { font-size:13px; color:var(--text-muted); line-height:1.65; margin-bottom:16px; }
-.reg-deadline { font-size:12px; color:var(--amber); font-weight:600; }
+/* ── REG ── */
+.reg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rcard{background:var(--ink-2);border:1px solid var(--wire);border-radius:var(--r);padding:28px;position:relative;overflow:hidden}
+.rcard-bar{position:absolute;top:0;left:0;right:0;height:2px}
+.rcard.r1 .rcard-bar{background:var(--blue)}
+.rcard.r2 .rcard-bar{background:var(--teal)}
+.rcard.r3 .rcard-bar{background:var(--amber)}
+.rcard h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:-.3px;margin:14px 0 10px}
+.rcard p{font-size:13px;color:var(--cream-dim);line-height:1.65;margin-bottom:16px;font-weight:300}
+.rcard-deadline{font-family:'DM Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:.5px}
 
-/* TRUST PILLS */
-.trust-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-.trust-pill { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:22px 18px; text-align:center; }
-.trust-pill-icon { font-size:22px; margin-bottom:10px; display:block; }
-.trust-pill h4 { font-size:13px; font-weight:600; margin-bottom:5px; }
-.trust-pill p { font-size:12px; color:var(--text-dim); line-height:1.5; }
+/* ── DEMO ── */
+.demo-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.demo-panel{background:var(--ink-2);border:1px solid var(--wire);border-radius:12px;padding:32px}
+.demo-panel-head{margin-bottom:24px}
+.demo-panel-head h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:4px}
+.demo-panel-head p{font-size:13px;color:var(--cream-faint);font-family:'DM Mono',monospace}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--cream-faint);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:7px}
+.fg input,.fg select{width:100%;background:#0A0C0E;border:1px solid var(--wire-2);border-radius:6px;padding:11px 14px;color:var(--cream);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.fg select option{background:#1E2530}
+.fg input::placeholder{color:var(--cream-faint)}
+.fg input:focus,.fg select:focus{border-color:rgba(0,200,150,0.4)}
+.fg input.err,.fg select.err{border-color:var(--red)}
+.fg-err{font-size:11px;color:var(--red);margin-top:5px;display:none;font-family:'DM Mono',monospace}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gen-btn{width:100%;background:var(--teal);color:var(--ink);border:none;border-radius:7px;padding:14px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:6px;letter-spacing:-.2px}
+.gen-btn:hover{background:#00DFA8}
+.gen-btn:disabled{opacity:.45;cursor:not-allowed}
+.out-docs{display:flex;flex-direction:column;gap:10px}
+.odoc{background:#0A0C0E;border:1px solid var(--wire);border-radius:var(--r);padding:18px 20px;opacity:.2;transition:opacity .4s,border-color .4s}
+.odoc.on{opacity:1;border-color:rgba(0,200,150,0.25)}
+.odoc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.odoc-title{font-size:13px;font-weight:600}
+.odoc-status{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;padding:3px 10px;border-radius:20px;letter-spacing:.5px}
+.s-wait{background:var(--wire);color:var(--cream-faint)}
+.s-ready{background:rgba(0,200,150,0.12);color:var(--teal);border:1px solid var(--teal-wire)}
+.odoc-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ofield{display:flex;flex-direction:column;gap:2px}
+.ofield-k{font-family:'DM Mono',monospace;font-size:9px;color:var(--cream-faint);text-transform:uppercase;letter-spacing:1px}
+.ofield-v{font-size:12px;color:var(--cream-dim);font-weight:500;min-height:14px;font-family:'DM Mono',monospace}
+.ofield-v.pop{color:var(--cream)}
+.odoc-tx{margin-top:12px;padding-top:10px;border-top:1px solid var(--wire);font-family:'DM Mono',monospace;font-size:10px;color:var(--cream-faint)}
 
-/* DEMO */
-.demo-wrap { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
-.demo-form { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:14px; padding:30px; }
-.form-group { margin-bottom:16px; }
-.form-group label { display:block; font-size:11px; font-weight:700; letter-spacing:0.6px; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; }
-.form-group input,.form-group select { width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:7px; padding:11px 14px; color:#fff; font-family:'DM Sans',sans-serif; font-size:14px; transition:border-color 0.2s; outline:none; appearance:none; }
-.form-group select option { background:#132538; }
-.form-group input::placeholder { color:var(--text-dim); }
-.form-group input:focus,.form-group select:focus { border-color:var(--blue-bright); }
-.form-group input.error,.form-group select.error { border-color:#E85555; }
-.form-error { font-size:11px; color:#E85555; margin-top:5px; display:none; }
-.form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-.generate-btn { width:100%; background:var(--blue); color:#fff; border:none; border-radius:8px; padding:14px; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; cursor:pointer; transition:all 0.2s; margin-top:4px; display:flex; align-items:center; justify-content:center; gap:8px; }
-.generate-btn:hover { background:var(--blue-bright); }
-.generate-btn:disabled { opacity:0.5; cursor:not-allowed; }
-.demo-output { display:flex; flex-direction:column; gap:12px; }
-.output-doc { background:var(--navy-card); border:1px solid var(--navy-border); border-radius:var(--radius); padding:20px 22px; opacity:0.25; transition:opacity 0.4s,border-color 0.4s; }
-.output-doc.active { opacity:1; border-color:rgba(46,155,218,0.3); }
-.output-doc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-.output-doc-title { font-weight:600; font-size:14px; }
-.output-status { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; letter-spacing:0.5px; }
-.status-ready { background:rgba(27,196,125,0.15); color:var(--teal); }
-.status-waiting { background:rgba(255,255,255,0.05); color:var(--text-dim); }
-.output-doc-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.output-field-row { display:flex; flex-direction:column; gap:2px; }
-.field-key { font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.8px; font-weight:600; }
-.field-val { font-size:13px; color:var(--text-muted); font-weight:500; min-height:16px; }
-.field-val.populated { color:#fff; }
-.output-txid { margin-top:14px; padding-top:12px; border-top:1px solid var(--navy-border); font-size:11px; color:var(--text-dim); font-family:'Courier New',monospace; }
+/* ── TEMPLATE CTA ── */
+.tmpl-wrap{background:var(--ink-2);border:1px solid var(--wire);border-radius:12px;padding:48px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center}
+.tmpl-wrap h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;letter-spacing:-.5px;margin-bottom:10px}
+.tmpl-wrap p{font-size:14px;color:var(--cream-dim);line-height:1.7;font-weight:300}
+.tmpl-actions{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0}
+.tmpl-note{font-family:'DM Mono',monospace;font-size:10px;color:var(--cream-faint);text-align:right;letter-spacing:.3px}
 
-/* CTA */
-.cta-section { padding:80px 24px; text-align:center; background:linear-gradient(180deg,transparent 0%,rgba(26,109,168,0.06) 100%); border-top:1px solid var(--navy-border); }
-.cta-section h2 { font-family:'Fraunces',serif; font-size:clamp(26px,4vw,42px); font-weight:600; letter-spacing:-1px; margin-bottom:16px; }
-.cta-section p { color:var(--text-muted); max-width:480px; margin:0 auto 36px; font-size:16px; }
-.cta-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:22px; }
-.cta-note { font-size:13px; color:var(--text-dim); }
+/* ── FINAL CTA ── */
+.final-cta{padding:96px 28px;text-align:center;background:linear-gradient(180deg,transparent 0%,rgba(0,200,150,0.04) 100%);border-top:1px solid var(--wire)}
+.final-cta h2{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,60px);font-weight:400;letter-spacing:-1.5px;line-height:1.1;margin-bottom:18px}
+.final-cta h2 em{font-style:italic;color:var(--teal);font-weight:300}
+.final-cta p{color:var(--cream-dim);max-width:480px;margin:0 auto 36px;font-size:16px;line-height:1.7;font-weight:300}
+.final-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.final-note{font-family:'DM Mono',monospace;font-size:11px;color:var(--cream-faint);letter-spacing:.3px}
 
-/* FOOTER */
-footer { border-top:1px solid var(--navy-border); padding:28px 24px; max-width:var(--max); margin:auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
-footer p { font-size:13px; color:var(--text-dim); }
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--wire);padding:28px;max-width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-inner{max-width:var(--max);margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+footer p{font-family:'DM Mono',monospace;font-size:11px;color:var(--cream-faint);letter-spacing:.3px}
 
-/* ANIMATIONS */
-.fade-up { opacity:0; transform:translateY(22px); transition:opacity 0.6s ease,transform 0.6s ease; }
-.fade-up.visible { opacity:1; transform:none; }
+/* ── FADE IN ── */
+.fi{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.fi.vis{opacity:1;transform:none}
 
-/* RESPONSIVE */
-@media (max-width:900px) {
-  .output-grid,.proof-grid,.reg-grid,.demo-wrap { grid-template-columns:1fr; }
-  .proof-quote { grid-column:auto; }
-  .chain { flex-direction:column; }
-  .chain-step { border-right:none; border-bottom:1px solid var(--navy-border); }
-  .chain-step:last-child { border-bottom:none; }
-  .chain-arrow { display:none; }
-  .trust-row { grid-template-columns:repeat(2,1fr); }
-  .nav-links { display:none; }
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .docs-grid,.layers-grid,.trust-grid,.reg-grid,.demo-wrap,.layers-intro{grid-template-columns:1fr}
+  .tquote{grid-column:auto}
+  .steps{grid-template-columns:1fr 1fr}
+  .step::after{display:none}
+  .pillars{grid-template-columns:repeat(2,1fr)}
+  nav .nav-links{display:none}
+  .tmpl-wrap{grid-template-columns:1fr}
+  .tmpl-actions{align-items:flex-start}
 }
-@media (max-width:600px) {
-  .hero-stats { flex-direction:column; }
-  .stat { border-right:none; border-bottom:1px solid var(--navy-border); }
-  .stat:last-child { border-bottom:none; }
-  .form-row { grid-template-columns:1fr; }
-  .trust-row { grid-template-columns:1fr 1fr; }
+@media(max-width:640px){
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .hstat{border-bottom:1px solid var(--wire)}
+  .hstat:nth-child(odd){border-right:1px solid var(--wire)}
+  .hstat:nth-child(even){border-right:none}
+  .fg-row{grid-template-columns:1fr}
+  .pillars{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ══ NAV ══ -->
 <nav>
-  <a href="#" class="nav-logo">Loop<span>Layer</span></a>
-  <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="#how-it-works" data-de="So funktioniert es" data-en="How it works">So funktioniert es</a></li>
-      <li><a href="#regulations" data-de="Regelwerke" data-en="Regulations">Regelwerke</a></li>
-      <li><a href="#demo" data-de="Live-Demo" data-en="Live demo">Live-Demo</a></li>
-      <li><a href="#contact" class="nav-cta" data-de="Demo buchen" data-en="Book demo">Demo buchen</a></li>
-    </ul>
-    <div class="lang-toggle">
-      <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
-      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+  <div class="nav-inner">
+    <a href="#" class="logo">Loop<em>Layer</em></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#howitworks" data-de="Ablauf" data-en="How it works">Ablauf</a></li>
+        <li><a href="#platform" data-de="Plattform" data-en="Platform">Plattform</a></li>
+        <li><a href="#regulations" data-de="Regelwerke" data-en="Regulations">Regelwerke</a></li>
+        <li><a href="#demo" data-de="Live-Demo" data-en="Live demo">Live-Demo</a></li>
+        <li><a href="#contact" class="cta-link" data-de="Demo buchen" data-en="Book demo">Demo buchen</a></li>
+      </ul>
+      <div class="lang-sw">
+        <button class="on" id="btn-de" onclick="setLang('de')">DE</button>
+        <button id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- URGENCY BAR -->
-<div class="urgency-bar">
-  <span class="urgency-dot"></span>
-  <span data-de="EPR-Bußgelder werden bereits verhängt" data-en="EPR fines already being issued">EPR-Bußgelder werden bereits verhängt</span>
-  &nbsp;·&nbsp;
-  <span data-de="CSRD ab <strong>GJ2025</strong> verpflichtend" data-en="CSRD mandatory from <strong>FY2025</strong>">CSRD ab <strong>GJ2025</strong> verpflichtend</span>
-  &nbsp;·&nbsp;
-  <span data-de="DPP ab <strong>2027</strong> Pflicht" data-en="DPP mandatory from <strong>2027</strong>">DPP ab <strong>2027</strong> Pflicht</span>
-  &nbsp;·&nbsp;
-  <span data-de="Die meisten Unternehmen sind nicht vorbereitet" data-en="Most companies are not ready">Die meisten Unternehmen sind nicht vorbereitet</span>
+<!-- ══ TICKER ══ -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <!-- filled by JS -->
+  </div>
 </div>
 
-<!-- HERO -->
-<section class="hero fade-up visible">
-  <span class="hero-eyebrow" data-de="EU Textile Compliance Infrastruktur" data-en="EU Textile Compliance Infrastructure">EU Textile Compliance Infrastruktur</span>
-  <h1>
-    <span data-de="Compliance-Dokumente" data-en="Compliance documents">Compliance-Dokumente</span><br>
-    <em data-de="automatisch erstellt." data-en="generated automatically.">automatisch erstellt.</em>
-  </h1>
-  <p class="hero-sub">
-    <span data-de="LoopLayer erstellt <strong>EPR-Zertifikate, CSRD-Berichte (ESRS E5) und Digitale Produktpässe</strong> — automatisch aus realen Recyclingtransaktionen." data-en="LoopLayer generates <strong>EPR certificates, CSRD (ESRS E5) reports, and Digital Product Passports</strong> — automatically from real recycling transactions.">LoopLayer erstellt <strong>EPR-Zertifikate, CSRD-Berichte (ESRS E5) und Digitale Produktpässe</strong> — automatisch aus realen Recyclingtransaktionen.</span>
-  </p>
-  <p class="hero-icp">
-    <span data-de="Für <strong>mittelständische Textilhersteller und Recyclingunternehmen</strong> in der EU. Ohne Berater. Ohne Tabellenkalkulationen." data-en="Built for <strong>mid-market textile manufacturers and recyclers</strong> across the EU. No consultants. No spreadsheets.">Für <strong>mittelständische Textilhersteller und Recyclingunternehmen</strong> in der EU. Ohne Berater. Ohne Tabellenkalkulationen.</span>
-  </p>
-  <div class="hero-btns">
-    <a href="#demo" class="btn btn-primary" data-de="Live-Demo starten →" data-en="Try live demo →">Live-Demo starten →</a>
-    <a href="#contact" class="btn btn-secondary" data-de="Demo buchen" data-en="Book demo">Demo buchen</a>
-    <a href="#template" class="btn btn-ghost" data-de="↓ Kostenloses EPR-Template" data-en="↓ Free EPR template">↓ Kostenloses EPR-Template</a>
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-bg-glow"></div>
   </div>
-  <div class="hero-stats">
-    <div class="stat">
-      <span class="stat-num">3</span>
-      <span class="stat-label" data-de="Compliance-Dokumente" data-en="Compliance docs">Compliance-Dokumente</span>
+  <div class="hero-inner">
+    <div class="hero-kicker fi vis">
+      <span class="hero-kicker-line"></span>
+      <span data-de="EU Textile Compliance Infrastruktur" data-en="EU Textile Compliance Infrastructure">EU Textile Compliance Infrastruktur</span>
     </div>
-    <div class="stat">
-      <span class="stat-num">1</span>
-      <span class="stat-label" data-de="Transaktionseingabe" data-en="Transaction input">Transaktionseingabe</span>
+    <h1 class="fi vis" style="transition-delay:.1s">
+      <span data-de="Compliance-Dokumente.<br><em>Automatisch erstellt.</em>" data-en="Compliance documents.<br><em>Generated automatically.</em>">Compliance-Dokumente.<br><em>Automatisch erstellt.</em></span>
+    </h1>
+    <p class="hero-sub fi vis" style="transition-delay:.2s">
+      <span data-de="LoopLayer erstellt <strong style='color:var(--cream);font-weight:500'>EPR-Zertifikate, CSRD-Berichte (ESRS E5) und Digitale Produktpässe</strong> — automatisch aus jeder bestätigten Recyclingtransaktion." data-en="LoopLayer generates <strong style='color:var(--cream);font-weight:500'>EPR certificates, CSRD (ESRS E5) reports, and Digital Product Passports</strong> — automatically from every confirmed recycling transaction.">LoopLayer erstellt <strong style="color:var(--cream);font-weight:500">EPR-Zertifikate, CSRD-Berichte (ESRS E5) und Digitale Produktpässe</strong> — automatisch aus jeder bestätigten Recyclingtransaktion.</span>
+    </p>
+    <p class="hero-icp fi vis" style="transition-delay:.25s">
+      <span data-de="Für <strong>mittelständische Textilhersteller und Recyclingunternehmen</strong> in der EU" data-en="For <strong>mid-market textile manufacturers and recyclers</strong> across the EU">Für <strong>mittelständische Textilhersteller und Recyclingunternehmen</strong> in der EU</span>
+    </p>
+    <div class="hero-actions fi vis" style="transition-delay:.3s">
+      <a href="#demo" class="btn btn-teal" data-de="Live-Demo starten →" data-en="Try live demo →">Live-Demo starten →</a>
+      <a href="#contact" class="btn btn-outline" data-de="Demo buchen" data-en="Book demo">Demo buchen</a>
+      <a href="#template" class="btn btn-ghost-teal" data-de="↓ Kostenloses EPR-Template" data-en="↓ Free EPR template">↓ Kostenloses EPR-Template</a>
     </div>
-    <div class="stat">
-      <span class="stat-num">0</span>
-      <span class="stat-label" data-de="Manuelle Schritte" data-en="Manual steps">Manuelle Schritte</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num">6</span>
-      <span class="stat-label" data-de="EU EPR-Systeme" data-en="EU EPR schemes">EU EPR-Systeme</span>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- HOW IT WORKS -->
-<section id="how-it-works" class="section fade-up">
-  <span class="section-label" data-de="So funktioniert es" data-en="How it works">So funktioniert es</span>
-  <h2 data-de="Eine Transaktion. Drei prüfungssichere Dokumente." data-en="One transaction. Three audit-ready documents.">Eine Transaktion. Drei prüfungssichere Dokumente.</h2>
-  <p class="section-sub" data-de="Jedes von LoopLayer erstellte Compliance-Dokument ist mit einer realen, verifizierten Recyclingtransaktion verknüpft — keine Selbstauskunft." data-en="Every compliance document LoopLayer generates is linked to a real, verified recycling transaction — not self-reported data.">Jedes von LoopLayer erstellte Compliance-Dokument ist mit einer realen, verifizierten Recyclingtransaktion verknüpft — keine Selbstauskunft.</p>
-  <div class="chain">
-    <div class="chain-step">
-      <div class="chain-num">01</div>
-      <h3 data-de="Transaktion erfassen" data-en="Record the transaction">Transaktion erfassen</h3>
-      <p data-de="Recyclingtransaktion eingeben: Material, Gewicht, zertifizierter Recycler, Lieferbestätigung." data-en="Log the recycling transaction: material, weight, certified recycler, delivery confirmation.">Recyclingtransaktion eingeben: Material, Gewicht, zertifizierter Recycler, Lieferbestätigung.</p>
-      <div class="chain-arrow">→</div>
-    </div>
-    <div class="chain-step">
-      <div class="chain-num">02</div>
-      <h3 data-de="LoopLayer generiert" data-en="LoopLayer generates">LoopLayer generiert</h3>
-      <p data-de="EPR-Zertifikat, CSRD-Eintrag und Digitaler Produktpass werden sofort mit einer gemeinsamen Transaktions-ID erstellt." data-en="EPR certificate, CSRD entry, and Digital Product Passport are created instantly with a shared Transaction ID.">EPR-Zertifikat, CSRD-Eintrag und Digitaler Produktpass werden sofort mit einer gemeinsamen Transaktions-ID erstellt.</p>
-      <div class="chain-arrow">→</div>
-    </div>
-    <div class="chain-step">
-      <div class="chain-num">03</div>
-      <h3 data-de="Gesichert und signiert" data-en="Locked and signed">Gesichert und signiert</h3>
-      <p data-de="Dokumente werden unveränderlich mit SHA-256-Hashing und eIDAS-Fortgeschrittener Elektronischer Signatur gespeichert." data-en="Documents are stored immutably with SHA-256 hashing and eIDAS Advanced Electronic Signature.">Dokumente werden unveränderlich mit SHA-256-Hashing und eIDAS-Fortgeschrittener Elektronischer Signatur gespeichert.</p>
-      <div class="chain-arrow">→</div>
-    </div>
-    <div class="chain-step">
-      <div class="chain-num">04</div>
-      <h3 data-de="Prüfungsbereit" data-en="Audit ready">Prüfungsbereit</h3>
-      <p data-de="Dem Prüfer eine lückenlose Nachweiskette übergeben — keine Tabelle mit manuellen Einträgen." data-en="Hand the auditor a traceable chain of evidence — not a spreadsheet full of manual entries.">Dem Prüfer eine lückenlose Nachweiskette übergeben — keine Tabelle mit manuellen Einträgen.</p>
-    </div>
-  </div>
-</section>
-
-<!-- OUTPUT DOCS -->
-<section class="section fade-up">
-  <span class="section-label" data-de="Ausgabe" data-en="Output">Ausgabe</span>
-  <h2 data-de="Drei Dokumente. Eine Quelle der Wahrheit." data-en="Three documents. One source of truth.">Drei Dokumente. Eine Quelle der Wahrheit.</h2>
-  <p class="section-sub" data-de="Jedes Dokument wird aus demselben Transaktionsdatensatz erzeugt und durch eine gemeinsame Transaktions-ID verknüpft — eine lückenlose Chain of Custody." data-en="Each document is generated from the same transaction record and linked by a shared Transaction ID — an unbroken chain of custody.">Jedes Dokument wird aus demselben Transaktionsdatensatz erzeugt und durch eine gemeinsame Transaktions-ID verknüpft — eine lückenlose Chain of Custody.</p>
-  <div class="output-grid">
-    <div class="output-card">
-      <span class="output-card-tag tag-epr">EPR</span>
-      <h3 data-de="EPR-Zertifikat" data-en="EPR Certificate">EPR-Zertifikat</h3>
-      <p data-de="Länderspezifische Herstellerverantwortungszertifikate, digital signiert und einreichungsbereit." data-en="Country-compliant producer responsibility certificates, digitally signed and ready for submission.">Länderspezifische Herstellerverantwortungszertifikate, digital signiert und einreichungsbereit.</p>
-      <div class="output-fields">
-        <div class="output-field" data-de="Hersteller + Registrierungs-ID" data-en="Producer name + registration ID">Hersteller + Registrierungs-ID</div>
-        <div class="output-field" data-de="Materialkategorie + Gewicht (kg)" data-en="Material category + weight (kg)">Materialkategorie + Gewicht (kg)</div>
-        <div class="output-field" data-de="Zertifizierter Recycler" data-en="Certified recycler details">Zertifizierter Recycler</div>
-        <div class="output-field" data-de="Länderspezifische Systemkonformität" data-en="Country-specific scheme compliance">Länderspezifische Systemkonformität</div>
-        <div class="output-field" data-de="Digitale Signatur (eIDAS FES)" data-en="Digital signature (eIDAS AES)">Digitale Signatur (eIDAS FES)</div>
+    <div class="hero-stats fi vis" style="transition-delay:.4s">
+      <div class="hstat">
+        <span class="hstat-n">3</span>
+        <span class="hstat-l" data-de="Dokumente pro Transaktion" data-en="Documents per transaction">Dokumente pro Transaktion</span>
       </div>
-    </div>
-    <div class="output-card">
-      <span class="output-card-tag tag-csrd">CSRD / ESRS E5</span>
-      <h3 data-de="Nachhaltigkeitsbericht-Eintrag" data-en="Sustainability Report Entry">Nachhaltigkeitsbericht-Eintrag</h3>
-      <p data-de="ESRS-E5-konforme Abfall- und CO₂-Daten, berechnet nach IPCC-AR6-Methodik." data-en="ESRS E5-compliant waste and CO₂ data, calculated using IPCC AR6 methodology.">ESRS-E5-konforme Abfall- und CO₂-Daten, berechnet nach IPCC-AR6-Methodik.</p>
-      <div class="output-fields">
-        <div class="output-field" data-de="Abfallartklassifikation" data-en="Waste type classification">Abfallartklassifikation</div>
-        <div class="output-field" data-de="CO₂-Einsparungen (IPCC AR6)" data-en="CO₂ savings (IPCC AR6 method)">CO₂-Einsparungen (IPCC AR6)</div>
-        <div class="output-field" data-de="Recyclingquote in Prozent" data-en="Recycling rate percentage">Recyclingquote in Prozent</div>
-        <div class="output-field" data-de="Kreislaufwirtschaftskennzahlen" data-en="Circular economy metrics">Kreislaufwirtschaftskennzahlen</div>
-        <div class="output-field" data-de="Jahresberichtsexport" data-en="Annual report export">Jahresberichtsexport</div>
+      <div class="hstat">
+        <span class="hstat-n">6</span>
+        <span class="hstat-l" data-de="EU EPR-Systeme" data-en="EU EPR schemes">EU EPR-Systeme</span>
       </div>
-    </div>
-    <div class="output-card">
-      <span class="output-card-tag tag-dpp">DPP</span>
-      <h3 data-de="Digitaler Produktpass" data-en="Digital Product Passport">Digitaler Produktpass</h3>
-      <p data-de="CIRPASS-2-schemakonforme Pässe mit QR-Code und vollständiger Materialrückverfolgung." data-en="CIRPASS-2 schema compliant passports with QR code and full material traceability.">CIRPASS-2-schemakonforme Pässe mit QR-Code und vollständiger Materialrückverfolgung.</p>
-      <div class="output-fields">
-        <div class="output-field" data-de="Materialzusammensetzung" data-en="Material composition">Materialzusammensetzung</div>
-        <div class="output-field" data-de="Recyclinganteil in Prozent" data-en="Recycled content percentage">Recyclinganteil in Prozent</div>
-        <div class="output-field" data-de="GRS-Zertifizierungsstatus" data-en="GRS certification status">GRS-Zertifizierungsstatus</div>
-        <div class="output-field" data-de="QR-Code + Produkt-URI" data-en="QR code + product URI">QR-Code + Produkt-URI</div>
-        <div class="output-field" data-de="Vollständige Lebenszyklusnachverfolgung" data-en="Full lifecycle traceability">Vollständige Lebenszyklusnachverfolgung</div>
+      <div class="hstat">
+        <span class="hstat-n">0</span>
+        <span class="hstat-l" data-de="Manuelle Schritte" data-en="Manual steps">Manuelle Schritte</span>
+      </div>
+      <div class="hstat">
+        <span class="hstat-n">4</span>
+        <span class="hstat-l" data-de="Plattformschichten" data-en="Platform layers">Plattformschichten</span>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="divline"></div>
 
-<!-- TRUST -->
-<section class="section fade-up">
-  <span class="section-label" data-de="Warum Prüfer vertrauen" data-en="Why auditors trust it">Warum Prüfer vertrauen</span>
-  <h2 data-de="Transaktionsverknüpfte Nachweise — keine Selbstauskünfte." data-en="Transaction-linked evidence, not self-reported claims.">Transaktionsverknüpfte Nachweise — keine Selbstauskünfte.</h2>
-  <p class="section-sub" data-de="Prüfer unterzeichnen keine Tabellenkalkulationen. Sie unterzeichnen verifizierbare, nachvollziehbare Nachweise. LoopLayer ist genau dafür gebaut." data-en="Auditors don't sign off on spreadsheets. They sign off on verifiable, traceable evidence. LoopLayer is built to produce exactly that.">Prüfer unterzeichnen keine Tabellenkalkulationen. Sie unterzeichnen verifizierbare, nachvollziehbare Nachweise. LoopLayer ist genau dafür gebaut.</p>
-  <div class="proof-grid">
-    <div class="proof-pillar">
-      <div class="proof-icon" style="background:rgba(46,155,218,0.1)">🔗</div>
-      <h3 data-de="Transaktionsverknüpfte Daten" data-en="Transaction-linked data">Transaktionsverknüpfte Daten</h3>
-      <p data-de="Jede Zahl in jedem Dokument ist mit einer bestätigten Recyclingtransaktion verknüpft. Keine manuelle Eingabe, keine Selbstauskunft — jede Zahl ist auf ihre Quelle zurückverfolgbar." data-en="Every number in every document links back to a confirmed recycling transaction. No data entry, no self-reporting — every figure is traceable to its source.">Jede Zahl in jedem Dokument ist mit einer bestätigten Recyclingtransaktion verknüpft. Keine manuelle Eingabe, keine Selbstauskunft — jede Zahl ist auf ihre Quelle zurückverfolgbar.</p>
+<!-- ══ HOW IT WORKS ══ -->
+<section id="howitworks">
+  <div class="wrap">
+    <div class="sh fi">
+      <span class="tag tag-wire" data-de="Ablauf" data-en="How it works">Ablauf</span>
+      <h2 data-de="Eine Transaktion.<br>Drei Dokumente." data-en="One transaction.<br>Three documents.">Eine Transaktion.<br>Drei Dokumente.</h2>
+      <p data-de="Jedes Compliance-Dokument ist mit einer realen, bestätigten Recyclingtransaktion verknüpft — keine Selbstauskünfte, keine manuellen Einträge." data-en="Every compliance document is linked to a real, confirmed recycling transaction — no self-reporting, no manual entries.">Jedes Compliance-Dokument ist mit einer realen, bestätigten Recyclingtransaktion verknüpft — keine Selbstauskünfte, keine manuellen Einträge.</p>
     </div>
-    <div class="proof-pillar">
-      <div class="proof-icon" style="background:rgba(27,196,125,0.1)">🔒</div>
-      <h3 data-de="Unveränderlicher Prüfpfad" data-en="Immutable audit trail">Unveränderlicher Prüfpfad</h3>
-      <p data-de="Dokumente werden mit S3 Object Lock und SHA-256-Hashing gespeichert — manipulationssicher durch Design. Keine Änderungen, keine Revisionen." data-en="Documents are stored with S3 Object Lock and SHA-256 hashing — tamper-evident by design. No edits, no revisions, no questions about data integrity.">Dokumente werden mit S3 Object Lock und SHA-256-Hashing gespeichert — manipulationssicher durch Design. Keine Änderungen, keine Revisionen.</p>
-    </div>
-    <div class="proof-pillar">
-      <div class="proof-icon" style="background:rgba(232,160,32,0.1)">📋</div>
-      <h3 data-de="IPCC-AR6-zitierte Methodik" data-en="IPCC AR6 cited methodology">IPCC-AR6-zitierte Methodik</h3>
-      <p data-de="CO₂-Berechnungen verwenden IPCC-AR6-Emissionsfaktoren — dieselbe Quelle, auf die Prüfer und Regulatoren verweisen. Jede Berechnung ist zitierfähig und verteidigbar." data-en="CO₂ calculations use IPCC AR6 emission factors — the same source auditors and regulators reference. Every calculation is citable and defensible.">CO₂-Berechnungen verwenden IPCC-AR6-Emissionsfaktoren — dieselbe Quelle, auf die Prüfer und Regulatoren verweisen. Jede Berechnung ist zitierfähig und verteidigbar.</p>
-    </div>
-    <div class="proof-pillar">
-      <div class="proof-icon" style="background:rgba(138,107,255,0.1)">✍️</div>
-      <h3 data-de="eIDAS-Elektronische Signatur" data-en="eIDAS electronic signature">eIDAS-Elektronische Signatur</h3>
-      <p data-de="Alle Dokumente sind mit eIDAS-Fortgeschrittener Elektronischer Signatur signiert — in allen EU-Mitgliedstaaten rechtlich anerkannt." data-en="All documents are signed with eIDAS Advanced Electronic Signature — legally recognised across all EU member states for regulatory submissions.">Alle Dokumente sind mit eIDAS-Fortgeschrittener Elektronischer Signatur signiert — in allen EU-Mitgliedstaaten rechtlich anerkannt.</p>
-    </div>
-    <div class="proof-quote">
-      <blockquote data-de="„Eine Plattformakkreditierung ist für CSRD, EPR oder DPP nicht erforderlich. Der Prüfer trägt die Unterzeichnungsverantwortung für CSRD — die Aufgabe der Software besteht darin, nachvollziehbare, verifizierbare Quelldaten zu liefern. Die transaktionsverknüpfte Architektur und die unveränderliche Speicherung von LoopLayer entsprechen genau dem, was ein sauberer Prüfpfad aussehen sollte."" data-en="&ldquo;Platform accreditation is not required for CSRD, EPR, or DPP compliance. The auditor carries signing responsibility for CSRD — the software&rsquo;s role is to provide traceable, verifiable source data. LoopLayer&rsquo;s transaction-linked architecture and immutable storage are exactly what a clean audit trail looks like.&rdquo;">„Eine Plattformakkreditierung ist für CSRD, EPR oder DPP nicht erforderlich. Der Prüfer trägt die Unterzeichnungsverantwortung für CSRD — die Aufgabe der Software besteht darin, nachvollziehbare, verifizierbare Quelldaten zu liefern. Die transaktionsverknüpfte Architektur und die unveränderliche Speicherung von LoopLayer entsprechen genau dem, was ein sauberer Prüfpfad aussehen sollte."</blockquote>
-      <p class="proof-attribution">
-        <strong data-de="Prüfungsvalidierung" data-en="Auditor validation review">Prüfungsvalidierung</strong>
-        <span data-de=" — auf Anfrage bei LoopLayer erhältlich" data-en=" — available on request from LoopLayer"> — auf Anfrage bei LoopLayer erhältlich</span>
-      </p>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- REGULATIONS -->
-<section id="regulations" class="section fade-up">
-  <span class="section-label" data-de="Regulatorische Abdeckung" data-en="Regulatory coverage">Regulatorische Abdeckung</span>
-  <h2 data-de="Drei Regelwerke. Vollständig abgedeckt." data-en="Three regulations. All covered.">Drei Regelwerke. Vollständig abgedeckt.</h2>
-  <p class="section-sub" data-de="LoopLayer ist gezielt für die drei EU-Compliance-Pflichten entwickelt, die Textilhersteller und Recyclingunternehmen heute betreffen." data-en="LoopLayer is purpose-built around the three EU compliance obligations affecting textile manufacturers and recyclers today.">LoopLayer ist gezielt für die drei EU-Compliance-Pflichten entwickelt, die Textilhersteller und Recyclingunternehmen heute betreffen.</p>
-  <div class="reg-grid">
-    <div class="reg-card">
-      <span class="reg-badge badge-epr">EPR</span>
-      <h3 data-de="Erweiterte Herstellerverantwortung" data-en="Extended Producer Responsibility">Erweiterte Herstellerverantwortung</h3>
-      <p data-de="Länderspezifische Herstellerpflichtzertifikate für 6 EU-EPR-Systeme. Deckt Frankreich (REFASHION), Deutschland, Niederlande u. v. m. ab." data-en="Country-by-country producer obligation certificates across 6 EU EPR schemes. Covers France (REFASHION), Germany, Netherlands, and more.">Länderspezifische Herstellerpflichtzertifikate für 6 EU-EPR-Systeme. Deckt Frankreich (REFASHION), Deutschland, Niederlande u. v. m. ab.</p>
-      <div class="reg-deadline" data-de="⚠ Bußgelder werden bereits verhängt" data-en="⚠ Fines already being issued">⚠ Bußgelder werden bereits verhängt</div>
-    </div>
-    <div class="reg-card">
-      <span class="reg-badge badge-csrd">CSRD / ESRS E5</span>
-      <h3 data-de="Nachhaltigkeitsberichterstattung" data-en="Corporate Sustainability Reporting">Nachhaltigkeitsberichterstattung</h3>
-      <p data-de="Jährliche Berichterstattung nach ESRS E5 (Ressourcennutzung und Kreislaufwirtschaft). CO₂-Methodik nach IPCC AR6. Exportfähiges Berichtsformat." data-en="Annual sustainability reporting under ESRS E5 (resource use and circular economy). CO₂ methodology cited to IPCC AR6. Export-ready report format.">Jährliche Berichterstattung nach ESRS E5 (Ressourcennutzung und Kreislaufwirtschaft). CO₂-Methodik nach IPCC AR6. Exportfähiges Berichtsformat.</p>
-      <div class="reg-deadline" data-de="⚠ Pflicht ab GJ2025" data-en="⚠ Mandatory from FY2025">⚠ Pflicht ab GJ2025</div>
-    </div>
-    <div class="reg-card">
-      <span class="reg-badge badge-dpp">DPP</span>
-      <h3 data-de="Digitaler Produktpass" data-en="Digital Product Passport">Digitaler Produktpass</h3>
-      <p data-de="CIRPASS-2-schemakonforme Produktpässe mit QR-Code, Materialzusammensetzung, Recyclinganteil und vollständiger Lebenszyklusnachverfolgung." data-en="CIRPASS-2 schema compliant product passports with QR code, material composition, recycled content, and full lifecycle traceability.">CIRPASS-2-schemakonforme Produktpässe mit QR-Code, Materialzusammensetzung, Recyclinganteil und vollständiger Lebenszyklusnachverfolgung.</p>
-      <div class="reg-deadline" data-de="⚠ Pflicht ab 2027" data-en="⚠ Mandatory from 2027">⚠ Pflicht ab 2027</div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- LIVE DEMO -->
-<section id="demo" class="section fade-up">
-  <span class="section-label" data-de="Live-Demo" data-en="Live demo">Live-Demo</span>
-  <h2 data-de="Jetzt ausprobieren — Transaktion eingeben." data-en="Try it now — enter a transaction.">Jetzt ausprobieren — Transaktion eingeben.</h2>
-  <p class="section-sub" data-de="Transaktionsdaten eingeben und die drei Compliance-Dokumente in Echtzeit sehen." data-en="Fill in the transaction details and see the three compliance documents generated in real time.">Transaktionsdaten eingeben und die drei Compliance-Dokumente in Echtzeit sehen.</p>
-  <div class="demo-wrap">
-    <div class="demo-form">
-      <div class="form-group">
-        <label data-de="Unternehmensname" data-en="Company name">Unternehmensname</label>
-        <input type="text" id="f-company" data-ph-de="z. B. Mustermann Textil GmbH" data-ph-en="e.g. Sample Textiles GmbH" placeholder="z. B. Mustermann Textil GmbH">
-        <div class="form-error" id="e-company" data-de="Bitte Unternehmensnamen eingeben" data-en="Please enter a company name">Bitte Unternehmensnamen eingeben</div>
+    <div class="steps fi">
+      <div class="step" data-arrow="→">
+        <span class="step-n">01</span>
+        <h3 data-de="Transaktion erfassen" data-en="Record transaction">Transaktion erfassen</h3>
+        <p data-de="Material, Gewicht, zertifizierter Recycler und Lieferbestätigung werden in LoopLayer eingegeben." data-en="Material, weight, certified recycler, and delivery confirmation entered into LoopLayer.">Material, Gewicht, zertifizierter Recycler und Lieferbestätigung werden in LoopLayer eingegeben.</p>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label data-de="Material" data-en="Material">Material</label>
-          <select id="f-material">
+      <div class="step" data-arrow="→">
+        <span class="step-n">02</span>
+        <h3 data-de="Sofortige Erstellung" data-en="Instant generation">Sofortige Erstellung</h3>
+        <p data-de="EPR-Zertifikat, CSRD-Eintrag und Digitaler Produktpass werden sofort mit einer gemeinsamen Transaktions-ID erstellt." data-en="EPR certificate, CSRD entry, and Digital Product Passport created instantly — all sharing one Transaction ID.">EPR-Zertifikat, CSRD-Eintrag und Digitaler Produktpass werden sofort mit einer gemeinsamen Transaktions-ID erstellt.</p>
+      </div>
+      <div class="step" data-arrow="→">
+        <span class="step-n">03</span>
+        <h3 data-de="Signiert und gesichert" data-en="Signed and locked">Signiert und gesichert</h3>
+        <p data-de="eIDAS-Signatur, SHA-256-Hashing, S3 Object Lock — unveränderlich, manipulationssicher, sofort prüfbar." data-en="eIDAS signature, SHA-256 hashing, S3 Object Lock — immutable, tamper-evident, instantly verifiable.">eIDAS-Signatur, SHA-256-Hashing, S3 Object Lock — unveränderlich, manipulationssicher, sofort prüfbar.</p>
+      </div>
+      <div class="step">
+        <span class="step-n">04</span>
+        <h3 data-de="Prüfungsbereit" data-en="Audit ready">Prüfungsbereit</h3>
+        <p data-de="Dem Prüfer eine lückenlose Nachweiskette übergeben — kein Zusammensuchen von Daten, keine Lücken." data-en="Hand the auditor a complete evidence chain — no data chasing, no gaps.">Dem Prüfer eine lückenlose Nachweiskette übergeben — kein Zusammensuchen von Daten, keine Lücken.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divline"></div>
+
+<!-- ══ THREE DOCS ══ -->
+<section>
+  <div class="wrap">
+    <div class="sh fi">
+      <span class="tag tag-wire" data-de="Ausgabe" data-en="Output">Ausgabe</span>
+      <h2 data-de="Drei Dokumente.<br>Eine Quelle." data-en="Three documents.<br>One source.">Drei Dokumente.<br>Eine Quelle.</h2>
+      <p data-de="Alle drei Dokumente entstehen aus demselben Transaktionsdatensatz und sind durch eine Transaktions-ID verknüpft — eine lückenlose Chain of Custody." data-en="All three documents come from the same transaction record, linked by Transaction ID — an unbroken chain of custody.">Alle drei Dokumente entstehen aus demselben Transaktionsdatensatz und sind durch eine Transaktions-ID verknüpft — eine lückenlose Chain of Custody.</p>
+    </div>
+    <div class="docs-grid fi">
+      <div class="doc-card epr">
+        <div class="doc-card-bar"></div>
+        <div class="doc-card-top">
+          <span class="tag tag-blue">EPR</span>
+        </div>
+        <h3 data-de="EPR-Zertifikat" data-en="EPR Certificate">EPR-Zertifikat</h3>
+        <p class="doc-card-desc" data-de="Länderspezifisch konforme Herstellerverantwortungszertifikate — digital signiert, sofort einreichungsbereit." data-en="Country-compliant producer responsibility certificates — digitally signed, ready for submission.">Länderspezifisch konforme Herstellerverantwortungszertifikate — digital signiert, sofort einreichungsbereit.</p>
+        <div class="doc-fields">
+          <div class="doc-field" data-de="Hersteller + Registrierungs-ID" data-en="Producer + registration ID">Hersteller + Registrierungs-ID</div>
+          <div class="doc-field" data-de="Materialkategorie + Gewicht (kg)" data-en="Material category + weight (kg)">Materialkategorie + Gewicht (kg)</div>
+          <div class="doc-field" data-de="Zertifizierter Recycler (GRS/RCS)" data-en="Certified recycler (GRS/RCS)">Zertifizierter Recycler (GRS/RCS)</div>
+          <div class="doc-field" data-de="Länderspezifisches EPR-System" data-en="Country-specific EPR scheme">Länderspezifisches EPR-System</div>
+          <div class="doc-field" data-de="eIDAS Fortgeschrittene Elektronische Signatur" data-en="eIDAS Advanced Electronic Signature">eIDAS Fortgeschrittene Elektronische Signatur</div>
+        </div>
+      </div>
+      <div class="doc-card csrd">
+        <div class="doc-card-bar"></div>
+        <div class="doc-card-top">
+          <span class="tag tag-teal">CSRD / ESRS E5</span>
+        </div>
+        <h3 data-de="Nachhaltigkeitsbericht" data-en="Sustainability Entry">Nachhaltigkeitsbericht</h3>
+        <p class="doc-card-desc" data-de="ESRS-E5-konformer Bericht mit CO₂-Einsparungen nach IPCC-AR6-Methodik — exportfertig für den Jahresabschluss." data-en="ESRS E5-compliant report with CO₂ savings calculated to IPCC AR6 methodology — export-ready for year-end.">ESRS-E5-konformer Bericht mit CO₂-Einsparungen nach IPCC-AR6-Methodik — exportfertig für den Jahresabschluss.</p>
+        <div class="doc-fields">
+          <div class="doc-field" data-de="Abfallartklassifikation (ESRS E5)" data-en="Waste type classification (ESRS E5)">Abfallartklassifikation (ESRS E5)</div>
+          <div class="doc-field" data-de="CO₂-Einsparungen (IPCC AR6 WG3 2022)" data-en="CO₂ savings (IPCC AR6 WG3 2022)">CO₂-Einsparungen (IPCC AR6 WG3 2022)</div>
+          <div class="doc-field" data-de="Recyclingquote in Prozent" data-en="Recycling rate percentage">Recyclingquote in Prozent</div>
+          <div class="doc-field" data-de="Kreislaufwirtschaftskennzahlen" data-en="Circular economy metrics">Kreislaufwirtschaftskennzahlen</div>
+          <div class="doc-field" data-de="EFRAG-formatkonformer Jahresexport" data-en="EFRAG format annual report export">EFRAG-formatkonformer Jahresexport</div>
+        </div>
+      </div>
+      <div class="doc-card dpp">
+        <div class="doc-card-bar"></div>
+        <div class="doc-card-top">
+          <span class="tag tag-amber">DPP</span>
+        </div>
+        <h3 data-de="Digitaler Produktpass" data-en="Digital Product Passport">Digitaler Produktpass</h3>
+        <p class="doc-card-desc" data-de="CIRPASS-2-schemakonforme Pässe mit QR-Code, Materialzusammensetzung und vollständiger Lebenszyklusnachverfolgung." data-en="CIRPASS-2 schema compliant passports with QR code, material composition, and full lifecycle traceability.">CIRPASS-2-schemakonforme Pässe mit QR-Code, Materialzusammensetzung und vollständiger Lebenszyklusnachverfolgung.</p>
+        <div class="doc-fields">
+          <div class="doc-field" data-de="Materialzusammensetzung + Faserart" data-en="Material composition + fibre type">Materialzusammensetzung + Faserart</div>
+          <div class="doc-field" data-de="Recyclinganteil in Prozent" data-en="Recycled content percentage">Recyclinganteil in Prozent</div>
+          <div class="doc-field" data-de="GRS-Zertifizierungsstatus" data-en="GRS certification status">GRS-Zertifizierungsstatus</div>
+          <div class="doc-field" data-de="QR-Code + öffentliche Produkt-URI" data-en="QR code + public product URI">QR-Code + öffentliche Produkt-URI</div>
+          <div class="doc-field" data-de="Vollständige Lebenszyklusnachverfolgung" data-en="Full lifecycle traceability">Vollständige Lebenszyklusnachverfolgung</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divline"></div>
+
+<!-- ══ PLATFORM LAYERS ══ -->
+<section id="platform">
+  <div class="wrap">
+    <div class="layers-intro fi">
+      <div>
+        <span class="tag tag-wire" style="margin-bottom:16px" data-de="Die Plattform" data-en="The platform">Die Plattform</span>
+        <h2 data-de="Compliance ist erst<br>der Anfang." data-en="Compliance is only<br>the beginning.">Compliance ist erst<br>der Anfang.</h2>
+        <p data-de="LoopLayer ist eine vollständige Infrastruktur für das europäische Textilrecycling — vier Schichten, die aufeinander aufbauen: Marktplatz, Material Intelligence, Compliance und ein vertrauensbasiertes Netzwerk." data-en="LoopLayer is full infrastructure for European textile recycling — four layers that build on each other: marketplace, material intelligence, compliance, and a trust-based circular network.">LoopLayer ist eine vollständige Infrastruktur für das europäische Textilrecycling — vier Schichten, die aufeinander aufbauen: Marktplatz, Material Intelligence, Compliance und ein vertrauensbasiertes Netzwerk.</p>
+      </div>
+      <div class="market-gap">
+        <p>
+          <strong data-de="Warum diese Lücke?" data-en="Why does this gap exist?">Warum diese Lücke?</strong>
+          <br><br>
+          <span data-de="Große Konzerne — Inditex, H&amp;M, PVH — investieren Millionen in maßgeschneiderte interne Compliance-Systeme und machen daraus keine Produkte. Mittelständische Textilunternehmen sind vollständig unversorgt. LoopLayer schließt diese Lücke." data-en="Large enterprises — Inditex, H&amp;M, PVH — invest millions building bespoke internal compliance systems and don't productise them. Mid-market textile companies are left entirely unserved. LoopLayer closes this gap.">Große Konzerne — Inditex, H&amp;M, PVH — investieren Millionen in maßgeschneiderte interne Compliance-Systeme und machen daraus keine Produkte. Mittelständische Textilunternehmen sind vollständig unversorgt. LoopLayer schließt diese Lücke.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="layers-grid fi">
+
+      <!-- LAYER 1: MARKETPLACE -->
+      <div class="lcard l1">
+        <div class="lcard-bar"></div>
+        <div class="lcard-num"><span class="ln">1</span><span data-de="Marktplatz" data-en="Marketplace">Marktplatz</span></div>
+        <h3 data-de="Wo Transaktionen stattfinden." data-en="Where transactions happen.">Wo Transaktionen stattfinden.</h3>
+        <p data-de="Der Kern der Plattform. LoopLayer verbindet Textilhersteller, Sortierbetriebe, Modemarken und Recycler in einem digitalen Marktplatz — mit intelligenter Suche nach Faserart, Volumen und Region, digitalen Vertragsvorlagen und Escrow-Zahlungsabwicklung." data-en="The core of the platform. LoopLayer connects textile manufacturers, sorters, fashion brands, and recyclers in a digital marketplace — with smart search by fibre type, volume, and region, digital contract templates, and escrow payment processing.">Der Kern der Plattform. LoopLayer verbindet Textilhersteller, Sortierbetriebe, Modemarken und Recycler in einem digitalen Marktplatz — mit intelligenter Suche nach Faserart, Volumen und Region, digitalen Vertragsvorlagen und Escrow-Zahlungsabwicklung.</p>
+        <div class="lcard-pts">
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Intelligente Suche nach Faserart, Volumen und Region" data-en="Smart search by fibre type, volume, and region">Intelligente Suche nach Faserart, Volumen und Region</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Digitale Vertragsvorlagen ab der ersten Transaktion" data-en="Digital contract templates from the first transaction">Digitale Vertragsvorlagen ab der ersten Transaktion</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Escrow-Zahlungsabwicklung mit Streitbeilegung" data-en="Escrow payment processing with dispute resolution">Escrow-Zahlungsabwicklung mit Streitbeilegung</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Vollständige Transaktionshistorie für Compliance-Nachweise" data-en="Full transaction history for compliance records">Vollständige Transaktionshistorie für Compliance-Nachweise</span></div>
+        </div>
+        <div class="lcard-hl" data-de="Umsatzmodell: 5–8 % Provision pro Transaktion. Ab Tag 1 verfügbar — auch als manuelle Vermittlung in Phase 0." data-en="Revenue model: 5–8% commission per transaction. Available from Day 1 — including as manual brokering in Phase 0.">Umsatzmodell: 5–8 % Provision pro Transaktion. Ab Tag 1 verfügbar — auch als manuelle Vermittlung in Phase 0.</div>
+      </div>
+
+      <!-- LAYER 2: MATERIAL INTELLIGENCE -->
+      <div class="lcard l2">
+        <div class="lcard-bar"></div>
+        <div class="lcard-num"><span class="ln">2</span><span data-de="Material Intelligence" data-en="Material Intelligence">Material Intelligence</span></div>
+        <h3 data-de="KI-gestützte Faserklassifikation." data-en="AI-powered fibre classification.">KI-gestützte Faserklassifikation.</h3>
+        <p data-de="Das KI-gestützte System von LoopLayer klassifiziert Faserzusammensetzungen, bewertet Mischungskompatibilitäten, empfiehlt optimale Recyclingwege und berechnet CO₂-Einsparungen — trainiert auf echten Transaktionsdaten der Plattform." data-en="LoopLayer's AI system classifies fibre compositions, scores blend compatibility, recommends optimal recycling pathways, and calculates CO₂ impact — trained on real transaction data from the platform.">Das KI-gestützte System von LoopLayer klassifiziert Faserzusammensetzungen, bewertet Mischungskompatibilitäten, empfiehlt optimale Recyclingwege und berechnet CO₂-Einsparungen — trainiert auf echten Transaktionsdaten der Plattform.</p>
+        <div class="lcard-pts">
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="KI-Faserklassifikation aus Materialbeschreibungen" data-en="AI fibre composition classification from descriptions">KI-Faserklassifikation aus Materialbeschreibungen</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Mischungskompatibilität und Recyclingfähigkeitsbewertung" data-en="Blend compatibility and recyclability scoring">Mischungskompatibilität und Recyclingfähigkeitsbewertung</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Recyclingweg-Empfehlungen nach Verarbeitungstyp" data-en="Recycling pathway recommendations by process type">Recyclingweg-Empfehlungen nach Verarbeitungstyp</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Live CO₂-Kalkulator pro Transaktion" data-en="Live CO₂ impact calculator per transaction">Live CO₂-Kalkulator pro Transaktion</span></div>
+        </div>
+        <div class="lcard-hl" data-de="Umsatzmodell: SaaS €199–799 / Monat. Beta-Start Monat 10. Sagt Recyclern genau, welche Ausbeute und welchen Marktpreis sie erwarten können." data-en="Revenue model: SaaS €199–799/month. Beta launch Month 10. Tells recyclers exactly what yield and market price to expect.">Umsatzmodell: SaaS €199–799 / Monat. Beta-Start Monat 10. Sagt Recyclern genau, welche Ausbeute und welchen Marktpreis sie erwarten können.</div>
+      </div>
+
+      <!-- LAYER 3: COMPLIANCE -->
+      <div class="lcard l3">
+        <div class="lcard-bar"></div>
+        <div class="lcard-num"><span class="ln">3</span><span data-de="Compliance-Schicht" data-en="Compliance Layer">Compliance-Schicht</span></div>
+        <h3 data-de="EPR. CSRD. DPP. Automatisch." data-en="EPR. CSRD. DPP. Automatically.">EPR. CSRD. DPP. Automatisch.</h3>
+        <p data-de="Die regulatorische Infrastruktur, die jedes Unternehmen in der EU-Textilbranche heute braucht. EU-DPP-Integration, CSRD-konforme Abfalldokumentation, EPR-Meldungsexporte und drei Jahre prüfungssichere Archivierung — alles automatisch aus LoopLayer-Transaktionsdaten." data-en="The regulatory infrastructure every EU textile business needs today. EU Digital Product Passport integration, CSRD-ready waste documentation, EPR reporting exports, and three years of audit-ready record storage — all generated automatically from LoopLayer transaction data.">Die regulatorische Infrastruktur, die jedes Unternehmen in der EU-Textilbranche heute braucht. EU-DPP-Integration, CSRD-konforme Abfalldokumentation, EPR-Meldungsexporte und drei Jahre prüfungssichere Archivierung — alles automatisch aus LoopLayer-Transaktionsdaten.</p>
+        <div class="lcard-pts">
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="EU Digitaler Produktpass (CIRPASS-2 Schema)" data-en="EU Digital Product Passport (CIRPASS-2 schema)">EU Digitaler Produktpass (CIRPASS-2 Schema)</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="CSRD / ESRS E5 Jahresberichtsexport (IPCC AR6)" data-en="CSRD / ESRS E5 annual report export (IPCC AR6)">CSRD / ESRS E5 Jahresberichtsexport (IPCC AR6)</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="EPR-Meldungsexporte für 6 EU-Länder" data-en="EPR reporting exports for 6 EU countries">EPR-Meldungsexporte für 6 EU-Länder</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Drei Jahre prüfungssichere Archivierung (S3 Object Lock)" data-en="Three-year audit-ready archive (S3 Object Lock)">Drei Jahre prüfungssichere Archivierung (S3 Object Lock)</span></div>
+        </div>
+        <div class="lcard-hl" data-de="Umsatzmodell: Enterprise SaaS €299–1.500 / Monat. Ab Tag 1 als eigenständiges Produkt verfügbar — auch ohne Marktplatzteilnahme." data-en="Revenue model: Enterprise SaaS €299–1,500/month. Available Day 1 as a standalone product — even without marketplace participation.">Umsatzmodell: Enterprise SaaS €299–1.500 / Monat. Ab Tag 1 als eigenständiges Produkt verfügbar — auch ohne Marktplatzteilnahme.</div>
+      </div>
+
+      <!-- LAYER 4: CIRCULAR NETWORK -->
+      <div class="lcard l4">
+        <div class="lcard-bar"></div>
+        <div class="lcard-num"><span class="ln">4</span><span data-de="Circular Network" data-en="Circular Network">Circular Network</span></div>
+        <h3 data-de="Vertrauensinfrastruktur." data-en="Trust infrastructure.">Vertrauensinfrastruktur.</h3>
+        <p data-de="Das verifizierte Partnernetzwerk mit Reputationsbewertung, Zertifizierungsverfolgung und Rückverfolgbarkeitsvisualisierung. GRS/RCS-Zertifizierungen werden pro Transaktion nachverfolgt und dokumentiert — die Vertrauensinfrastruktur für Transaktionen zwischen Unternehmen, die sich nicht kennen." data-en="The verified partner directory with reputation scoring, certification tracking, and traceability chain visualisation. GRS/RCS certifications are tracked and documented per transaction — the trust infrastructure enabling high-value transactions between companies that have never met.">Das verifizierte Partnernetzwerk mit Reputationsbewertung, Zertifizierungsverfolgung und Rückverfolgbarkeitsvisualisierung. GRS/RCS-Zertifizierungen werden pro Transaktion nachverfolgt und dokumentiert — die Vertrauensinfrastruktur für Transaktionen zwischen Unternehmen, die sich nicht kennen.</p>
+        <div class="lcard-pts">
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Verifizierte Unternehmensprofile mit Transaktionshistorie" data-en="Verified company profiles with transaction history">Verifizierte Unternehmensprofile mit Transaktionshistorie</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Reputationsbewertung über alle Teilnehmer hinweg" data-en="Reputation scoring across all participants">Reputationsbewertung über alle Teilnehmer hinweg</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="Rückverfolgbarkeitsvisualisierung und -export" data-en="Traceability chain visualisation and export">Rückverfolgbarkeitsvisualisierung und -export</span></div>
+          <div class="lcard-pt"><span class="lcard-pt-dot"></span><span data-de="GRS/RCS-Zertifizierungsverfolgung pro Transaktion" data-en="GRS/RCS certification tracking per transaction">GRS/RCS-Zertifizierungsverfolgung pro Transaktion</span></div>
+        </div>
+        <div class="lcard-hl" data-de="Umsatzmodell: Premium Mitgliedschaft €149 / Monat. Nach 500 Transaktionen entsteht ein Daten-Schutzwall, den kein neuer Marktteilnehmer replizieren kann." data-en="Revenue model: Premium membership €149/month. After 500 transactions, a data moat forms that no new entrant can replicate.">Umsatzmodell: Premium Mitgliedschaft €149 / Monat. Nach 500 Transaktionen entsteht ein Daten-Schutzwall, den kein neuer Marktteilnehmer replizieren kann.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divline"></div>
+
+<!-- ══ TRUST ══ -->
+<section>
+  <div class="wrap">
+    <div class="sh fi">
+      <span class="tag tag-wire" data-de="Warum Prüfer vertrauen" data-en="Why auditors trust it">Warum Prüfer vertrauen</span>
+      <h2 data-de="Nachweise aus Transaktionen —<br>keine Selbstauskünfte." data-en="Evidence from transactions —<br>not self-reported claims.">Nachweise aus Transaktionen —<br>keine Selbstauskünfte.</h2>
+      <p data-de="Prüfer unterzeichnen keine Tabellenkalkulationen. Sie unterzeichnen verifizierbare, nachvollziehbare Belege. LoopLayer ist genau dafür gebaut." data-en="Auditors don't sign off on spreadsheets. They sign off on verifiable, traceable evidence. LoopLayer is built to produce exactly that.">Prüfer unterzeichnen keine Tabellenkalkulationen. Sie unterzeichnen verifizierbare, nachvollziehbare Belege. LoopLayer ist genau dafür gebaut.</p>
+    </div>
+    <div class="trust-grid fi">
+      <div class="tcard">
+        <span class="tcard-icon">🔗</span>
+        <h3 data-de="Transaktionsverknüpfte Daten" data-en="Transaction-linked data">Transaktionsverknüpfte Daten</h3>
+        <p data-de="Jede Zahl in jedem Dokument ist mit einer bestätigten Recyclingtransaktion verknüpft. Keine manuelle Eingabe, keine Schätzungen — jede Zahl ist auf ihren Ursprung zurückverfolgbar." data-en="Every number in every document links back to a confirmed recycling transaction. No manual entry, no estimates — every figure is traceable to its origin.">Jede Zahl in jedem Dokument ist mit einer bestätigten Recyclingtransaktion verknüpft. Keine manuelle Eingabe, keine Schätzungen — jede Zahl ist auf ihren Ursprung zurückverfolgbar.</p>
+      </div>
+      <div class="tcard">
+        <span class="tcard-icon">🔒</span>
+        <h3 data-de="Unveränderlicher Prüfpfad" data-en="Immutable audit trail">Unveränderlicher Prüfpfad</h3>
+        <p data-de="S3 Object Lock und SHA-256-Hashing — manipulationssicher durch technisches Design, nicht nur durch Richtlinien. Keine nachträglichen Änderungen möglich." data-en="S3 Object Lock and SHA-256 hashing — tamper-evident by technical design, not just policy. No post-generation edits possible.">S3 Object Lock und SHA-256-Hashing — manipulationssicher durch technisches Design, nicht nur durch Richtlinien. Keine nachträglichen Änderungen möglich.</p>
+      </div>
+      <div class="tcard">
+        <span class="tcard-icon">📐</span>
+        <h3 data-de="IPCC AR6 zitierte Methodik" data-en="IPCC AR6 cited methodology">IPCC AR6 zitierte Methodik</h3>
+        <p data-de="CO₂-Berechnungen verwenden IPCC-AR6-WG3-2022-Emissionsfaktoren — dieselbe Quelle, auf die Prüfer und Regulatoren verweisen. Jede Berechnung ist öffentlich zitierfähig." data-en="CO₂ calculations use IPCC AR6 WG3 2022 emission factors — the same source auditors and regulators reference. Every calculation is publicly citable.">CO₂-Berechnungen verwenden IPCC-AR6-WG3-2022-Emissionsfaktoren — dieselbe Quelle, auf die Prüfer und Regulatoren verweisen. Jede Berechnung ist öffentlich zitierfähig.</p>
+      </div>
+      <div class="tcard">
+        <span class="tcard-icon">✍️</span>
+        <h3 data-de="eIDAS-Elektronische Signatur" data-en="eIDAS electronic signature">eIDAS-Elektronische Signatur</h3>
+        <p data-de="Alle Dokumente werden mit eIDAS-Fortgeschrittener Elektronischer Signatur signiert — in allen EU-Mitgliedstaaten für behördliche Einreichungen rechtlich anerkannt." data-en="All documents signed with eIDAS Advanced Electronic Signature — legally recognised across all EU member states for regulatory submissions.">Alle Dokumente werden mit eIDAS-Fortgeschrittener Elektronischer Signatur signiert — in allen EU-Mitgliedstaaten für behördliche Einreichungen rechtlich anerkannt.</p>
+      </div>
+      <div class="tquote">
+        <blockquote data-de="„Eine Plattformakkreditierung ist für CSRD, EPR oder den Digitalen Produktpass nicht erforderlich. Der Wirtschaftsprüfer trägt die Unterzeichnungsverantwortung für CSRD-Berichte — die Aufgabe der Software besteht darin, nachvollziehbare, verifizierbare Quelldaten zu liefern. Die transaktionsverknüpfte Architektur und unveränderliche Speicherung von LoopLayer entsprechen genau dem, was ein sauberer Prüfpfad aussehen sollte."" data-en="&ldquo;Platform accreditation is not required for CSRD, EPR, or the Digital Product Passport. The auditor carries signing responsibility for CSRD reports — the software&rsquo;s role is to provide traceable, verifiable source data. LoopLayer&rsquo;s transaction-linked architecture and immutable storage are exactly what a clean audit trail looks like.&rdquo;">„Eine Plattformakkreditierung ist für CSRD, EPR oder den Digitalen Produktpass nicht erforderlich. Der Wirtschaftsprüfer trägt die Unterzeichnungsverantwortung für CSRD-Berichte — die Aufgabe der Software besteht darin, nachvollziehbare, verifizierbare Quelldaten zu liefern. Die transaktionsverknüpfte Architektur und unveränderliche Speicherung von LoopLayer entsprechen genau dem, was ein sauberer Prüfpfad aussehen sollte."</blockquote>
+        <p class="tquote-attr"><strong data-de="Prüfungsvalidierung" data-en="Auditor validation">Prüfungsvalidierung</strong> <span data-de="— auf Anfrage bei LoopLayer erhältlich" data-en="— available on request from LoopLayer">— auf Anfrage bei LoopLayer erhältlich</span></p>
+      </div>
+    </div>
+    <div class="pillars fi">
+      <div class="pillar">
+        <span class="pillar-icon">🔗</span>
+        <h4 data-de="Transaktionsverknüpft" data-en="Transaction-linked">Transaktionsverknüpft</h4>
+        <p data-de="Jede Zahl rückverfolgbar" data-en="Every figure traceable">Jede Zahl rückverfolgbar</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">🔒</span>
+        <h4 data-de="Unveränderlich" data-en="Immutable">Unveränderlich</h4>
+        <p>S3 Object Lock + SHA-256</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">📐</span>
+        <h4>IPCC AR6</h4>
+        <p data-de="Zitierfähige CO₂-Methodik" data-en="Citable CO₂ methodology">Zitierfähige CO₂-Methodik</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-icon">✍️</span>
+        <h4>eIDAS AES</h4>
+        <p data-de="EU-rechtlich anerkannt" data-en="EU legally recognised">EU-rechtlich anerkannt</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divline"></div>
+
+<!-- ══ REGULATIONS ══ -->
+<section id="regulations">
+  <div class="wrap">
+    <div class="sh fi">
+      <span class="tag tag-wire" data-de="Regelwerke" data-en="Regulations">Regelwerke</span>
+      <h2 data-de="Drei Pflichten.<br>Vollständig abgedeckt." data-en="Three obligations.<br>All covered.">Drei Pflichten.<br>Vollständig abgedeckt.</h2>
+      <p data-de="LoopLayer ist auf die drei EU-Compliance-Pflichten ausgerichtet, die Textilhersteller und Recyclingunternehmen heute betreffen." data-en="LoopLayer is built around the three EU compliance obligations affecting textile manufacturers and recyclers today.">LoopLayer ist auf die drei EU-Compliance-Pflichten ausgerichtet, die Textilhersteller und Recyclingunternehmen heute betreffen.</p>
+    </div>
+    <div class="reg-grid fi">
+      <div class="rcard r1">
+        <div class="rcard-bar"></div>
+        <span class="tag tag-blue">EPR</span>
+        <h3 data-de="Erweiterte Herstellerverantwortung" data-en="Extended Producer Responsibility">Erweiterte Herstellerverantwortung</h3>
+        <p data-de="Länderspezifische Herstellerpflichtzertifikate für 6 EU-EPR-Systeme. Deckt Deutschland (Naber), Frankreich (REFASHION), Niederlande, Österreich, Belgien und Italien ab. Keine Größenausnahme — jeder Hersteller ist verpflichtet." data-en="Country-by-country producer obligation certificates across 6 EU EPR schemes. Covers Germany (Naber), France (REFASHION), Netherlands, Austria, Belgium, and Italy. No size exemption — every producer is obligated.">Länderspezifische Herstellerpflichtzertifikate für 6 EU-EPR-Systeme. Deckt Deutschland (Naber), Frankreich (REFASHION), Niederlande, Österreich, Belgien und Italien ab. Keine Größenausnahme — jeder Hersteller ist verpflichtet.</p>
+        <p class="rcard-deadline" data-de="⚠ Bußgelder werden bereits verhängt" data-en="⚠ Fines already being issued">⚠ Bußgelder werden bereits verhängt</p>
+      </div>
+      <div class="rcard r2">
+        <div class="rcard-bar"></div>
+        <span class="tag tag-teal">CSRD / ESRS E5</span>
+        <h3 data-de="Nachhaltigkeitsberichterstattung" data-en="Sustainability Reporting">Nachhaltigkeitsberichterstattung</h3>
+        <p data-de="Jährliche Berichterstattung nach ESRS E5 (Ressourcennutzung und Kreislaufwirtschaft). CO₂-Methodik nach IPCC AR6. Prüfungssichere Datenquelle — kein Zusammensuchen von Tabellen kurz vor dem Abschluss." data-en="Annual reporting under ESRS E5 (resource use and circular economy). CO₂ methodology to IPCC AR6. Audit-ready data source — no last-minute spreadsheet scrambling.">Jährliche Berichterstattung nach ESRS E5 (Ressourcennutzung und Kreislaufwirtschaft). CO₂-Methodik nach IPCC AR6. Prüfungssichere Datenquelle — kein Zusammensuchen von Tabellen kurz vor dem Abschluss.</p>
+        <p class="rcard-deadline" data-de="⚠ Pflicht ab Geschäftsjahr 2025" data-en="⚠ Mandatory from FY2025">⚠ Pflicht ab Geschäftsjahr 2025</p>
+      </div>
+      <div class="rcard r3">
+        <div class="rcard-bar"></div>
+        <span class="tag tag-amber">DPP</span>
+        <h3 data-de="Digitaler Produktpass" data-en="Digital Product Passport">Digitaler Produktpass</h3>
+        <p data-de="CIRPASS-2-schemakonforme Produktpässe mit QR-Code, Materialzusammensetzung, Recyclinganteil und vollständiger Lebenszyklusnachverfolgung. Unternehmen, die jetzt starten, haben 2027 zwei Jahre verifizierter Passhistorie." data-en="CIRPASS-2 schema compliant product passports with QR code, material composition, recycled content, and full lifecycle traceability. Companies starting now will have two years of verified passport history when enforcement arrives in 2027.">CIRPASS-2-schemakonforme Produktpässe mit QR-Code, Materialzusammensetzung, Recyclinganteil und vollständiger Lebenszyklusnachverfolgung. Unternehmen, die jetzt starten, haben 2027 zwei Jahre verifizierter Passhistorie.</p>
+        <p class="rcard-deadline" data-de="⚠ Pflicht ab 2027" data-en="⚠ Mandatory from 2027">⚠ Pflicht ab 2027</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divline"></div>
+
+<!-- ══ LIVE DEMO ══ -->
+<section id="demo">
+  <div class="wrap">
+    <div class="sh fi">
+      <span class="tag tag-teal" data-de="Live-Demo" data-en="Live demo">Live-Demo</span>
+      <h2 data-de="Transaktion eingeben.<br>Dokumente sehen." data-en="Enter a transaction.<br>See the documents.">Transaktion eingeben.<br>Dokumente sehen.</h2>
+      <p data-de="Geben Sie eine echte oder fiktive Transaktion ein — und sehen Sie, was LoopLayer sofort generieren würde." data-en="Enter a real or hypothetical transaction — and see what LoopLayer would generate instantly.">Geben Sie eine echte oder fiktive Transaktion ein — und sehen Sie, was LoopLayer sofort generieren würde.</p>
+    </div>
+    <div class="demo-wrap fi">
+      <div class="demo-panel">
+        <div class="demo-panel-head">
+          <h3 data-de="Transaktion eingeben" data-en="Enter transaction">Transaktion eingeben</h3>
+          <p data-de="Alle Felder ausfüllen um zu generieren" data-en="Fill all fields to generate">Alle Felder ausfüllen um zu generieren</p>
+        </div>
+        <div class="fg">
+          <label data-de="Unternehmensname" data-en="Company name">Unternehmensname</label>
+          <input type="text" id="f-co" data-ph-de="z. B. Mustermann Textil GmbH" data-ph-en="e.g. Sample Textiles GmbH" placeholder="z. B. Mustermann Textil GmbH">
+          <div class="fg-err" id="e-co" data-de="Pflichtfeld" data-en="Required">Pflichtfeld</div>
+        </div>
+        <div class="fg-row">
+          <div class="fg">
+            <label data-de="Material" data-en="Material">Material</label>
+            <select id="f-mat">
+              <option value="" data-de="Auswählen…" data-en="Select…">Auswählen…</option>
+              <option value="Cotton offcuts" data-de="Baumwollabschnitte" data-en="Cotton offcuts">Baumwollabschnitte</option>
+              <option value="Polyester blend" data-de="Polyestermischung" data-en="Polyester blend">Polyestermischung</option>
+              <option value="Wool waste" data-de="Wollabfall" data-en="Wool waste">Wollabfall</option>
+              <option value="Mixed textile" data-de="Gemischte Textilien" data-en="Mixed textile">Gemischte Textilien</option>
+              <option value="Denim scrap" data-de="Denimschrott" data-en="Denim scrap">Denimschrott</option>
+            </select>
+            <div class="fg-err" id="e-mat" data-de="Pflichtfeld" data-en="Required">Pflichtfeld</div>
+          </div>
+          <div class="fg">
+            <label data-de="Gewicht (kg)" data-en="Weight (kg)">Gewicht (kg)</label>
+            <input type="number" id="f-kg" min="1" data-ph-de="z. B. 2400" data-ph-en="e.g. 2400" placeholder="z. B. 2400">
+            <div class="fg-err" id="e-kg" data-de="Pflichtfeld" data-en="Required">Pflichtfeld</div>
+          </div>
+        </div>
+        <div class="fg">
+          <label data-de="Recyclingunternehmen" data-en="Recycler">Recyclingunternehmen</label>
+          <input type="text" id="f-rec" data-ph-de="z. B. Muster Recycling GmbH" data-ph-en="e.g. Sample Recycling GmbH" placeholder="z. B. Muster Recycling GmbH">
+          <div class="fg-err" id="e-rec" data-de="Pflichtfeld" data-en="Required">Pflichtfeld</div>
+        </div>
+        <div class="fg">
+          <label data-de="Land" data-en="Country">Land</label>
+          <select id="f-cty">
             <option value="" data-de="Auswählen…" data-en="Select…">Auswählen…</option>
-            <option value="Cotton offcuts" data-de="Baumwollabschnitte" data-en="Cotton offcuts">Baumwollabschnitte</option>
-            <option value="Polyester blend" data-de="Polyestermischung" data-en="Polyester blend">Polyestermischung</option>
-            <option value="Wool waste" data-de="Wollabfall" data-en="Wool waste">Wollabfall</option>
-            <option value="Mixed textile" data-de="Gemischte Textilien" data-en="Mixed textile">Gemischte Textilien</option>
-            <option value="Denim scrap" data-de="Denimschrott" data-en="Denim scrap">Denimschrott</option>
+            <option value="DE" data-de="Deutschland" data-en="Germany">Deutschland</option>
+            <option value="FR" data-de="Frankreich" data-en="France">Frankreich</option>
+            <option value="NL" data-de="Niederlande" data-en="Netherlands">Niederlande</option>
+            <option value="AT" data-de="Österreich" data-en="Austria">Österreich</option>
+            <option value="BE" data-de="Belgien" data-en="Belgium">Belgien</option>
+            <option value="IT" data-de="Italien" data-en="Italy">Italien</option>
           </select>
-          <div class="form-error" id="e-material" data-de="Material auswählen" data-en="Select a material">Material auswählen</div>
+          <div class="fg-err" id="e-cty" data-de="Pflichtfeld" data-en="Required">Pflichtfeld</div>
         </div>
-        <div class="form-group">
-          <label data-de="Gewicht (kg)" data-en="Weight (kg)">Gewicht (kg)</label>
-          <input type="number" id="f-weight" data-ph-de="z. B. 2400" data-ph-en="e.g. 2400" placeholder="z. B. 2400" min="1">
-          <div class="form-error" id="e-weight" data-de="Gültiges Gewicht eingeben" data-en="Enter a valid weight">Gültiges Gewicht eingeben</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label data-de="Recyclingunternehmen" data-en="Recycler">Recyclingunternehmen</label>
-        <input type="text" id="f-recycler" data-ph-de="z. B. Muster Recycling GmbH" data-ph-en="e.g. Sample Recycling GmbH" placeholder="z. B. Muster Recycling GmbH">
-        <div class="form-error" id="e-recycler" data-de="Bitte Recycler eingeben" data-en="Please enter a recycler name">Bitte Recycler eingeben</div>
-      </div>
-      <div class="form-group">
-        <label data-de="Land" data-en="Country">Land</label>
-        <select id="f-country">
-          <option value="" data-de="Auswählen…" data-en="Select…">Auswählen…</option>
-          <option value="Deutschland" data-de="Deutschland" data-en="Germany">Deutschland</option>
-          <option value="Frankreich" data-de="Frankreich" data-en="France">Frankreich</option>
-          <option value="Niederlande" data-de="Niederlande" data-en="Netherlands">Niederlande</option>
-          <option value="Österreich" data-de="Österreich" data-en="Austria">Österreich</option>
-          <option value="Belgien" data-de="Belgien" data-en="Belgium">Belgien</option>
-          <option value="Italien" data-de="Italien" data-en="Italy">Italien</option>
-        </select>
-        <div class="form-error" id="e-country" data-de="Land auswählen" data-en="Select a country">Land auswählen</div>
-      </div>
-      <button class="generate-btn" onclick="generateDocs()" id="gen-btn">
-        <span id="gen-label">Compliance-Dokumente erstellen →</span>
-      </button>
-    </div>
-
-    <div class="demo-output">
-      <div class="output-doc" id="doc-epr">
-        <div class="output-doc-header">
-          <span class="output-doc-title" data-de="EPR-Zertifikat" data-en="EPR Certificate">EPR-Zertifikat</span>
-          <span class="output-status status-waiting" id="status-epr" data-de="Ausstehend" data-en="Waiting">Ausstehend</span>
-        </div>
-        <div class="output-doc-fields">
-          <div class="output-field-row">
-            <span class="field-key" data-de="Hersteller" data-en="Producer">Hersteller</span>
-            <span class="field-val" id="out-producer">—</span>
-          </div>
-          <div class="output-field-row">
-            <span class="field-key" data-de="Material" data-en="Material">Material</span>
-            <span class="field-val" id="out-material-epr">—</span>
-          </div>
-          <div class="output-field-row">
-            <span class="field-key" data-de="Gewicht" data-en="Weight">Gewicht</span>
-            <span class="field-val" id="out-weight-epr">—</span>
-          </div>
-          <div class="output-field-row">
-            <span class="field-key" data-de="EPR-System" data-en="EPR Scheme">EPR-System</span>
-            <span class="field-val" id="out-scheme">—</span>
-          </div>
-        </div>
-        <div class="output-txid" id="out-txid-epr">TX ID: —</div>
+        <button class="gen-btn" onclick="gen()" id="genbtn">
+          <span id="genlabel" data-de="Compliance-Dokumente erstellen →" data-en="Generate compliance documents →">Compliance-Dokumente erstellen →</span>
+        </button>
       </div>
 
-      <div class="output-doc" id="doc-csrd">
-        <div class="output-doc-header">
-          <span class="output-doc-title" data-de="CSRD (ESRS E5) Eintrag" data-en="CSRD (ESRS E5) Entry">CSRD (ESRS E5) Eintrag</span>
-          <span class="output-status status-waiting" id="status-csrd" data-de="Ausstehend" data-en="Waiting">Ausstehend</span>
+      <div class="out-docs">
+        <div class="odoc" id="doc-epr">
+          <div class="odoc-head">
+            <span class="odoc-title" data-de="EPR-Zertifikat" data-en="EPR Certificate">EPR-Zertifikat</span>
+            <span class="odoc-status s-wait" id="st-epr" data-de="Ausstehend" data-en="Waiting">Ausstehend</span>
+          </div>
+          <div class="odoc-fields">
+            <div class="ofield"><span class="ofield-k" data-de="Hersteller" data-en="Producer">Hersteller</span><span class="ofield-v" id="o-co">—</span></div>
+            <div class="ofield"><span class="ofield-k" data-de="Material" data-en="Material">Material</span><span class="ofield-v" id="o-mat-epr">—</span></div>
+            <div class="ofield"><span class="ofield-k" data-de="Gewicht" data-en="Weight">Gewicht</span><span class="ofield-v" id="o-kg">—</span></div>
+            <div class="ofield"><span class="ofield-k" data-de="EPR-System" data-en="EPR Scheme">EPR-System</span><span class="ofield-v" id="o-scheme">—</span></div>
+          </div>
+          <div class="odoc-tx" id="tx-epr">TX ID: —</div>
         </div>
-        <div class="output-doc-fields">
-          <div class="output-field-row">
-            <span class="field-key" data-de="Abfallkategorie" data-en="Waste category">Abfallkategorie</span>
-            <span class="field-val" id="out-wastetype">—</span>
+        <div class="odoc" id="doc-csrd">
+          <div class="odoc-head">
+            <span class="odoc-title" data-de="CSRD (ESRS E5) Eintrag" data-en="CSRD (ESRS E5) Entry">CSRD (ESRS E5) Eintrag</span>
+            <span class="odoc-status s-wait" id="st-csrd" data-de="Ausstehend" data-en="Waiting">Ausstehend</span>
           </div>
-          <div class="output-field-row">
-            <span class="field-key" data-de="Recyclingquote" data-en="Recycling rate">Recyclingquote</span>
-            <span class="field-val" id="out-recycling-rate">—</span>
+          <div class="odoc-fields">
+            <div class="ofield"><span class="ofield-k" data-de="Abfallkategorie" data-en="Waste category">Abfallkategorie</span><span class="ofield-v" id="o-wtype">—</span></div>
+            <div class="ofield"><span class="ofield-k" data-de="Recyclingquote" data-en="Recycling rate">Recyclingquote</span><span class="ofield-v" id="o-rrate">—</span></div>
+            <div class="ofield"><span class="ofield-k" data-de="CO₂-Einsparung" data-en="CO₂ saved">CO₂-Einsparung</span><span class="ofield-v" id="o-co2">—</span></div>
+            <div class="ofield"><span class="ofield-k" data-de="Methodik" data-en="Method">Methodik</span><span class="ofield-v" id="o-meth">—</span></div>
           </div>
-          <div class="output-field-row">
-            <span class="field-key" data-de="CO₂-Einsparung" data-en="CO₂ saved">CO₂-Einsparung</span>
-            <span class="field-val" id="out-co2">—</span>
-          </div>
-          <div class="output-field-row">
-            <span class="field-key" data-de="Methodik" data-en="Method">Methodik</span>
-            <span class="field-val" id="out-method">—</span>
-          </div>
+          <div class="odoc-tx" id="tx-csrd">TX ID: —</div>
         </div>
-        <div class="output-txid" id="out-txid-csrd">TX ID: —</div>
-      </div>
-
-      <div class="output-doc" id="doc-dpp">
-        <div class="output-doc-header">
-          <span class="output-doc-title" data-de="Digitaler Produktpass" data-en="Digital Product Passport">Digitaler Produktpass</span>
-          <span class="output-status status-waiting" id="status-dpp" data-de="Ausstehend" data-en="Waiting">Ausstehend</span>
+        <div class="odoc" id="doc-dpp">
+          <div class="odoc-head">
+            <span class="odoc-title" data-de="Digitaler Produktpass" data-en="Digital Product Passport">Digitaler Produktpass</span>
+            <span class="odoc-status s-wait" id="st-dpp" data-de="Ausstehend" data-en="Waiting">Ausstehend</span>
+          </div>
+          <div class="odoc-fields">
+            <div class="ofield"><span class="ofield-k" data-de="Material" data-en="Material">Material</span><span class="ofield-v" id="o-mat-dpp">—</span></div>
+            <div class="ofield"><span class="ofield-k" data-de="Recyclinganteil" data-en="Recycled content">Recyclinganteil</span><span class="ofield-v" id="o-rpct">—</span></div>
+            <div class="ofield"><span class="ofield-k" data-de="Recycler" data-en="Recycler">Recycler</span><span class="ofield-v" id="o-rec-dpp">—</span></div>
+            <div class="ofield"><span class="ofield-k" data-de="Schema" data-en="Schema">Schema</span><span class="ofield-v" id="o-schema">—</span></div>
+          </div>
+          <div class="odoc-tx" id="tx-dpp">TX ID: —</div>
         </div>
-        <div class="output-doc-fields">
-          <div class="output-field-row">
-            <span class="field-key" data-de="Material" data-en="Material">Material</span>
-            <span class="field-val" id="out-material-dpp">—</span>
-          </div>
-          <div class="output-field-row">
-            <span class="field-key" data-de="Recyclinganteil" data-en="Recycled content">Recyclinganteil</span>
-            <span class="field-val" id="out-recycled-pct">—</span>
-          </div>
-          <div class="output-field-row">
-            <span class="field-key" data-de="Recycler" data-en="Recycler">Recycler</span>
-            <span class="field-val" id="out-recycler-dpp">—</span>
-          </div>
-          <div class="output-field-row">
-            <span class="field-key" data-de="Schema" data-en="Schema">Schema</span>
-            <span class="field-val" id="out-schema">—</span>
-          </div>
-        </div>
-        <div class="output-txid" id="out-txid-dpp">TX ID: —</div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="divline"></div>
 
-<!-- TRUST PILLS -->
-<section class="section fade-up center">
-  <span class="section-label" data-de="Technisches Fundament" data-en="Technical foundation">Technisches Fundament</span>
-  <h2 data-de="Für regulatorische Prüfungen gebaut." data-en="Built for regulatory scrutiny.">Für regulatorische Prüfungen gebaut.</h2>
-  <p class="section-sub" style="margin-left:auto;margin-right:auto" data-de="Vier Vertrauensebenen unterlegen jedes von LoopLayer erstellte Dokument." data-en="Four layers of technical trust underpin every document LoopLayer generates.">Vier Vertrauensebenen unterlegen jedes von LoopLayer erstellte Dokument.</p>
-  <div class="trust-row" style="margin-top:40px">
-    <div class="trust-pill">
-      <span class="trust-pill-icon">🔗</span>
-      <h4 data-de="Transaktionsverknüpft" data-en="Transaction-linked">Transaktionsverknüpft</h4>
-      <p data-de="Jede Zahl zurückverfolgbar zum verifizierten Quelldatensatz" data-en="Every figure traces to a verified source record">Jede Zahl zurückverfolgbar zum verifizierten Quelldatensatz</p>
-    </div>
-    <div class="trust-pill">
-      <span class="trust-pill-icon">🔒</span>
-      <h4 data-de="Unveränderliche Speicherung" data-en="Immutable storage">Unveränderliche Speicherung</h4>
-      <p>S3 Object Lock + SHA-256</p>
-    </div>
-    <div class="trust-pill">
-      <span class="trust-pill-icon">📐</span>
-      <h4 data-de="IPCC AR6 zitiert" data-en="IPCC AR6 cited">IPCC AR6 zitiert</h4>
-      <p data-de="Verteidigbare CO₂-Methodik" data-en="Defensible CO₂ methodology">Verteidigbare CO₂-Methodik</p>
-    </div>
-    <div class="trust-pill">
-      <span class="trust-pill-icon">✍️</span>
-      <h4 data-de="eIDAS FES signiert" data-en="eIDAS AES signed">eIDAS FES signiert</h4>
-      <p data-de="EU-rechtlich anerkannte Signatur" data-en="EU legally recognised signature">EU-rechtlich anerkannte Signatur</p>
+<!-- ══ FREE TEMPLATE ══ -->
+<section id="template">
+  <div class="wrap">
+    <div class="tmpl-wrap fi">
+      <div>
+        <span class="tag tag-teal" style="margin-bottom:16px" data-de="Kostenlose Ressource" data-en="Free resource">Kostenlose Ressource</span>
+        <h3 data-de="Kostenloses EPR-Zertifikat-Template herunterladen." data-en="Download the free EPR certificate template.">Kostenloses EPR-Zertifikat-Template herunterladen.</h3>
+        <p style="margin-top:10px" data-de="Eine praxiserprobte Excel-Arbeitsmappe mit EPR-Zertifikatsfeldern, Ländersystemzuordnung und automatischer Tonnageaggregation. Intern bei LoopLayer verwendet — jetzt kostenlos verfügbar." data-en="A production-validated Excel workbook covering EPR certificate fields, country scheme mapping, and automatic tonnage aggregation. Used internally by LoopLayer — now available free.">Eine praxiserprobte Excel-Arbeitsmappe mit EPR-Zertifikatsfeldern, Ländersystemzuordnung und automatischer Tonnageaggregation. Intern bei LoopLayer verwendet — jetzt kostenlos verfügbar.</p>
+      </div>
+      <div class="tmpl-actions">
+        <a href="/cdn-cgi/l/email-protection#39515c55555679555656495558405c4b175c4c064a4c5b535c5a4d047c696b196d5c544955584d5c1978575f4b585e5c" class="btn btn-ghost-teal" style="white-space:nowrap" data-de="Template anfordern →" data-en="Request template →">Template anfordern →</a>
+        <p class="tmpl-note" data-de="Per E-Mail innerhalb eines Werktags.<br>Keine Verpflichtung." data-en="By email within one business day.<br>No strings attached.">Per E-Mail innerhalb eines Werktags.<br>Keine Verpflichtung.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="divline"></div>
 
-<!-- FREE TEMPLATE -->
-<section id="template" class="section fade-up center">
-  <span class="section-label" data-de="Kostenlose Ressource" data-en="Free resource">Kostenlose Ressource</span>
-  <h2 data-de="Kostenloses EPR-Zertifikat-Template." data-en="Download the free EPR certificate template.">Kostenloses EPR-Zertifikat-Template.</h2>
-  <p class="section-sub" style="margin-left:auto;margin-right:auto" data-de="Eine praxiserprobte Excel-Arbeitsmappe mit EPR-Zertifikatsfeldern, Ländersystemzuordnung und Gewichtsabstimmung. Intern bei LoopLayer verwendet — jetzt kostenlos verfügbar." data-en="A production-validated Excel workbook covering EPR certificate fields, country scheme mapping, and weight reconciliation. Used internally by LoopLayer — now available free.">Eine praxiserprobte Excel-Arbeitsmappe mit EPR-Zertifikatsfeldern, Ländersystemzuordnung und Gewichtsabstimmung. Intern bei LoopLayer verwendet — jetzt kostenlos verfügbar.</p>
-  <a href="mailto:hello@looplayer.eu?subject=EPR Template Anfrage" class="btn btn-ghost" style="font-size:15px;padding:14px 28px;" data-de="Kostenloses EPR-Template anfordern →" data-en="Request free EPR template →">Kostenloses EPR-Template anfordern →</a>
-  <p style="margin-top:16px;font-size:13px;color:var(--text-dim)" data-de="Wird per E-Mail innerhalb eines Werktags zugesandt. Keine Verpflichtung." data-en="Sent by email within one business day. No strings attached.">Wird per E-Mail innerhalb eines Werktags zugesandt. Keine Verpflichtung.</p>
-</section>
-
-<div class="divider"></div>
-
-<!-- FINAL CTA -->
-<div class="cta-section" id="contact">
-  <h2 data-de="LoopLayer mit Ihren<br>Transaktionen erleben." data-en="See LoopLayer working<br>with your transactions.">LoopLayer mit Ihren<br>Transaktionen erleben.</h2>
-  <p data-de="30-minütige Demo. Wir gehen Ihre spezifischen Compliance-Pflichten durch und zeigen Ihnen genau, was LoopLayer für Ihr Unternehmen generieren würde." data-en="30-minute demo. We'll walk through your specific compliance obligations and show you exactly what LoopLayer would generate for your company.">30-minütige Demo. Wir gehen Ihre spezifischen Compliance-Pflichten durch und zeigen Ihnen genau, was LoopLayer für Ihr Unternehmen generieren würde.</p>
-  <div class="cta-btns">
-    <a href="mailto:hello@looplayer.eu?subject=Demo Anfrage" class="btn btn-primary" data-de="Demo buchen →" data-en="Book a demo →">Demo buchen →</a>
-    <a href="#template" class="btn btn-secondary" data-de="EPR-Template herunterladen" data-en="Get free EPR template">EPR-Template herunterladen</a>
+<!-- ══ FINAL CTA ══ -->
+<div class="final-cta" id="contact">
+  <h2 data-de="LoopLayer mit Ihren<br><em>eigenen Transaktionen</em> erleben." data-en="See LoopLayer work with<br><em>your transactions.</em>">LoopLayer mit Ihren<br><em>eigenen Transaktionen</em> erleben.</h2>
+  <p data-de="30-minütige Demo. Wir gehen Ihre spezifischen Compliance-Pflichten durch und zeigen Ihnen genau, was LoopLayer für Ihr Unternehmen generieren würde." data-en="30-minute demo. We walk through your specific compliance obligations and show you exactly what LoopLayer would generate for your company.">30-minütige Demo. Wir gehen Ihre spezifischen Compliance-Pflichten durch und zeigen Ihnen genau, was LoopLayer für Ihr Unternehmen generieren würde.</p>
+  <div class="final-btns">
+    <a href="/cdn-cgi/l/email-protection#c8a0ada4a4a788a4a7a7b8a4a9b1adbae6adbdf7bbbdaaa2adabbcf58cada5a7e889a6aebaa9afad" class="btn btn-teal" data-de="Demo buchen →" data-en="Book a demo →">Demo buchen →</a>
+    <a href="#template" class="btn btn-outline" data-de="EPR-Template herunterladen" data-en="Get free EPR template">EPR-Template herunterladen</a>
   </div>
-  <p class="cta-note" data-de="Keine Verpflichtung · Kein Verkaufsdruck · EPR-Template inklusive" data-en="No commitment · No sales pressure · Free EPR template included">Keine Verpflichtung · Kein Verkaufsdruck · EPR-Template inklusive</p>
+  <p class="final-note" data-de="Keine Verpflichtung · Kein Verkaufsdruck · EPR-Template inklusive" data-en="No commitment · No sales pressure · Free EPR template included">Keine Verpflichtung · Kein Verkaufsdruck · EPR-Template inklusive</p>
 </div>
 
-<!-- FOOTER -->
+<!-- ══ FOOTER ══ -->
 <footer>
-  <a href="#" class="nav-logo" style="font-size:16px">Loop<span>Layer</span></a>
-  <p>© 2025 LoopLayer · hello@looplayer.eu · looplayer.eu</p>
-  <p style="font-size:12px" data-de="EU Textile Compliance Infrastruktur" data-en="Built for EU textile compliance">EU Textile Compliance Infrastruktur</p>
+  <div class="footer-inner">
+    <a href="#" class="logo">Loop<em>Layer</em></a>
+    <p>© 2025 LoopLayer GmbH · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f9919c959596b9959696899598809c8bd79c8c">[email&#160;protected]</a> · looplayer.eu · Freising, Bayern</p>
+    <p data-de="EU Textile Compliance Infrastruktur" data-en="EU Textile Compliance Infrastructure">EU Textile Compliance Infrastruktur</p>
+  </div>
 </footer>
 
-<script>
-// ─── Language ───
-let currentLang = 'de';
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── LANG ──
+let L = 'de';
+const eprSchemes = { DE:'Stiftung EAR / Naber', FR:'REFASHION', NL:'Renewi EPR', AT:'ARA EPR', BE:'Fost Plus EPR', IT:'CONAI EPR' };
+const co2f = { 'Cotton offcuts':1.8, 'Polyester blend':3.1, 'Wool waste':2.3, 'Mixed textile':2.0, 'Denim scrap':1.9 };
 
-function setLang(lang) {
-  currentLang = lang;
-  document.documentElement.lang = lang;
-  document.getElementById('btn-de').classList.toggle('active', lang === 'de');
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-
+function setLang(l) {
+  L = l;
+  document.documentElement.lang = l;
+  document.getElementById('btn-de').classList.toggle('on', l==='de');
+  document.getElementById('btn-en').classList.toggle('on', l==='en');
   document.querySelectorAll('[data-de]').forEach(el => {
-    const val = el.getAttribute('data-' + lang);
-    if (val !== null) el.innerHTML = val;
+    const v = el.getAttribute('data-'+l);
+    if (v !== null) el.innerHTML = v;
   });
-
-  // Placeholders
   document.querySelectorAll('[data-ph-de]').forEach(el => {
-    el.placeholder = el.getAttribute('data-ph-' + lang) || '';
+    el.placeholder = el.getAttribute('data-ph-'+l) || '';
   });
-
-  // Select option text
   document.querySelectorAll('select option[data-de]').forEach(opt => {
-    const val = opt.getAttribute('data-' + lang);
-    if (val) opt.textContent = val;
+    const v = opt.getAttribute('data-'+l);
+    if (v) opt.textContent = v;
   });
-
-  // Gen button label (only if idle)
-  const btn = document.getElementById('gen-btn');
+  const btn = document.getElementById('genbtn');
   if (!btn.disabled) {
-    document.getElementById('gen-label').textContent =
-      lang === 'de' ? 'Compliance-Dokumente erstellen →' : 'Generate compliance documents →';
+    document.getElementById('genlabel').textContent = l==='de' ? 'Compliance-Dokumente erstellen →' : 'Generate compliance documents →';
   }
-
-  // Waiting status badges
   ['epr','csrd','dpp'].forEach(id => {
-    const el = document.getElementById('status-' + id);
-    if (el && el.classList.contains('status-waiting')) {
-      el.textContent = lang === 'de' ? 'Ausstehend' : 'Waiting';
-    }
+    const el = document.getElementById('st-'+id);
+    if (el && el.classList.contains('s-wait')) el.textContent = l==='de' ? 'Ausstehend' : 'Waiting';
   });
+  buildTicker();
 }
 
-// ─── EPR schemes ───
-const eprSchemes = {
-  Deutschland: 'Stiftung EAR / Naber',
-  Frankreich: 'REFASHION',
-  Niederlande: 'Renewi EPR',
-  Österreich: 'ARA EPR',
-  Belgien: 'Fost Plus EPR',
-  Italien: 'CONAI EPR'
-};
-
-// ─── CO2 factors (IPCC AR6, tCO2/tonne) ───
-const co2Factors = {
-  'Cotton offcuts': 1.8,
-  'Polyester blend': 3.1,
-  'Wool waste': 2.3,
-  'Mixed textile': 2.0,
-  'Denim scrap': 1.9
-};
-
-function txId() {
-  return 'LL-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2,4).toUpperCase();
+// ── TICKER ──
+function buildTicker() {
+  const items = L==='de' ? [
+    ['⚠ EPR-Bußgelder werden verhängt',''],
+    ['CSRD / ESRS E5','ab GJ2025 Pflicht'],
+    ['Digitaler Produktpass','ab 2027 Pflicht'],
+    ['6 EU EPR-Systeme','vollständig abgedeckt'],
+    ['EPR · CSRD · DPP','eine Transaktion, drei Dokumente'],
+    ['Freising, Bayern','looplayer.eu'],
+  ] : [
+    ['⚠ EPR fines being issued',''],
+    ['CSRD / ESRS E5','mandatory from FY2025'],
+    ['Digital Product Passport','mandatory from 2027'],
+    ['6 EU EPR schemes','fully covered'],
+    ['EPR · CSRD · DPP','one transaction, three documents'],
+    ['Freising, Bavaria','looplayer.eu'],
+  ];
+  const repeated = [...items,...items];
+  const html = repeated.map(([a,b]) =>
+    `<span class="ticker-item"><span class="ticker-dot"></span>${a}${b ? ` &nbsp;<strong>${b}</strong>` : ''}</span>`
+  ).join('');
+  document.getElementById('ticker').innerHTML = html;
 }
+buildTicker();
 
-function validate() {
+// ── VALIDATE ──
+function vld() {
   let ok = true;
-  [
-    { id:'f-company',  err:'e-company',  check: v => v.trim().length > 0 },
-    { id:'f-material', err:'e-material', check: v => v !== '' },
-    { id:'f-weight',   err:'e-weight',   check: v => parseFloat(v) > 0 },
-    { id:'f-recycler', err:'e-recycler', check: v => v.trim().length > 0 },
-    { id:'f-country',  err:'e-country',  check: v => v !== '' }
-  ].forEach(f => {
-    const el = document.getElementById(f.id);
-    const err = document.getElementById(f.err);
-    if (!f.check(el.value)) {
-      el.classList.add('error'); err.style.display = 'block'; ok = false;
-    } else {
-      el.classList.remove('error'); err.style.display = 'none';
-    }
+  [['f-co','e-co'],['f-mat','e-mat'],['f-kg','e-kg'],['f-rec','e-rec'],['f-cty','e-cty']].forEach(([fi,ei]) => {
+    const el = document.getElementById(fi), err = document.getElementById(ei);
+    const bad = el.tagName==='SELECT' ? el.value==='' : (el.value.trim()==='' || (el.type==='number' && parseFloat(el.value)<=0));
+    if (bad) { el.classList.add('err'); err.style.display='block'; ok=false; }
+    else { el.classList.remove('err'); err.style.display='none'; }
   });
   return ok;
 }
 
-function generateDocs() {
-  if (!validate()) return;
-
-  const company  = document.getElementById('f-company').value.trim();
-  const matVal   = document.getElementById('f-material').value;  // always EN key
-  const weight   = parseFloat(document.getElementById('f-weight').value);
-  const recycler = document.getElementById('f-recycler').value.trim();
-  const country  = document.getElementById('f-country').value;   // always DE key
-
-  // Display label for material (the option text in current language)
-  const matOption = document.querySelector('#f-material option:checked');
-  const matLabel  = matOption ? matOption.textContent : matVal;
-
-  const scheme      = eprSchemes[country] || country + ' EPR';
-  const co2         = ((co2Factors[matVal] || 2.0) * weight / 1000).toFixed(2);
-  const recycledPct = (82 + Math.floor(Math.random() * 12)) + '%';
-  const tx          = txId();
-  const co2Suffix   = currentLang === 'de' ? ' tCO₂ vermieden' : ' tCO₂ avoided';
-  const pctSuffix   = currentLang === 'de' ? ' recycelt' : ' recycled';
-  const readyLabel  = currentLang === 'de' ? 'Bereit' : 'Ready';
-
-  const btn = document.getElementById('gen-btn');
+// ── GENERATE ──
+function gen() {
+  if (!vld()) return;
+  const co = document.getElementById('f-co').value.trim();
+  const matKey = document.getElementById('f-mat').value;
+  const matLabel = document.querySelector('#f-mat option:checked').textContent;
+  const kg = parseFloat(document.getElementById('f-kg').value);
+  const rec = document.getElementById('f-rec').value.trim();
+  const cty = document.getElementById('f-cty').value;
+  const scheme = eprSchemes[cty] || cty+' EPR';
+  const co2 = ((co2f[matKey]||2.0)*kg/1000).toFixed(2);
+  const rpct = (82+Math.floor(Math.random()*12))+'%';
+  const tx = 'LL-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).substr(2,4).toUpperCase();
+  const co2sfx = L==='de' ? ' tCO₂ vermieden' : ' tCO₂ avoided';
+  const rsfx = L==='de' ? ' recycelt' : ' recycled';
+  const rdy = L==='de' ? 'Bereit' : 'Ready';
+  const btn = document.getElementById('genbtn');
   btn.disabled = true;
-  document.getElementById('gen-label').textContent = currentLang === 'de' ? 'Wird erstellt…' : 'Generating…';
-
-  setTimeout(() => {
-    set('out-producer', company);
-    set('out-material-epr', matLabel);
-    set('out-weight-epr', weight.toLocaleString('de-DE') + ' kg');
-    set('out-scheme', scheme);
-    document.getElementById('out-txid-epr').textContent = 'TX ID: ' + tx;
-    activate('epr', readyLabel);
-  }, 400);
-
-  setTimeout(() => {
-    set('out-wastetype', matLabel);
-    set('out-recycling-rate', recycledPct);
-    set('out-co2', co2 + co2Suffix);
-    set('out-method', 'IPCC AR6');
-    document.getElementById('out-txid-csrd').textContent = 'TX ID: ' + tx;
-    activate('csrd', readyLabel);
-  }, 900);
-
-  setTimeout(() => {
-    set('out-material-dpp', matLabel);
-    set('out-recycled-pct', recycledPct + pctSuffix);
-    set('out-recycler-dpp', recycler);
-    set('out-schema', 'CIRPASS-2');
-    document.getElementById('out-txid-dpp').textContent = 'TX ID: ' + tx;
-    activate('dpp', readyLabel);
-    document.getElementById('gen-label').textContent =
-      currentLang === 'de' ? '✓ Erstellt — andere Werte ausprobieren' : '✓ Generated — try different values';
+  document.getElementById('genlabel').textContent = L==='de' ? 'Wird erstellt…' : 'Generating…';
+  setTimeout(()=>{
+    sv('o-co',co); sv('o-mat-epr',matLabel); sv('o-kg',kg.toLocaleString('de-DE')+' kg'); sv('o-scheme',scheme);
+    document.getElementById('tx-epr').textContent = 'TX ID: '+tx;
+    act('epr',rdy);
+  },400);
+  setTimeout(()=>{
+    sv('o-wtype',matLabel); sv('o-rrate',rpct); sv('o-co2',co2+co2sfx); sv('o-meth','IPCC AR6');
+    document.getElementById('tx-csrd').textContent = 'TX ID: '+tx;
+    act('csrd',rdy);
+  },900);
+  setTimeout(()=>{
+    sv('o-mat-dpp',matLabel); sv('o-rpct',rpct+rsfx); sv('o-rec-dpp',rec); sv('o-schema','CIRPASS-2');
+    document.getElementById('tx-dpp').textContent = 'TX ID: '+tx;
+    act('dpp',rdy);
+    document.getElementById('genlabel').textContent = L==='de' ? '✓ Erstellt — andere Werte ausprobieren' : '✓ Generated — try different values';
     btn.disabled = false;
-  }, 1400);
+  },1400);
 }
+function sv(id,val){ const el=document.getElementById(id); el.textContent=val; el.classList.add('pop'); }
+function act(id,label){ const s=document.getElementById('st-'+id); s.textContent=label; s.className='odoc-status s-ready'; document.getElementById('doc-'+id).classList.add('on'); }
 
-function set(id, val) {
-  const el = document.getElementById(id);
-  el.textContent = val;
-  el.classList.add('populated');
-}
-
-function activate(id, label) {
-  const st = document.getElementById('status-' + id);
-  st.textContent = label;
-  st.className = 'output-status status-ready';
-  document.getElementById('doc-' + id).classList.add('active');
-}
-
-// Clear errors on input
-document.querySelectorAll('input, select').forEach(el => {
-  el.addEventListener('input', () => {
-    el.classList.remove('error');
-    const err = document.getElementById('e-' + el.id.replace('f-',''));
-    if (err) err.style.display = 'none';
-  });
-});
-
-// Scroll animations
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-}, { threshold: 0.08 });
-document.querySelectorAll('.fade-up:not(.visible)').forEach(el => obs.observe(el));
-</script>
-</body>
-</html>
+// ── CLEAR ERRORS ──
+document.querySelectorAll('input,select').forEach(el=>{
+  el.addEventListener('input',()=>{
+    el.classList.remove('err');
+    const e=document.getElementBy
