@@ -1,153 +1,167 @@
-/* ═══════════════════════════════════════════════════════
-   main.js — LoopLayer Core
-   Module loader · Language · Theme · Ticker · Scroll
-═══════════════════════════════════════════════════════ */
-'use strict';
+/* ═══════════════════════════════════════════════════
+   LoopLayer · Main JavaScript
+   Module loader · Language toggle · Animations
+   ═══════════════════════════════════════════════════ */
 
-/* ── MODULE MAP ─────────────────────────────────────── */
-const MODULES = [
-  { id: 'mod-nav',              src: 'modules/nav.html'              },
-  { id: 'mod-ticker',           src: 'modules/ticker.html'           },
-  { id: 'mod-hero',             src: 'modules/hero.html'             },
-  { id: 'mod-compliance-focus', src: 'modules/compliance-focus.html' },
-  { id: 'mod-how-it-works',     src: 'modules/how-it-works.html'     },
-  { id: 'mod-three-docs',       src: 'modules/three-docs.html'       },
-  { id: 'mod-platform-layers',  src: 'modules/platform-layers.html'  },
-  { id: 'mod-trust',            src: 'modules/trust.html'            },
-  { id: 'mod-regulations',      src: 'modules/regulations.html'      },
-  { id: 'mod-demo',             src: 'modules/demo.html'             },
-  { id: 'mod-template-cta',     src: 'modules/template-cta.html'     },
-  { id: 'mod-final-cta',        src: 'modules/final-cta.html'        },
-  { id: 'mod-footer',           src: 'modules/footer.html'           },
-];
+/* ── LANGUAGE TOGGLE ── */
+let currentLang = 'de'; // Default German for Bavarian audience
 
-async function loadModule({ id, src }) {
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.setAttribute('data-lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  localStorage.setItem('ll-lang', lang);
+}
+
+function initLang() {
+  const saved = localStorage.getItem('ll-lang');
+  setLang(saved || 'de');
+}
+
+/* ── MODULE LOADER ── */
+async function loadModule(id, src) {
   try {
-    const res  = await fetch(src);
+    const res = await fetch(src);
+    if (!res.ok) throw new Error(`${res.status}`);
     const html = await res.text();
-    const el   = document.getElementById(id);
-    if (el) el.innerHTML = html;
-  } catch (e) {
-    console.warn(`[LoopLayer] Module not loaded: ${src}`);
+    const el = document.getElementById(id);
+    if (el) {
+      el.innerHTML = html;
+      el.querySelectorAll('script').forEach(s => {
+        const ns = document.createElement('script');
+        ns.textContent = s.textContent;
+        document.body.appendChild(ns);
+      });
+    }
+  } catch(e) {
+    console.warn(`Module ${src} failed:`, e);
   }
 }
 
-async function init() {
-  await Promise.all(MODULES.map(loadModule));
-  bootTheme();
-  bootLang();
-  bootTicker();
-  bootScroll();
-  document.dispatchEvent(new Event('looplayer:ready'));
+async function loadAllModules() {
+  const modules = [
+    ['mod-nav',             'modules/nav.html'],
+    ['mod-reg-strip',       'modules/reg-strip.html'],
+    ['mod-hero',            'modules/hero.html'],
+    ['mod-problem',         'modules/problem.html'],
+    ['mod-layers',          'modules/layers.html'],
+    ['mod-compliance',      'modules/compliance.html'],
+    ['mod-marketplace',     'modules/marketplace.html'],
+    ['mod-material',        'modules/material.html'],
+    ['mod-network',         'modules/network.html'],
+    ['mod-dpp',             'modules/dpp.html'],
+    ['mod-competitive',     'modules/competitive.html'],
+    ['mod-gtm',             'modules/gtm.html'],
+    ['mod-cta',             'modules/cta.html'],
+    ['mod-footer',          'modules/footer.html'],
+  ];
+  // Load in order, sequentially for nav/hero, parallel for rest
+  await Promise.all(modules.map(([id, src]) => loadModule(id, src)));
+  initLang();
+  initScrollAnimations();
+  initNav();
 }
 
-document.addEventListener('DOMContentLoaded', init);
-
-
-/* ── THEME ───────────────────────────────────────────── */
-window.LL_THEME = localStorage.getItem('ll-theme') || 'dark';
-
-window.setTheme = function(t) {
-  window.LL_THEME = t;
-  localStorage.setItem('ll-theme', t);
-  document.documentElement.setAttribute('data-theme', t);
-  const btn = document.getElementById('theme-btn');
-  if (btn) btn.textContent = t === 'dark' ? '☀' : '☾';
-};
-
-window.toggleTheme = function() {
-  setTheme(window.LL_THEME === 'dark' ? 'light' : 'dark');
-};
-
-function bootTheme() {
-  setTheme(window.LL_THEME);
-}
-
-
-/* ── LANGUAGE ────────────────────────────────────────── */
-window.LL_LANG = 'de';
-
-window.setLang = function(lang) {
-  window.LL_LANG = lang;
-  document.documentElement.lang = lang;
-
-  const de = document.getElementById('btn-de');
-  const en = document.getElementById('btn-en');
-  if (de) de.classList.toggle('on', lang === 'de');
-  if (en) en.classList.toggle('on', lang === 'en');
-
-  document.querySelectorAll('[data-de]').forEach(el => {
-    const v = el.getAttribute('data-' + lang);
-    if (v !== null) el.innerHTML = v;
-  });
-  document.querySelectorAll('[data-ph-de]').forEach(el => {
-    el.placeholder = el.getAttribute('data-ph-' + lang) || '';
-  });
-  document.querySelectorAll('select option[data-de]').forEach(opt => {
-    const v = opt.getAttribute('data-' + lang);
-    if (v) opt.textContent = v;
-  });
-
-  // Demo status badges
-  ['epr','csrd','dpp'].forEach(id => {
-    const el = document.getElementById('st-' + id);
-    if (el && el.classList.contains('b-wait')) {
-      el.textContent = lang === 'de' ? 'Ausstehend' : 'Waiting';
-    }
-  });
-
-  buildTicker(lang);
-  document.dispatchEvent(new CustomEvent('looplayer:lang', { detail: { lang } }));
-};
-
-function bootLang() { setLang('de'); }
-
-
-/* ── TICKER ──────────────────────────────────────────── */
-const TICKER_DATA = {
-  de: [
-    { dot: 'td-l3', text: 'EPR-Bußgelder werden verhängt' },
-    { dot: 'td-l2', text: 'Textilzirkularität', strong: 'nicht nur Recycling' },
-    { dot: 'td-l3', text: 'CSRD / ESRS E5', strong: 'ab GJ2025 Pflicht' },
-    { dot: 'td-l3', text: 'Digitaler Produktpass', strong: 'ab 2027 Pflicht' },
-    { dot: 'td-l1', text: '6 EU EPR-Systeme', strong: 'vollständig abgedeckt' },
-    { dot: 'td-l2', text: 'Material Intelligence', strong: 'KI-Faserklassifikation' },
-    { dot: 'td-l4', text: 'Circular Network', strong: 'verifizierte Partner' },
-    { dot: 'td-l3', text: 'Freising, Bayern', strong: 'looplayer.eu' },
-  ],
-  en: [
-    { dot: 'td-l3', text: 'EPR fines already being issued' },
-    { dot: 'td-l2', text: 'Textile circularity', strong: 'not just recycling' },
-    { dot: 'td-l3', text: 'CSRD / ESRS E5', strong: 'mandatory from FY2025' },
-    { dot: 'td-l3', text: 'Digital Product Passport', strong: 'mandatory 2027' },
-    { dot: 'td-l1', text: '6 EU EPR schemes', strong: 'fully covered' },
-    { dot: 'td-l2', text: 'Material Intelligence', strong: 'AI fibre classification' },
-    { dot: 'td-l4', text: 'Circular Network', strong: 'verified partners' },
-    { dot: 'td-l3', text: 'Freising, Bavaria', strong: 'looplayer.eu' },
-  ],
-};
-
-function buildTicker(lang) {
-  const track = document.getElementById('ticker-track');
-  if (!track) return;
-  const items = [...(TICKER_DATA[lang] || TICKER_DATA.de), ...(TICKER_DATA[lang] || TICKER_DATA.de)];
-  track.innerHTML = items.map(({ dot, text, strong }) =>
-    `<span class="ticker-item">
-      <span class="ticker-dot ${dot || 'td-l3'}"></span>
-      ${text}${strong ? ` &nbsp;<strong>${strong}</strong>` : ''}
-    </span>`
-  ).join('');
-}
-
-function bootTicker() { buildTicker('de'); }
-
-
-/* ── SCROLL FADE ─────────────────────────────────────── */
-function bootScroll() {
-  const io = new IntersectionObserver(entries => {
+/* ── SCROLL ANIMATIONS ── */
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); }
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
     });
-  }, { threshold: 0.07 });
-  document.querySelectorAll('.fi:not(.vis)').forEach(el => io.observe(el));
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 }
+
+/* ── STICKY NAV ── */
+function initNav() {
+  const nav = document.getElementById('main-nav');
+  if (!nav) return;
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > 80) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+    lastY = y;
+  }, { passive: true });
+
+  // Mobile menu
+  const toggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (toggle && mobileMenu) {
+    toggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      toggle.classList.toggle('open');
+    });
+  }
+}
+
+/* ── CONTACT FORM ── */
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type=submit]');
+    const original = btn.textContent;
+    btn.textContent = currentLang === 'de' ? 'Gesendet ✓' : 'Sent ✓';
+    btn.disabled = true;
+    btn.style.background = 'var(--green)';
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.disabled = false;
+      btn.style.background = '';
+      form.reset();
+    }, 3000);
+  });
+}
+
+/* ── COUNTER ANIMATION ── */
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.target);
+  const duration = 1800;
+  const suffix = el.dataset.suffix || '';
+  const prefix = el.dataset.prefix || '';
+  const decimals = el.dataset.decimals || 0;
+  let start = null;
+  function step(ts) {
+    if (!start) start = ts;
+    const progress = Math.min((ts - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const val = target * ease;
+    el.textContent = prefix + val.toFixed(decimals) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function initCounters() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.dataset.counted) {
+        e.target.dataset.counted = true;
+        animateCounter(e.target);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-counter]').forEach(el => observer.observe(el));
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', () => {
+  loadAllModules().then(() => {
+    initCounters();
+    initContactForm();
+  });
+});
+
+// Expose for inline use
+window.setLang = setLang;
