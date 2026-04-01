@@ -1,0 +1,179 @@
+<style>
+.cta-section {
+  background: var(--ink);
+  padding: var(--section) 0;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 60% 50%, rgba(15,118,110,.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cta-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+.cta-eyebrow {
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  letter-spacing: .12em;
+  color: #64748B;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.cta-title {
+  font-family: var(--f-display);
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  margin-bottom: 1.5rem;
+}
+.cta-title em { font-style: italic; color: var(--teal-mid); }
+.cta-sub {
+  font-size: 1rem;
+  color: #94A3B8;
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cta-form {
+  max-width: 480px;
+  margin: 0 auto 2.5rem;
+}
+.cta-form-group { display: flex; gap: .75rem; }
+.cta-input {
+  flex: 1;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 100px;
+  padding: .8rem 1.25rem;
+  font-family: var(--f-body);
+  font-size: .875rem;
+  color: var(--white);
+  outline: none;
+  transition: border-color .2s;
+}
+.cta-input::placeholder { color: #475569; }
+.cta-input:focus { border-color: var(--teal-mid); }
+.cta-select {
+  width: 100%;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  padding: .7rem 1rem;
+  font-family: var(--f-body);
+  font-size: .8rem;
+  color: var(--white);
+  outline: none;
+  margin-top: .75rem;
+  cursor: pointer;
+}
+.cta-select option { background: #1E293B; }
+.cta-footnote {
+  font-size: .72rem;
+  color: #475569;
+  margin-top: 1rem;
+  font-family: var(--f-mono);
+}
+.cta-proof {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.cta-proof-item { text-align: center; }
+.cta-proof-num {
+  font-family: var(--f-display);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1;
+}
+.cta-proof-label {
+  font-family: var(--f-mono);
+  font-size: .65rem;
+  color: #64748B;
+  margin-top: .25rem;
+}
+@media (max-width: 640px) {
+  .cta-form-group { flex-direction: column; }
+  .cta-proof { gap: 1.5rem; }
+}
+</style>
+
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-eyebrow">
+        <span class="de-text">Freising, Bayern · Pilotphase 2025</span>
+        <span class="en-text">Freising, Bavaria · Pilot Phase 2025</span>
+      </div>
+      <h2 class="cta-title">
+        <span class="de-text">Bereit für <em>automatische Compliance</em>?</span>
+        <span class="en-text">Ready for <em>automated compliance</em>?</span>
+      </h2>
+      <p class="cta-sub">
+        <span class="de-text">Fordern Sie eine 30-minütige Demo an. Wir zeigen Ihnen eine echte Transaktion, die von der Lieferbestätigung zum fertigen EPR-Zertifikat, ESRS-E5-Eintrag und CIRPASS-2-DPP führt. Keine Verpflichtung.</span>
+        <span class="en-text">Request a 30-minute demo. We'll show you a real transaction going from delivery confirmation to finished EPR certificate, ESRS E5 entry and CIRPASS-2 DPP. No commitment.</span>
+      </p>
+      <div class="cta-form">
+        <form id="contact-form">
+          <div class="cta-form-group">
+            <input type="email" class="cta-input" placeholder="E-Mail / Email" required>
+            <button type="submit" class="btn btn-teal">
+              <span class="de-text">Demo anfragen</span>
+              <span class="en-text">Request demo</span>
+            </button>
+          </div>
+          <select class="cta-select">
+            <option value="" disabled selected>
+              <span class="de-text">Ich bin...</span>
+              <span class="en-text">I am a...</span>
+            </option>
+            <option value="manufacturer"><span class="de-text">Textilindustrie (Hersteller/Marke)</span><span class="en-text">Textile manufacturer / brand</span></option>
+            <option value="recycler"><span class="de-text">Recycler / Verarbeiter (GRS-zertifiziert)</span><span class="en-text">Recycler / processor (GRS-certified)</span></option>
+            <option value="municipality"><span class="de-text">Kommune / Entsorgungsbetrieb</span><span class="en-text">Municipality / waste authority</span></option>
+            <option value="consultant"><span class="de-text">Nachhaltigkeitsberater / PRO-Operator</span><span class="en-text">Sustainability consultant / PRO operator</span></option>
+            <option value="investor">Investor</option>
+          </select>
+        </form>
+        <div class="cta-footnote">
+          <span class="de-text">Oder direkt: </span>
+          <span class="en-text">Or directly: </span>
+          <a href="mailto:info@looplayer.eu" style="color:var(--teal-mid)">info@looplayer.eu</a>
+          <span> · Freising, Bayern</span>
+        </div>
+      </div>
+      <div class="cta-proof">
+        <div class="cta-proof-item">
+          <div class="cta-proof-num" data-counter data-target="149" data-prefix="€" data-decimals="0">€149</div>
+          <div class="cta-proof-label"><span class="de-text">Ab / Monat</span><span class="en-text">From / month</span></div>
+        </div>
+        <div class="cta-proof-item">
+          <div class="cta-proof-num" data-counter data-target="3" data-suffix="" data-decimals="0">3</div>
+          <div class="cta-proof-label"><span class="de-text">Monate kostenlos testen</span><span class="en-text">Month free pilot</span></div>
+        </div>
+        <div class="cta-proof-item">
+          <div class="cta-proof-num" data-counter data-target="6" data-suffix="" data-decimals="0">6</div>
+          <div class="cta-proof-label"><span class="de-text">EU-EPR-Systeme unterstützt</span><span class="en-text">EU EPR schemes supported</span></div>
+        </div>
+        <div class="cta-proof-item">
+          <div class="cta-proof-num">2027</div>
+          <div class="cta-proof-label"><span class="de-text">DPP-bereit ab heute</span><span class="en-text">DPP-ready from today</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

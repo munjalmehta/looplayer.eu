@@ -1,0 +1,589 @@
+<style>
+.dpp-section {
+  background: var(--ink);
+  padding: var(--section) 0;
+  position: relative;
+  overflow: hidden;
+}
+.dpp-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 85% 50%, rgba(15,118,110,.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(180,83,9,.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+.dpp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 4rem;
+  align-items: start;
+  position: relative;
+}
+.dpp-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+.dpp-title {
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  letter-spacing: -.01em;
+}
+.dpp-title em { font-style: italic; color: var(--teal-mid); }
+.dpp-sub {
+  font-size: .9rem;
+  color: #94A3B8;
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+.dpp-source {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-sm);
+  padding: .5rem 1rem;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  color: #64748B;
+  margin-bottom: 2.5rem;
+}
+.dpp-source strong { color: #94A3B8; }
+
+/* Identifiers block */
+.dpp-id-block {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.dpp-id-header {
+  padding: .75rem 1.25rem;
+  background: rgba(15,118,110,.12);
+  border-bottom: 1px solid rgba(15,118,110,.2);
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  color: var(--teal-mid);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.dpp-id-row-full {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  gap: .75rem;
+  align-items: center;
+  padding: .8rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.dpp-id-row-full:last-child { border-bottom: none; }
+.dpp-id-abbr {
+  font-family: var(--f-mono);
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--teal-mid);
+}
+.dpp-id-label { font-size: .8rem; color: var(--white); font-weight: 400; }
+.dpp-id-label small { display: block; font-size: .68rem; color: #64748B; font-family: var(--f-mono); margin-top: .1rem; }
+.dpp-id-status {
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  padding: .2rem .5rem;
+  border-radius: 100px;
+  background: rgba(180,83,9,.15);
+  color: var(--amber-mid);
+  border: 1px solid rgba(180,83,9,.2);
+  white-space: nowrap;
+}
+
+/* Granularity */
+.dpp-gran-block {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.dpp-gran-title {
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 1rem;
+}
+.dpp-gran-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .75rem;
+}
+.dpp-gran-opt {
+  padding: .75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,.06);
+  text-align: center;
+  font-size: .75rem;
+  color: #64748B;
+}
+.dpp-gran-opt.selected {
+  border-color: var(--teal-mid);
+  background: rgba(15,118,110,.12);
+  color: var(--white);
+}
+.dpp-gran-opt .opt-name { font-weight: 600; margin-bottom: .2rem; }
+.dpp-gran-opt .opt-sub { font-family: var(--f-mono); font-size: .62rem; }
+.dpp-gran-cite {
+  margin-top: .75rem;
+  font-size: .7rem;
+  color: #475569;
+  font-family: var(--f-mono);
+  line-height: 1.5;
+}
+
+/* Access tiers */
+.dpp-access-block {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.dpp-access-header {
+  padding: .75rem 1.25rem;
+  background: rgba(124,58,237,.1);
+  border-bottom: 1px solid rgba(124,58,237,.2);
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  color: #A78BFA;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.dpp-tier {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .8rem 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.dpp-tier:last-child { border-bottom: none; }
+.dpp-tier-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: white;
+}
+.dpp-tier-body { flex: 1; }
+.dpp-tier-name { font-size: .78rem; font-weight: 600; color: var(--white); }
+.dpp-tier-fields { font-family: var(--f-mono); font-size: .62rem; color: #64748B; margin-top: .15rem; }
+
+/* Right column — fields coverage */
+.dpp-fields-wrap {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: sticky;
+  top: 80px;
+}
+.dpp-fields-hd {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dpp-fields-hd-title {
+  font-family: var(--f-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--white);
+}
+.dpp-fields-hd-badge {
+  font-family: var(--f-mono);
+  font-size: .65rem;
+  background: rgba(15,118,110,.2);
+  border: 1px solid rgba(15,118,110,.3);
+  color: var(--teal-mid);
+  padding: .2rem .6rem;
+  border-radius: 100px;
+}
+.dpp-field-group-title {
+  padding: .6rem 1.5rem;
+  background: rgba(255,255,255,.025);
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.dpp-field-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .65rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,.03);
+  transition: background .15s;
+}
+.dpp-field-row:last-child { border-bottom: none; }
+.dpp-field-row:hover { background: rgba(255,255,255,.03); }
+.dpp-field-name { flex: 1; font-size: .78rem; color: #CBD5E1; }
+.dpp-field-std  { font-family: var(--f-mono); font-size: .6rem; color: #475569; }
+.dpp-field-status {
+  font-size: .62rem;
+  font-family: var(--f-mono);
+  padding: .18rem .5rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.fs-ready  { background: rgba(21,128,61,.15);  color: #4ADE80; border: 1px solid rgba(21,128,61,.2); }
+.fs-build  { background: rgba(180,83,9,.15);   color: var(--amber-mid); border: 1px solid rgba(180,83,9,.2); }
+.fs-partner{ background: rgba(124,58,237,.1);  color: #A78BFA; border: 1px solid rgba(124,58,237,.2); }
+.fs-gap    { background: rgba(220,38,38,.1);   color: #FCA5A5; border: 1px solid rgba(220,38,38,.2); }
+.fs-new    { background: rgba(15,118,110,.2);  color: var(--teal-mid); border: 1px solid rgba(15,118,110,.3); }
+.dpp-legend {
+  padding: .75rem 1.5rem;
+  border-top: 1px solid rgba(255,255,255,.07);
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+.dpp-legend-item {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  font-family: var(--f-mono);
+  font-size: .6rem;
+  color: #475569;
+}
+
+@media (max-width: 900px) {
+  .dpp-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .dpp-fields-wrap { position: static; }
+  .dpp-gran-options { grid-template-columns: 1fr 1fr 1fr; }
+}
+</style>
+
+<section class="dpp-section" id="dpp">
+  <div class="container">
+    <div class="dpp-grid">
+      <!-- LEFT: DPP Architecture -->
+      <div>
+        <div class="dpp-eyebrow">
+          <span class="badge badge-teal">EU Digital Product Passport</span>
+          <span class="badge badge-amber">
+            <span class="de-text">Delegierter Rechtsakt 2027</span>
+            <span class="en-text">Delegated Act 2027</span>
+          </span>
+        </div>
+        <h2 class="dpp-title">
+          <span class="de-text">CIRPASS-2-konform.<br><em>Methodologisch korrekt.</em></span>
+          <span class="en-text">CIRPASS-2 aligned.<br><em>Methodologically correct.</em></span>
+        </h2>
+        <p class="dpp-sub">
+          <span class="de-text">Jede LoopLayer-Transaktion generiert automatisch einen Digital Product Passport auf Batch-Ebene — genau wie die EU ESPR-Methodik (JRC145830, März 2026) es für Textilien vorschreibt. Drei Pflichtidentifikatoren, JSON-LD-Ausgabe, vierstufiger Datenzugang.</span>
+          <span class="en-text">Every LoopLayer transaction automatically generates a batch-level Digital Product Passport — exactly as the EU ESPR Methodology (JRC145830, March 2026) specifies for textiles. Three mandatory identifiers, JSON-LD output, four-tier data access.</span>
+        </p>
+
+        <div class="dpp-source">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M9 8h6M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>
+          <strong>Quelle / Source:</strong> JRC145830 · Joint Research Centre · Europäische Kommission · März 2026
+        </div>
+
+        <!-- Three Identifiers -->
+        <div class="dpp-id-block">
+          <div class="dpp-id-header">
+            <span class="de-text">Drei Pflichtidentifikatoren · ESPR Annex III(b-i)</span>
+            <span class="en-text">Three mandatory identifiers · ESPR Annex III(b-i)</span>
+          </div>
+          <div class="dpp-id-row-full">
+            <div class="dpp-id-abbr">UPI</div>
+            <div class="dpp-id-label">
+              <span class="de-text">Einzigartiger Produktidentifikator</span>
+              <span class="en-text">Unique Product Identifier</span>
+              <small>LL-LOT-{JAHR}-{LAND}-{REGION}-{SEQ}</small>
+            </div>
+            <div class="dpp-id-status">
+              <span class="de-text">Aufbau Phase 1</span>
+              <span class="en-text">Build Phase 1</span>
+            </div>
+          </div>
+          <div class="dpp-id-row-full">
+            <div class="dpp-id-abbr">UOI</div>
+            <div class="dpp-id-label">
+              <span class="de-text">Einzigartiger Betreiberidentifikator</span>
+              <span class="en-text">Unique Operator Identifier</span>
+              <small>LL-OP-{LAND}-{FIRMA}-{SEQ} · je Verkäufer &amp; Käufer</small>
+            </div>
+            <div class="dpp-id-status">
+              <span class="de-text">Aufbau Phase 1</span>
+              <span class="en-text">Build Phase 1</span>
+            </div>
+          </div>
+          <div class="dpp-id-row-full">
+            <div class="dpp-id-abbr">UFI</div>
+            <div class="dpp-id-label">
+              <span class="de-text">Einzigartiger Anlagenidentifikator</span>
+              <span class="en-text">Unique Facility Identifier</span>
+              <small>LL-FAC-{LAND}-{PLZ}-{CODE}-{SEQ} · Verarbeitungsanlage</small>
+            </div>
+            <div class="dpp-id-status">
+              <span class="de-text">Aufbau Phase 1</span>
+              <span class="en-text">Build Phase 1</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Granularity -->
+        <div class="dpp-gran-block">
+          <div class="dpp-gran-title">
+            <span class="de-text">Granularitätsniveau · ESPR Art. 9(2)(d)</span>
+            <span class="en-text">Granularity level · ESPR Art. 9(2)(d)</span>
+          </div>
+          <div class="dpp-gran-options">
+            <div class="dpp-gran-opt">
+              <div class="opt-name">
+                <span class="de-text">Modell</span><span class="en-text">Model</span>
+              </div>
+              <div class="opt-sub">
+                <span class="de-text">Nicht geeignet</span><span class="en-text">Not appropriate</span>
+              </div>
+            </div>
+            <div class="dpp-gran-opt selected">
+              <div class="opt-name">
+                <span class="de-text">Batch ✓</span><span class="en-text">Batch ✓</span>
+              </div>
+              <div class="opt-sub">
+                <span class="de-text">JRC145830 bestätigt</span><span class="en-text">JRC145830 confirmed</span>
+              </div>
+            </div>
+            <div class="dpp-gran-opt">
+              <div class="opt-name">
+                <span class="de-text">Artikel</span><span class="en-text">Item</span>
+              </div>
+              <div class="opt-sub">
+                <span class="de-text">Nicht praktikabel</span><span class="en-text">Not practical</span>
+              </div>
+            </div>
+          </div>
+          <div class="dpp-gran-cite">
+            <span class="de-text">„Eine Charge von Hemden, die in einer Fabrik in einem Monat produziert wurden, teilt sich dieselben Verarbeitungsbedingungen — Batch-Level ist geeignet."</span>
+            <span class="en-text">"A batch of shirts produced in one factory in one month shares the same production conditions — batch level is appropriate."</span>
+            — JRC145830, Annex 7
+          </div>
+        </div>
+
+        <!-- Access Tiers -->
+        <div class="dpp-access-block">
+          <div class="dpp-access-header">
+            <span class="de-text">4-stufiger Datenzugang · ESPR Art. 9(2)(f)</span>
+            <span class="en-text">4-tier data access · ESPR Art. 9(2)(f)</span>
+          </div>
+          <div class="dpp-tier">
+            <div class="dpp-tier-num" style="background:var(--green)">1</div>
+            <div class="dpp-tier-body">
+              <div class="dpp-tier-name">
+                <span class="de-text">Öffentlich · QR-Scan</span>
+                <span class="en-text">Public · QR scan</span>
+              </div>
+              <div class="dpp-tier-fields">
+                <span class="de-text">CO₂-Einsparung · Verarbeitungstyp · GRS-Status · Lot-Herkunft</span>
+                <span class="en-text">CO₂ saving · Processing type · GRS status · Lot origin</span>
+              </div>
+            </div>
+          </div>
+          <div class="dpp-tier">
+            <div class="dpp-tier-num" style="background:var(--blue-mid)">2</div>
+            <div class="dpp-tier-body">
+              <div class="dpp-tier-name">
+                <span class="de-text">Käufer / Endnutzer</span>
+                <span class="en-text">Buyer / End users</span>
+              </div>
+              <div class="dpp-tier-fields">
+                <span class="de-text">+ Bestätigtes Gewicht · Faserzusammensetzung · ESRS-E5-Extrakt · EPR-Zertifikat</span>
+                <span class="en-text">+ Confirmed weight · Fibre composition · ESRS E5 extract · EPR certificate</span>
+              </div>
+            </div>
+          </div>
+          <div class="dpp-tier">
+            <div class="dpp-tier-num" style="background:var(--violet-mid)">3</div>
+            <div class="dpp-tier-body">
+              <div class="dpp-tier-name">
+                <span class="de-text">Wertschöpfungskettenoperatoren</span>
+                <span class="en-text">Value chain operators</span>
+              </div>
+              <div class="dpp-tier-fields">
+                <span class="de-text">+ SHA-256-Hashes · UPI/UOI/UFI · Gefahrstoffdaten (SoC) · vollständige Rückverfolgungskette</span>
+                <span class="en-text">+ SHA-256 hashes · UPI/UOI/UFI · Substances of concern · full traceability chain</span>
+              </div>
+            </div>
+          </div>
+          <div class="dpp-tier">
+            <div class="dpp-tier-num" style="background:var(--amber-mid)">4</div>
+            <div class="dpp-tier-body">
+              <div class="dpp-tier-name">
+                <span class="de-text">Marktüberwachung / Behörden</span>
+                <span class="en-text">Market surveillance / Authorities</span>
+              </div>
+              <div class="dpp-tier-fields">
+                <span class="de-text">+ Alle Compliance-Dokumente · EPR-Meldungen · vollständiger Prüfpfad · EORI/TARIC</span>
+                <span class="en-text">+ All compliance docs · EPR filings · full audit trail · EORI/TARIC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Field Coverage -->
+      <div>
+        <div class="dpp-fields-wrap">
+          <div class="dpp-fields-hd">
+            <div class="dpp-fields-hd-title">
+              <span class="de-text">DPP-Datenfelder · Textilien</span>
+              <span class="en-text">DPP Data Fields · Textiles</span>
+            </div>
+            <div class="dpp-fields-hd-badge">21/31 heute · 31/31 bis 2027</div>
+          </div>
+
+          <!-- Identification -->
+          <div class="dpp-field-group-title">
+            <span class="de-text">A · Identifikation · ESPR Annex III</span>
+            <span class="en-text">A · Identification · ESPR Annex III</span>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">Unique Product Identifier (UPI)</div>
+            <div class="dpp-field-std">Annex III(b)</div>
+            <div class="dpp-field-status fs-build">BUILD</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">Unique Operator Identifier (UOI)</div>
+            <div class="dpp-field-std">Annex III(g,h)</div>
+            <div class="dpp-field-status fs-build">BUILD</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">Unique Facility Identifier (UFI)</div>
+            <div class="dpp-field-std">Annex III(i)</div>
+            <div class="dpp-field-status fs-build">BUILD</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">TARIC / Warencode</div>
+            <div class="dpp-field-std">Annex III(d)</div>
+            <div class="dpp-field-status fs-ready">READY</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">Hersteller-Kontaktdaten</div>
+            <div class="dpp-field-std">Art. 27(6)(a)</div>
+            <div class="dpp-field-status fs-ready">READY</div>
+          </div>
+
+          <!-- Circular Parameters -->
+          <div class="dpp-field-group-title">
+            <span class="de-text">B · Kreislaufparameter · Annex I</span>
+            <span class="en-text">B · Circular Parameters · Annex I</span>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">Recyclatanteil % (post/pre-consumer)</div>
+            <div class="dpp-field-std">EN 45557:2020</div>
+            <div class="dpp-field-status fs-ready">READY</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">CO₂-Fußabdruck (IPCC AR6 WG3)</div>
+            <div class="dpp-field-std">ISO 14067:2018</div>
+            <div class="dpp-field-status fs-ready">READY</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">Recyclierbarkeitsrate %</div>
+            <div class="dpp-field-std">EN 45555:2019</div>
+            <div class="dpp-field-status fs-ready">READY</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">Faserzusammensetzung (je Faserart)</div>
+            <div class="dpp-field-std">Annex I(h)</div>
+            <div class="dpp-field-status fs-ready">READY</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">Umweltfußabdruck (PEF-Methode)</div>
+            <div class="dpp-field-std">EU PEF 2021/2279</div>
+            <div class="dpp-field-status fs-partner">PARTNER</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">
+              🆕 Mikroplastik-/Nanoplastikfreisetzung
+            </div>
+            <div class="dpp-field-std">ISO 4484-2:2023</div>
+            <div class="dpp-field-status fs-new">NEU 2027</div>
+          </div>
+
+          <!-- Substances -->
+          <div class="dpp-field-group-title">
+            <span class="de-text">C · Gefahrstoffe · ESPR Art. 7(5)</span>
+            <span class="en-text">C · Substances of concern · ESPR Art. 7(5)</span>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">SoC-Identifikation (REACH/SVHC)</div>
+            <div class="dpp-field-std">Art. 7(5)(a)</div>
+            <div class="dpp-field-status fs-partner">PARTNER</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">SoC-Konzentration &amp; Ort</div>
+            <div class="dpp-field-std">Art. 7(5)(b-c)</div>
+            <div class="dpp-field-status fs-partner">PARTNER</div>
+          </div>
+
+          <!-- Traceability -->
+          <div class="dpp-field-group-title">
+            <span class="de-text">D · Rückverfolgbarkeit · ESPR Art. 9</span>
+            <span class="en-text">D · Traceability · ESPR Art. 9</span>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">GRS/RCS-Zertifikatnummer</div>
+            <div class="dpp-field-std">CIRPASS-2</div>
+            <div class="dpp-field-status fs-ready">READY</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">Bestätigtes Gewicht &amp; Transaktionsdatum</div>
+            <div class="dpp-field-std">Art. 9(1)</div>
+            <div class="dpp-field-status fs-ready">READY</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">SHA-256 Dokument-Hash</div>
+            <div class="dpp-field-std">Art. 9(2)(i)</div>
+            <div class="dpp-field-status fs-ready">READY</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">JSON-LD / offenes Datenformat</div>
+            <div class="dpp-field-std">Art. 10(1)(d)</div>
+            <div class="dpp-field-status fs-gap">GAP</div>
+          </div>
+          <div class="dpp-field-row">
+            <div class="dpp-field-name">QR-Datenträger (physisch)</div>
+            <div class="dpp-field-std">ESPR Art. 9</div>
+            <div class="dpp-field-status fs-gap">GAP</div>
+          </div>
+
+          <div class="dpp-legend">
+            <div class="dpp-legend-item"><span class="dpp-field-status fs-ready" style="padding:.1rem .4rem">READY</span> Heute vorhanden</div>
+            <div class="dpp-legend-item"><span class="dpp-field-status fs-build" style="padding:.1rem .4rem">BUILD</span> Phase 1</div>
+            <div class="dpp-legend-item"><span class="dpp-field-status fs-partner" style="padding:.1rem .4rem">PARTNER</span> Laborpartner</div>
+            <div class="dpp-legend-item"><span class="dpp-field-status fs-gap" style="padding:.1rem .4rem">GAP</span> Bis 2027</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

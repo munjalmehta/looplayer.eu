@@ -1,22 +1,165 @@
-<!-- MODULE: nav.html — Edit nav links, logo, toggles here -->
-<nav>
+<style>
+#main-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(250,250,249,.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s, box-shadow .3s;
+  height: 64px;
+}
+#main-nav.scrolled {
+  border-bottom-color: var(--ink-10);
+  box-shadow: 0 1px 16px rgba(0,0,0,.06);
+}
+.nav-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+.nav-logo {
+  font-family: var(--f-display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -.01em;
+  flex-shrink: 0;
+}
+.nav-logo span { color: var(--teal); }
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  flex: 1;
+}
+.nav-links a {
+  font-size: .85rem;
+  font-weight: 400;
+  color: var(--ink-60);
+  text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-right { display: flex; align-items: center; gap: 1rem; margin-left: auto; }
+.lang-toggle {
+  display: flex;
+  background: var(--ink-10);
+  border-radius: 100px;
+  padding: 2px;
+  gap: 0;
+}
+.lang-btn {
+  padding: .2rem .65rem;
+  border-radius: 100px;
+  font-size: .72rem;
+  font-weight: 500;
+  font-family: var(--f-mono);
+  color: var(--ink-60);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: all .2s;
+}
+.lang-btn.active {
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+}
+.nav-dpp-badge {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  background: var(--teal-lt);
+  border: 1px solid var(--teal-bd);
+  color: var(--teal);
+  padding: .25rem .7rem;
+  border-radius: 100px;
+  font-size: .66rem;
+  font-weight: 600;
+  font-family: var(--f-mono);
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: .5rem;
+  border: none;
+  background: none;
+}
+.hamburger span {
+  width: 22px; height: 2px;
+  background: var(--ink);
+  border-radius: 1px;
+  transition: all .3s;
+  display: block;
+}
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+#mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: var(--white);
+  border-bottom: 1px solid var(--ink-10);
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow);
+}
+#mobile-menu.open { display: block; }
+#mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 1.25rem; }
+#mobile-menu a {
+  font-size: 1rem;
+  color: var(--ink-60);
+  text-decoration: none;
+  font-weight: 400;
+}
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+}
+</style>
+
+<nav id="main-nav">
   <div class="nav-inner">
-    <a href="#" class="logo">Loop<em>Layer</em></a>
+    <a href="#" class="nav-logo">Loop<span>Layer</span></a>
+    <ul class="nav-links">
+      <li><a href="#layers"><span class="de-text">Plattform</span><span class="en-text">Platform</span></a></li>
+      <li><a href="#compliance"><span class="de-text">Compliance</span><span class="en-text">Compliance</span></a></li>
+      <li><a href="#dpp"><span class="de-text">Digital Product Passport</span><span class="en-text">Digital Product Passport</span></a></li>
+      <li><a href="#competitive"><span class="de-text">Warum LoopLayer</span><span class="en-text">Why LoopLayer</span></a></li>
+      <li><a href="#cta"><span class="de-text">Kontakt</span><span class="en-text">Contact</span></a></li>
+    </ul>
     <div class="nav-right">
-      <ul class="nav-links">
-        <li><a href="#mod-compliance-focus" data-de="Compliance"    data-en="Compliance">Compliance</a></li>
-        <li><a href="#mod-platform-layers"  data-de="Plattform"     data-en="Platform">Plattform</a></li>
-        <li><a href="#mod-regulations"      data-de="Regelwerke"    data-en="Regulations">Regelwerke</a></li>
-        <li><a href="#mod-demo"             data-de="Live-Demo"     data-en="Live demo">Live-Demo</a></li>
-        <li><a href="dashboard.html" style="color:var(--l3-light);font-weight:500" data-de="Dashboard →" data-en="Dashboard →">Dashboard →</a></li>
-        <li><a href="dashboard.html" style="background:var(--bg-3);border:1px solid var(--wire-2);border-radius:6px" data-de="Dashboard →" data-en="Dashboard →">Dashboard →</a></li>
-      <li><a href="#mod-final-cta" class="nav-cta" data-de="Demo buchen" data-en="Book demo">Demo buchen</a></li>
-      </ul>
-      <div class="lang-sw">
-        <button class="on" id="btn-de" onclick="setLang('de')">DE</button>
-        <button           id="btn-en" onclick="setLang('en')">EN</button>
+      <div class="nav-dpp-badge">
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+        ESPR DPP Service Provider
       </div>
-      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark">☀</button>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="de" onclick="setLang('de')">DE</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+      </div>
     </div>
+    <button class="hamburger" id="menu-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<div id="mobile-menu">
+  <ul>
+    <li><a href="#layers" onclick="document.getElementById('mobile-menu').classList.remove('open')"><span class="de-text">Plattform</span><span class="en-text">Platform</span></a></li>
+    <li><a href="#compliance" onclick="document.getElementById('mobile-menu').classList.remove('open')"><span class="de-text">Compliance</span><span class="en-text">Compliance</span></a></li>
+    <li><a href="#dpp" onclick="document.getElementById('mobile-menu').classList.remove('open')">Digital Product Passport</a></li>
+    <li><a href="#cta" onclick="document.getElementById('mobile-menu').classList.remove('open')"><span class="de-text">Kontakt</span><span class="en-text">Contact</span></a></li>
+  </ul>
+</div>

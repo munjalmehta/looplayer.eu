@@ -1,0 +1,213 @@
+<style>
+.problem-section {
+  background: var(--white);
+  padding: var(--section) 0;
+}
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--ink-10);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 3rem;
+}
+.problem-card {
+  padding: 2.25rem 1.75rem;
+  border-right: 1px solid var(--ink-10);
+  position: relative;
+  transition: background .2s;
+}
+.problem-card:last-child { border-right: none; }
+.problem-card:hover { background: var(--paper); }
+.problem-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 1.25rem;
+}
+.problem-card:nth-child(1) .problem-icon { background: var(--blue-lt); }
+.problem-card:nth-child(2) .problem-icon { background: var(--amber-lt); }
+.problem-card:nth-child(3) .problem-icon { background: var(--teal-lt); }
+.problem-card:nth-child(4) .problem-icon { background: var(--violet-lt); }
+.problem-title {
+  font-family: var(--f-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: .75rem;
+  line-height: 1.3;
+}
+.problem-desc {
+  font-size: .83rem;
+  color: var(--ink-60);
+  line-height: 1.65;
+}
+.reg-timeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+.reg-item {
+  padding: 1.75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--ink-10);
+  position: relative;
+  overflow: hidden;
+}
+.reg-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+}
+.reg-active::before { background: var(--amber); }
+.reg-soon::before   { background: var(--teal);  }
+.reg-future::before { background: var(--blue);  }
+.reg-year {
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  color: var(--ink-40);
+  margin-bottom: .35rem;
+}
+.reg-law {
+  font-weight: 600;
+  font-size: .95rem;
+  margin-bottom: .6rem;
+}
+.reg-desc {
+  font-size: .8rem;
+  color: var(--ink-60);
+  line-height: 1.6;
+  margin-bottom: .75rem;
+}
+.reg-source {
+  font-family: var(--f-mono);
+  font-size: .63rem;
+  color: var(--ink-40);
+  border-top: 1px solid var(--ink-10);
+  padding-top: .6rem;
+  margin-top: .5rem;
+}
+@media (max-width: 900px) {
+  .problem-grid { grid-template-columns: 1fr 1fr; }
+  .problem-card { border-right: none; border-bottom: 1px solid var(--ink-10); }
+  .reg-timeline { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .problem-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<section class="problem-section" id="problem">
+  <div class="container">
+
+    <div class="section-header">
+      <div class="eyebrow">
+        <span class="de-text">Das Problem</span>
+        <span class="en-text">The Problem</span>
+      </div>
+      <h2 class="display display-lg fade-in">
+        <span class="de-text">Vier kaputte Dinge im EU-Textilmarkt</span>
+        <span class="en-text">Four broken things in the EU textile market</span>
+      </h2>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-card fade-in">
+        <div class="problem-icon">🔀</div>
+        <div class="problem-title">
+          <span class="de-text">Fragmentiert &amp; unsichtbar</span>
+          <span class="en-text">Fragmented &amp; invisible</span>
+        </div>
+        <p class="problem-desc">
+          <span class="de-text">12,6 Mio. Tonnen EU-Textilabfall jährlich, ohne digitalen Marktplatz. Handel läuft per Telefon und Maklerbeziehungen. Keine Preistransparenz.</span>
+          <span class="en-text">12.6M tonnes of EU textile waste annually with no digital marketplace. Trading happens via phone calls. No pricing transparency, no trust infrastructure.</span>
+        </p>
+      </div>
+      <div class="problem-card fade-in fade-in-delay-1">
+        <div class="problem-icon">📋</div>
+        <div class="problem-title">
+          <span class="de-text">Compliance-Lähmung</span>
+          <span class="en-text">Compliance paralysis</span>
+        </div>
+        <p class="problem-desc">
+          <span class="de-text">CSRD, DPP und EPR zwingen Hersteller zur Dokumentation von Materialflüssen. Die meisten haben kein System. Prüfer stellen Fragen, die niemand beantworten kann.</span>
+          <span class="en-text">CSRD, DPP and EPR force brands to document material flows. Most have no system. Auditors ask questions nobody can answer.</span>
+        </p>
+      </div>
+      <div class="problem-card fade-in fade-in-delay-2">
+        <div class="problem-icon">🏭</div>
+        <div class="problem-title">
+          <span class="de-text">Recycler-Versorgungsunsicherheit</span>
+          <span class="en-text">Recycler feedstock insecurity</span>
+        </div>
+        <p class="problem-desc">
+          <span class="de-text">Recycler brauchen konstante Rohware. Ohne sie läuft die Kapazität leer. Die meisten beschaffen über Makler mit 12–18% Marge und keinen Qualitätsgarantien.</span>
+          <span class="en-text">Recyclers need consistent graded feedstock. Without it, capacity sits idle. Most source through brokers taking 12–18% margin with no quality guarantees.</span>
+        </p>
+      </div>
+      <div class="problem-card fade-in fade-in-delay-3">
+        <div class="problem-icon">📠</div>
+        <div class="problem-title">
+          <span class="de-text">Analoge Infrastruktur</span>
+          <span class="en-text">Analog infrastructure</span>
+        </div>
+        <p class="problem-desc">
+          <span class="de-text">Keine Preis-transparenz. Keine Vertrauensinfrastruktur. Keine überprüfbare Rückverfolgung. Der Markt funktioniert so ineffizient wie 1995 — Excel und Telefon.</span>
+          <span class="en-text">No pricing transparency. No trust infrastructure. No verifiable traceability. The market operates as inefficiently as it did in 1995 — Excel and phone calls.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Regulatory Urgency -->
+    <div style="margin-top:4rem">
+      <div class="eyebrow" style="margin-bottom:1.25rem">
+        <span class="de-text">Warum jetzt — die Regulierungswelle</span>
+        <span class="en-text">Why now — the regulatory wave</span>
+      </div>
+      <div class="reg-timeline">
+        <div class="reg-item reg-active fade-in">
+          <div class="reg-year">AKTIV SEIT JAN 2025</div>
+          <div class="reg-law">
+            <span class="badge badge-amber" style="margin-bottom:.5rem;display:inline-flex">AKTIV ●</span><br>
+            EPR für Textilien
+          </div>
+          <p class="reg-desc">
+            <span class="de-text">EU-Abfallrahmenrichtlinie: Getrennte Textilsammlungspflicht in allen EU-Mitgliedsstaaten. Keine Größenausnahme. Naber DE: 31. Januar Jahreserklärung. Bußgelder aktiv.</span>
+            <span class="en-text">EU Waste Framework Directive: Separate textile collection mandatory in all EU member states. No size exemption. Naber DE: 31 January annual declaration. Fines active.</span>
+          </p>
+          <div class="reg-source">Basis: Richtlinie 2008/98/EG · Naber DE · REFASHION FR</div>
+        </div>
+        <div class="reg-item reg-soon fade-in fade-in-delay-1">
+          <div class="reg-year">FY2025 REPORTING · WELLE 1 AKTIV</div>
+          <div class="reg-law">
+            <span class="badge badge-teal" style="margin-bottom:.5rem;display:inline-flex">LAUFEND</span><br>
+            CSRD / ESRS E5
+          </div>
+          <p class="reg-desc">
+            <span class="de-text">Grosse Unternehmen berichten für FY2025 zu ESRS E5. Dokumentierte Tonnenmengen, CO₂-Einsparungen und Verarbeitungsnachweise je Transaktion erforderlich. Prüfer verlangen Belege.</span>
+            <span class="en-text">Large companies report ESRS E5 for FY2025. Documented tonnages, CO₂ savings and processing proof per transaction required. Auditors demand evidence.</span>
+          </p>
+          <div class="reg-source">Basis: CSRD 2022/2464 · EFRAG ESRS E5 · Omnibus I angepasst</div>
+        </div>
+        <div class="reg-item reg-future fade-in fade-in-delay-2">
+          <div class="reg-year">DELEGIERTER RECHTSAKT 2027</div>
+          <div class="reg-law">
+            <span class="badge badge-blue" style="margin-bottom:.5rem;display:inline-flex">2027 →</span><br>
+            EU Digital Product Passport
+          </div>
+          <p class="reg-desc">
+            <span class="de-text">ESPR-Methodik (JRC145830, März 2026) bestätigt Textilien für 2027. Batch-Level-Passdaten, CIRPASS-2-Schema, offene Standards (JSON-LD), drei Pflichtidentifikatoren. Marktausschluss ohne DPP.</span>
+            <span class="en-text">ESPR Methodology (JRC145830, March 2026) confirms textiles for 2027. Batch-level passport data, CIRPASS-2 schema, open standards (JSON-LD), three mandatory identifiers. Market exclusion without DPP.</span>
+          </p>
+          <div class="reg-source">Basis: ESPR 2024/1781 · JRC145830 · CIRPASS-2 · JTC 24</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
