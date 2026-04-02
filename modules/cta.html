@@ -130,28 +130,32 @@
       </p>
       <div class="cta-form">
         <form id="contact-form">
+          <div class="cta-form-row" style="display:flex;gap:.6rem;margin-bottom:.6rem">
+            <input type="text" name="name" class="cta-input" style="flex:1" placeholder="Name / Firma" autocomplete="name">
+          </div>
           <div class="cta-form-group">
-            <input type="email" class="cta-input" placeholder="E-Mail / Email" required>
+            <input type="email" name="email" class="cta-input" placeholder="E-Mail / Email" required autocomplete="email">
             <button type="submit" class="btn btn-teal">
               <span class="de-text">Demo anfragen</span>
               <span class="en-text">Request demo</span>
             </button>
           </div>
-          <select class="cta-select">
+          <select name="role" class="cta-select">
             <option value="" disabled selected>
               <span class="de-text">Ich bin...</span>
               <span class="en-text">I am a...</span>
             </option>
-            <option value="manufacturer"><span class="de-text">Textilindustrie (Hersteller/Marke)</span><span class="en-text">Textile manufacturer / brand</span></option>
-            <option value="recycler"><span class="de-text">Recycler / Verarbeiter (GRS-zertifiziert)</span><span class="en-text">Recycler / processor (GRS-certified)</span></option>
-            <option value="municipality"><span class="de-text">Kommune / Entsorgungsbetrieb</span><span class="en-text">Municipality / waste authority</span></option>
-            <option value="consultant"><span class="de-text">Nachhaltigkeitsberater / PRO-Operator</span><span class="en-text">Sustainability consultant / PRO operator</span></option>
+            <option value="manufacturer">Textilindustrie — Hersteller / Marke</option>
+            <option value="recycler">Recycler / Verarbeiter (GRS-zertifiziert)</option>
+            <option value="municipality">Kommune / Entsorgungsbetrieb</option>
+            <option value="consultant">Nachhaltigkeitsberater / PRO-Operator</option>
             <option value="investor">Investor</option>
+            <option value="other">Sonstiges / Other</option>
           </select>
         </form>
         <div class="cta-footnote">
-          <span class="de-text">Oder direkt: </span>
-          <span class="en-text">Or directly: </span>
+          <span class="de-text">Oder direkt schreiben: </span>
+          <span class="en-text">Or write directly: </span>
           <a href="mailto:info@looplayer.eu" style="color:var(--teal-mid)">info@looplayer.eu</a>
           <span> · Freising, Bayern</span>
         </div>
@@ -171,9 +175,4 @@
         </div>
         <div class="cta-proof-item">
           <div class="cta-proof-num">2027</div>
-          <div class="cta-proof-label"><span class="de-text">DPP-bereit ab heute</span><span class="en-text">DPP-ready from today</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+          <div class="cta-proof-label"><span class="de-text">DPP-bereit
