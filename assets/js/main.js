@@ -107,19 +107,54 @@ function initNav() {
 function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
+
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const btn = form.querySelector('button[type=submit]');
-    const original = btn.textContent;
-    btn.textContent = currentLang === 'de' ? 'Gesendet ✓' : 'Sent ✓';
+
+    const emailInput = form.querySelector('input[type="email"]');
+    const nameInput  = form.querySelector('input[name="name"]');
+    const roleSelect = form.querySelector('select');
+    const btn        = form.querySelector('button[type=submit]');
+
+    const senderEmail = emailInput ? emailInput.value.trim() : '';
+    const senderName  = nameInput  ? nameInput.value.trim()  : '';
+    const role        = roleSelect ? roleSelect.value        : '';
+
+    // Role label map
+    const roleLabels = {
+      manufacturer : currentLang === 'de' ? 'Textilindustrie (Hersteller/Marke)'         : 'Textile manufacturer / brand',
+      recycler     : currentLang === 'de' ? 'Recycler / Verarbeiter (GRS-zertifiziert)'   : 'Recycler / processor (GRS-certified)',
+      municipality : currentLang === 'de' ? 'Kommune / Entsorgungsbetrieb'                : 'Municipality / waste authority',
+      consultant   : currentLang === 'de' ? 'Nachhaltigkeitsberater / PRO-Operator'       : 'Sustainability consultant / PRO operator',
+      investor     : 'Investor',
+      other        : currentLang === 'de' ? 'Sonstiges'                                   : 'Other',
+    };
+    const roleLabel = roleLabels[role] || role || (currentLang === 'de' ? 'Nicht angegeben' : 'Not specified');
+
+    // Build subject + body
+    const subject = currentLang === 'de'
+      ? 'Demo-Anfrage über looplayer.eu'
+      : 'Demo request via looplayer.eu';
+
+    const body = currentLang === 'de'
+      ? `Hallo LoopLayer-Team,\n\nIch möchte gerne eine Demo anfragen.\n\nName: ${senderName || '—'}\nE-Mail: ${senderEmail}\nIch bin: ${roleLabel}\n\nBitte kontaktieren Sie mich. Vielen Dank.\n`
+      : `Hello LoopLayer team,\n\nI would like to request a demo.\n\nName: ${senderName || '—'}\nEmail: ${senderEmail}\nI am a: ${roleLabel}\n\nPlease get in touch. Thank you.\n`;
+
+    const mailto = `mailto:info@looplayer.eu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+
+    // Visual feedback
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = currentLang === 'de' ? 'E-Mail wird geöffnet ✓' : 'Opening email ✓';
     btn.disabled = true;
-    btn.style.background = 'var(--green)';
+    btn.style.background = '#16A34A';
+
     setTimeout(() => {
-      btn.textContent = original;
-      btn.disabled = false;
+      btn.innerHTML = originalHTML;
+      btn.disabled  = false;
       btn.style.background = '';
       form.reset();
-    }, 3000);
+    }, 4000);
   });
 }
 
