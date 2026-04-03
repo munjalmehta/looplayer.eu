@@ -1,0 +1,222 @@
+<style>
+.layers-section { background: var(--paper); padding: var(--section) 0; }
+.layers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+.layer-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--ink-10);
+  padding: 1.75rem;
+  position: relative;
+  overflow: hidden;
+  transition: all .25s ease;
+  cursor: default;
+}
+.layer-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  opacity: 0;
+  transition: opacity .25s;
+}
+.layer-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.layer-card:hover::after { opacity: 1; }
+.layer-card.lc-blue::after  { background: var(--blue-mid);   }
+.layer-card.lc-amber::after { background: var(--amber-mid);  }
+.layer-card.lc-teal::after  { background: var(--teal-mid);   }
+.layer-card.lc-violet::after{ background: var(--violet-mid); }
+
+.layer-num {
+  font-family: var(--f-mono);
+  font-size: .65rem;
+  color: var(--ink-40);
+  letter-spacing: .1em;
+  margin-bottom: 1rem;
+}
+.layer-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1.25rem;
+}
+.lc-blue  .layer-icon { background: var(--blue-lt); }
+.lc-amber .layer-icon { background: var(--amber-lt); }
+.lc-teal  .layer-icon { background: var(--teal-lt); }
+.lc-violet.layer-icon { background: var(--violet-lt); }
+.lc-violet .layer-icon { background: var(--violet-lt); }
+.layer-name {
+  font-family: var(--f-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: .35rem;
+}
+.lc-blue  .layer-name { color: var(--blue);   }
+.lc-amber .layer-name { color: var(--amber);  }
+.lc-teal  .layer-name { color: var(--teal);   }
+.lc-violet .layer-name { color: var(--violet); }
+.layer-revenue {
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  color: var(--ink-40);
+  margin-bottom: 1rem;
+}
+.layer-desc {
+  font-size: .82rem;
+  color: var(--ink-60);
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+}
+.layer-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+.layer-features li {
+  display: flex;
+  gap: .5rem;
+  align-items: flex-start;
+  font-size: .78rem;
+  color: var(--ink-60);
+}
+.layer-features li::before { content: '→'; flex-shrink: 0; margin-top: .05rem; }
+.lc-blue   .layer-features li::before { color: var(--blue-mid);   }
+.lc-amber  .layer-features li::before { color: var(--amber-mid);  }
+.lc-teal   .layer-features li::before { color: var(--teal-mid);   }
+.lc-violet .layer-features li::before { color: var(--violet-mid); }
+.layer-availability {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ink-10);
+  font-family: var(--f-mono);
+  font-size: .65rem;
+  color: var(--ink-40);
+}
+@media (max-width: 900px) {
+  .layers-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .layers-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<section class="layers-section" id="layers">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="eyebrow">
+        <span class="de-text">Die Plattform — Vier Layer</span>
+        <span class="en-text">The Platform — Four Layers</span>
+      </div>
+      <h2 class="display display-lg fade-in">
+        <span class="de-text">Jeder Layer unabhängig wertvoll.<br>Zusammen unmöglich zu verlassen.</span>
+        <span class="en-text">Each independently valuable.<br>Together, impossible to leave.</span>
+      </h2>
+    </div>
+
+    <div class="layers-grid">
+      <!-- LAYER 1: MARKETPLACE -->
+      <div class="layer-card lc-blue fade-in">
+        <div class="layer-num">LAYER 01</div>
+        <div class="layer-icon">🛒</div>
+        <div class="layer-name">
+          <span class="de-text">Marktplatz</span>
+          <span class="en-text">Marketplace</span>
+        </div>
+        <div class="layer-revenue">5–8% Provision · ab Tag 1</div>
+        <p class="layer-desc">
+          <span class="de-text">Digitale Handelsinfrastruktur, die Hersteller mit Recyclern verbindet. Intelligente Suche nach Fasertyp, Volumen und Region. Treuhandpayment, Streitbeilegung, vollständige Transaktionshistorie.</span>
+          <span class="en-text">Digital trading infrastructure connecting waste generators with recyclers. Smart search by fibre type, volume and location. Escrow payment, dispute resolution, full transaction history.</span>
+        </p>
+        <ul class="layer-features">
+          <li><span class="de-text">Suche nach Fasertyp, Volumen, Region</span><span class="en-text">Search by fibre type, volume, region</span></li>
+          <li><span class="de-text">Digitale Vertragsvorlagen</span><span class="en-text">Digital contract templates</span></li>
+          <li><span class="de-text">Treuhand-Payment · Käuferschutz</span><span class="en-text">Escrow payment · buyer protection</span></li>
+          <li><span class="de-text">Batch-Level UPI-Identifikator je Lot</span><span class="en-text">Batch-level UPI identifier per lot</span></li>
+        </ul>
+        <div class="layer-availability">
+          <span class="de-text">Verfügbar ab Tag 1</span>
+          <span class="en-text">Available Day 1</span>
+        </div>
+      </div>
+
+      <!-- LAYER 3: COMPLIANCE (shown 2nd — primary hook) -->
+      <div class="layer-card lc-amber fade-in fade-in-delay-1">
+        <div class="layer-num">LAYER 03 · PRIMÄRER EINSTIEG</div>
+        <div class="layer-icon">🏛️</div>
+        <div class="layer-name">Compliance</div>
+        <div class="layer-revenue">Enterprise SaaS €299–1.500/mo · ab Tag 1</div>
+        <p class="layer-desc">
+          <span class="de-text">ESPR-DPP-Integration, CSRD ESRS E5-Dokumentation, EPR-Exports und 3-Jahres-Archiv. Automatisch generiert — kein zusätzlicher Dateneingabeaufwand. CIRPASS-2-konform · JRC145830-ausgerichtet.</span>
+          <span class="en-text">ESPR DPP integration, CSRD ESRS E5 documentation, EPR exports and 3-year audit archive. Auto-generated — zero additional data entry. CIRPASS-2 aligned · JRC145830 methodology.</span>
+        </p>
+        <ul class="layer-features">
+          <li>CIRPASS-2 Digital Product Passport (JSON-LD)</li>
+          <li>UPI · UOI · UFI Identifikatoren je Transaktion</li>
+          <li><span class="de-text">CSRD ESRS E5 Jahresbericht</span><span class="en-text">CSRD ESRS E5 annual report</span></li>
+          <li>EPR / Naber DE · REFASHION FR</li>
+          <li>EN 45557:2020 Recyclatanteil</li>
+          <li>SHA-256 · AWS S3 Object Lock</li>
+        </ul>
+        <div class="layer-availability">
+          <span class="de-text">Eigenständig ab Tag 1 · ESPR Art. 2 registriert</span>
+          <span class="en-text">Standalone Day 1 · ESPR Art. 2 registered</span>
+        </div>
+      </div>
+
+      <!-- LAYER 2: MATERIAL INTELLIGENCE -->
+      <div class="layer-card lc-teal fade-in fade-in-delay-2">
+        <div class="layer-num">LAYER 02</div>
+        <div class="layer-icon">🧬</div>
+        <div class="layer-name">
+          <span class="de-text">Material-Intelligence</span>
+          <span class="en-text">Material Intelligence</span>
+        </div>
+        <div class="layer-revenue">SaaS €199–799/mo · ab Monat 10</div>
+        <p class="layer-desc">
+          <span class="de-text">KI-gestützte Faserklassifizierung, Mischungskompatibilität, Recyclingweg-Empfehlungen. CO₂-Kalkulation nach IPCC AR6. Trainiert auf echten Transaktionsdaten.</span>
+          <span class="en-text">AI-powered fibre classification, blend compatibility scoring, recycling pathway recommendations. CO₂ calculation per IPCC AR6. Trained on real transaction data.</span>
+        </p>
+        <ul class="layer-features">
+          <li><span class="de-text">KI-Faserklassifizierung</span><span class="en-text">AI fibre classification</span></li>
+          <li><span class="de-text">Recyclingweg-Empfehlungen</span><span class="en-text">Recycling pathway recommendations</span></li>
+          <li>CO₂ Live-Rechner (IPCC AR6 WG3)</li>
+          <li><span class="de-text">Mikroplastikfeld (ISO 4484-2:2023) · NEU</span><span class="en-text">Microplastic field (ISO 4484-2:2023) · NEW</span></li>
+        </ul>
+        <div class="layer-availability">
+          <span class="de-text">Beta ab Monat 10</span>
+          <span class="en-text">Beta from Month 10</span>
+        </div>
+      </div>
+
+      <!-- LAYER 4: CIRCULAR NETWORK -->
+      <div class="layer-card lc-violet fade-in fade-in-delay-3">
+        <div class="layer-num">LAYER 04</div>
+        <div class="layer-icon">🌐</div>
+        <div class="layer-name">Circular Network</div>
+        <div class="layer-revenue">Premium Membership €149/mo</div>
+        <p class="layer-desc">
+          <span class="de-text">Verifiziertes Partnerverzeichnis mit Reputations-Scoring, GRS/RCS-Zertifikatsverfolgung und Rückverfolgbarkeitsvisualisierung. Rollenbasierter Datenzugang (4 Stufen) nach ESPR Art. 9(2)(f).</span>
+          <span class="en-text">Verified partner directory with reputation scoring, GRS/RCS certificate tracking and traceability chain visualisation. Role-based data access (4 tiers) per ESPR Art. 9(2)(f).</span>
+        </p>
+        <ul class="layer-features">
+          <li><span class="de-text">Verifizierte Unternehmensprofile · UOI/UFI</span><span class="en-text">Verified company profiles · UOI/UFI</span></li>
+          <li><span class="de-text">GRS/RCS-Zertifikatsverfolgung</span><span class="en-text">GRS/RCS certificate tracking</span></li>
+          <li><span class="de-text">4-stufiger Datenzugang (ESPR Art. 9)</span><span class="en-text">4-tier data access (ESPR Art. 9)</span></li>
+          <li><span class="de-text">Rückverfolgbarkeitskette · QR-Export</span><span class="en-text">Traceability chain · QR export</span></li>
+        </ul>
+        <div class="layer-availability">
+          <span class="de-text">Ab Monat 6</span>
+          <span class="en-text">From Month 6</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

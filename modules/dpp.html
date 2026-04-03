@@ -1,0 +1,1560 @@
+<style>
+.dpp-section { background: var(--ink); padding: var(--section) 0 0; position: relative; overflow: hidden; }
+.dpp-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 50% at 80% 30%, rgba(15,118,110,.16) 0%, transparent 60%),radial-gradient(ellipse 40% 60% at 10% 80%, rgba(180,83,9,.08) 0%, transparent 50%); pointer-events: none; }
+.dpp-intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding-bottom: 3rem; }
+.dpp-hl-title { font-family: var(--f-display); font-size: clamp(2rem, 4.5vw, 3.8rem); font-weight: 600; color: var(--white); line-height: 1.1; letter-spacing: -.02em; margin-bottom: 1.25rem; }
+.dpp-hl-title em { font-style: italic; color: var(--teal-mid); }
+.dpp-hl-sub { font-size: .92rem; color: #94A3B8; line-height: 1.75; margin-bottom: 1.5rem; font-weight: 300; }
+.dpp-src-pill { display: inline-flex; align-items: center; gap: .5rem; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius-sm); padding: .45rem 1rem; font-family: var(--f-mono); font-size: .68rem; color: #64748B; }
+.dpp-src-pill strong { color: #94A3B8; }
+.dpp-stats-box { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: rgba(255,255,255,.06); border-radius: var(--radius); overflow: hidden; margin-bottom: 1rem; }
+.dpp-stat-cell { background: rgba(255,255,255,.04); padding: 1.5rem 1.25rem; text-align: center; }
+.dpp-stat-n { font-family: var(--f-display); font-size: 2.5rem; font-weight: 600; line-height: 1; margin-bottom: .3rem; }
+.dpp-stat-l { font-family: var(--f-mono); font-size: .6rem; color: #64748B; text-transform: uppercase; letter-spacing: .06em; line-height: 1.5; }
+.dpp-cl { padding: .85rem 1rem; border-radius: 6px; margin-top: .7rem; border-left: 3px solid; }
+.dpp-cl-t { font-weight: 600; font-size: .78rem; margin-bottom: .25rem; }
+.dpp-cl-b { font-size: .73rem; line-height: 1.65; }
+.dpp-cl-teal { background: rgba(15,118,110,.1); border-color: var(--teal-mid); color: #CBD5E1; }
+.dpp-cl-teal .dpp-cl-t { color: var(--teal-mid); }
+.dpp-cl-amber { background: rgba(180,83,9,.1); border-color: var(--amber-mid); color: #CBD5E1; }
+.dpp-cl-amber .dpp-cl-t { color: var(--amber-mid); }
+.dpp-dash { background: rgba(255,255,255,.02); border-top: 1px solid rgba(255,255,255,.08); }
+.dpp-tabstrip { display: flex; overflow-x: auto; background: rgba(255,255,255,.03); border-bottom: 1px solid rgba(255,255,255,.07); padding: 0 2rem; scrollbar-width: none; }
+.dpp-tabstrip::-webkit-scrollbar { display: none; }
+.dpp-tablink { padding: .85rem 1.1rem; font-size: .77rem; font-weight: 500; color: #64748B; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all .2s; flex-shrink: 0; }
+.dpp-tablink:hover { color: #94A3B8; }
+.dpp-tablink.active { color: var(--white); border-bottom-color: var(--teal-mid); }
+.dpp-panel { display: none; }
+.dpp-panel.active { display: block; }
+/* Dark overrides for intelligence content */
+.dpp-dash .card,.dpp-dash .stat-card { background: rgba(255,255,255,.04) !important; border-color: rgba(255,255,255,.08) !important; color: #CBD5E1; }
+.dpp-dash .section-title { color: var(--white) !important; }
+.dpp-dash .section-sub { color: #64748B !important; }
+.dpp-dash .data-table th { background: rgba(255,255,255,.04) !important; color: #64748B !important; border-color: rgba(255,255,255,.06) !important; }
+.dpp-dash .data-table td { border-color: rgba(255,255,255,.04) !important; color: #CBD5E1 !important; }
+.dpp-dash .data-table tr:hover td { background: rgba(255,255,255,.02) !important; }
+.dpp-dash .mono { color: #475569 !important; }
+.dpp-dash .callout-teal { background: rgba(15,118,110,.1) !important; border-color: var(--teal-mid) !important; color: #CBD5E1 !important; }
+.dpp-dash .callout-amber { background: rgba(180,83,9,.1) !important; border-color: var(--amber-mid) !important; color: #CBD5E1 !important; }
+.dpp-dash .callout-blue { background: rgba(37,99,235,.1) !important; border-color: #60A5FA !important; color: #CBD5E1 !important; }
+.dpp-dash .callout-title { color: inherit !important; }
+.dpp-dash .callout-teal .callout-title { color: var(--teal-mid) !important; }
+.dpp-dash .callout-amber .callout-title { color: var(--amber-mid) !important; }
+.dpp-dash .callout-blue .callout-title { color: #60A5FA !important; }
+.dpp-dash .field-row { background: transparent !important; border-color: rgba(255,255,255,.06) !important; }
+.dpp-dash .field-row:hover { background: rgba(255,255,255,.03) !important; }
+.dpp-dash .field-name { color: #CBD5E1 !important; }
+.dpp-dash .field-std { color: #475569 !important; }
+.dpp-dash .field-group-title { background: rgba(255,255,255,.04) !important; color: #64748B !important; }
+.dpp-dash .id-card { background: rgba(255,255,255,.03) !important; border-color: rgba(255,255,255,.08) !important; }
+.dpp-dash .id-name { color: var(--white) !important; }
+.dpp-dash .id-desc { color: #64748B !important; }
+.dpp-dash .id-example { background: rgba(15,118,110,.08) !important; border-color: rgba(15,118,110,.2) !important; color: var(--teal-mid) !important; }
+.dpp-dash .id-schema { color: #475569 !important; }
+.dpp-dash .gran-card { border-color: rgba(255,255,255,.08) !important; background: transparent !important; }
+.dpp-dash .gran-card.recommended { border-color: var(--teal-mid) !important; background: rgba(15,118,110,.08) !important; }
+.dpp-dash .gran-name { color: var(--white) !important; }
+.dpp-dash .gran-desc { color: #64748B !important; }
+.dpp-dash .role-card { border-color: rgba(255,255,255,.08) !important; }
+.dpp-dash .role-body { border-color: rgba(255,255,255,.05) !important; }
+.dpp-dash .role-body li { color: #94A3B8 !important; }
+.dpp-dash .timeline-dot { border-color: var(--ink) !important; }
+.dpp-dash .timeline-date { color: #475569 !important; }
+.dpp-dash .timeline-title { color: var(--white) !important; }
+.dpp-dash .timeline-body { color: #64748B !important; }
+.dpp-dash .action-item { background: rgba(255,255,255,.03) !important; border-color: rgba(255,255,255,.07) !important; }
+.dpp-dash .action-item:hover { border-color: rgba(255,255,255,.14) !important; }
+.dpp-dash .action-title { color: var(--white) !important; }
+.dpp-dash .action-desc { color: #64748B !important; }
+.dpp-dash .source-tag { background: rgba(255,255,255,.06) !important; color: #64748B !important; }
+.dpp-dash .stat-number { color: var(--teal-mid) !important; }
+.dpp-dash .stat-label,.dpp-dash .stat-sub { color: #64748B !important; }
+.dpp-dash .content { padding: 2rem; max-width: 1280px; margin: 0 auto; background: transparent !important; }
+@media(max-width:900px) { .dpp-intro-grid { grid-template-columns: 1fr; gap: 2.5rem; } .dpp-tabstrip { padding: 0 1rem; } }
+</style>
+<style>
+
+  :root {
+    --blue:    #2563EB;
+    --blue-lt: #DBEAFE;
+    --teal:    #0D9488;
+    --teal-lt: #CCFBF1;
+    --amber:   #D97706;
+    --amber-lt:#FEF3C7;
+    --violet:  #7C3AED;
+    --violet-lt:#EDE9FE;
+    --green:   #16A34A;
+    --green-lt:#DCFCE7;
+    --red:     #DC2626;
+    --red-lt:  #FEE2E2;
+    --orange:  #EA580C;
+    --orange-lt:#FFEDD5;
+    --ink:     #0F172A;
+    --ink-60:  #64748B;
+    --ink-30:  #CBD5E1;
+    --paper:   #FAFAF9;
+    --white:   #FFFFFF;
+    --card-shadow: 0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.05);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--ink);
+    color: var(--white);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 56px;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--teal); }
+  .header-subtitle {
+    font-size: .75rem;
+    color: #94A3B8;
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+  }
+  .header-source {
+    margin-left: auto;
+    font-size: .68rem;
+    color: #64748B;
+    font-family: 'DM Mono', monospace;
+  }
+  .header-source a { color: var(--teal); text-decoration: none; }
+
+  /* ── TABS ── */
+  .tabs {
+    background: var(--white);
+    border-bottom: 1px solid var(--ink-30);
+    display: flex;
+    padding: 0 2rem;
+    overflow-x: auto;
+    gap: 0;
+  }
+  .tab {
+    padding: .75rem 1.25rem;
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--ink-60);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all .2s;
+    user-select: none;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--teal);
+  }
+
+  /* ── CONTENT ── */
+  .content { display: none; padding: 2rem; max-width: 1280px; margin: 0 auto; }
+  .content.active { display: block; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    padding: 1.5rem;
+    border: 1px solid #E2E8F0;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .card-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── STAT CARDS ── */
+  .stat-card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid #E2E8F0;
+    box-shadow: var(--card-shadow);
+  }
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: .25rem;
+  }
+  .stat-label {
+    font-size: .75rem;
+    color: var(--ink-60);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .stat-sub {
+    font-size: .72rem;
+    color: var(--ink-60);
+    margin-top: .35rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: .35rem;
+  }
+  .section-sub {
+    font-size: .8rem;
+    color: var(--ink-60);
+    margin-bottom: 1.5rem;
+  }
+  .source-tag {
+    display: inline-block;
+    background: #F1F5F9;
+    color: var(--ink-60);
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    padding: .15rem .5rem;
+    border-radius: 4px;
+    margin-left: .5rem;
+    vertical-align: middle;
+  }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: .2rem .6rem;
+    border-radius: 100px;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    white-space: nowrap;
+  }
+  .badge-green  { background: var(--green-lt);  color: var(--green);  }
+  .badge-amber  { background: var(--amber-lt);  color: var(--amber);  }
+  .badge-red    { background: var(--red-lt);    color: var(--red);    }
+  .badge-blue   { background: var(--blue-lt);   color: var(--blue);   }
+  .badge-teal   { background: var(--teal-lt);   color: var(--teal);   }
+  .badge-violet { background: var(--violet-lt); color: var(--violet); }
+  .badge-orange { background: var(--orange-lt); color: var(--orange); }
+
+  /* ── TABLES ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .8rem;
+  }
+  .data-table th {
+    background: #F8FAFC;
+    font-size: .68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--ink-60);
+    padding: .7rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #E2E8F0;
+    white-space: nowrap;
+  }
+  .data-table td {
+    padding: .8rem 1rem;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: middle;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: #FAFAFA; }
+  .mono { font-family: 'DM Mono', monospace; font-size: .72rem; color: var(--ink-60); }
+
+  /* ── COVERAGE BAR ── */
+  .cov-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+  }
+  .cov-bar {
+    flex: 1;
+    height: 6px;
+    background: #E2E8F0;
+    border-radius: 3px;
+    overflow: hidden;
+    min-width: 80px;
+  }
+  .cov-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width .6s ease;
+  }
+  .cov-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    color: var(--ink-60);
+    width: 30px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: .5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--amber), var(--teal));
+    border-radius: 1px;
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 1.5rem;
+  }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-dot {
+    position: absolute;
+    left: -1.625rem;
+    top: .2rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    box-shadow: 0 0 0 2px currentColor;
+  }
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    color: var(--ink-60);
+    margin-bottom: .15rem;
+  }
+  .timeline-title { font-weight: 600; font-size: .85rem; margin-bottom: .25rem; }
+  .timeline-body  { font-size: .78rem; color: var(--ink-60); }
+
+  /* ── ROLE ACCESS ── */
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .role-card {
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .role-header {
+    padding: .7rem 1rem;
+    font-weight: 600;
+    font-size: .8rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .role-body {
+    padding: .75rem 1rem;
+    font-size: .75rem;
+    color: var(--ink-60);
+    border-top: 1px solid #F1F5F9;
+  }
+  .role-body ul { list-style: none; }
+  .role-body li { padding: .2rem 0; display: flex; align-items: flex-start; gap: .4rem; }
+  .role-body li::before { content: '→'; color: var(--teal); flex-shrink: 0; margin-top: .05rem; }
+
+  /* ── DATA FIELD LIST ── */
+  .field-group { margin-bottom: 1.25rem; }
+  .field-group-title {
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--ink-60);
+    padding: .4rem .75rem;
+    background: #F8FAFC;
+    border-radius: 6px;
+    margin-bottom: .5rem;
+    font-family: 'DM Mono', monospace;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: .75rem;
+    align-items: center;
+    padding: .55rem .75rem;
+    border-radius: 6px;
+    border: 1px solid #F1F5F9;
+    margin-bottom: .35rem;
+    transition: background .15s;
+  }
+  .field-row:hover { background: #FAFAFA; }
+  .field-name { font-size: .8rem; font-weight: 500; }
+  .field-std  { font-family: 'DM Mono', monospace; font-size: .66rem; color: var(--ink-60); }
+
+  /* ── GRANULARITY ── */
+  .gran-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .gran-card {
+    border: 2px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+    transition: all .2s;
+  }
+  .gran-card.recommended {
+    border-color: var(--teal);
+    background: linear-gradient(135deg, #F0FDFA 0%, #fff 60%);
+    position: relative;
+  }
+  .gran-card.recommended::before {
+    content: 'RECOMMENDED FOR TEXTILES';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--teal);
+    color: white;
+    font-size: .58rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: .2rem .7rem;
+    border-radius: 0 0 6px 6px;
+    white-space: nowrap;
+  }
+  .gran-icon { font-size: 2rem; margin-bottom: .5rem; display: block; }
+  .gran-name { font-weight: 700; font-size: .9rem; margin-bottom: .35rem; }
+  .gran-desc { font-size: .75rem; color: var(--ink-60); }
+
+  /* ── LOOPLAYER LAYER TAGS ── */
+  .layer-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    font-size: .65rem;
+    font-weight: 600;
+    padding: .15rem .5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .layer-1 { background: var(--blue-lt);   color: var(--blue);   }
+  .layer-2 { background: var(--teal-lt);   color: var(--teal);   }
+  .layer-3 { background: var(--amber-lt);  color: var(--amber);  }
+  .layer-4 { background: var(--violet-lt); color: var(--violet); }
+
+  /* ── ACTION ITEMS ── */
+  .action-list { list-style: none; }
+  .action-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    margin-bottom: .75rem;
+    align-items: flex-start;
+    background: var(--white);
+    transition: box-shadow .15s;
+  }
+  .action-item:hover { box-shadow: var(--card-shadow); }
+  .action-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: .8rem;
+    flex-shrink: 0;
+    color: white;
+  }
+  .action-body { flex: 1; }
+  .action-title { font-weight: 600; font-size: .85rem; margin-bottom: .2rem; }
+  .action-desc  { font-size: .78rem; color: var(--ink-60); margin-bottom: .5rem; }
+  .action-tags  { display: flex; gap: .4rem; flex-wrap: wrap; }
+
+  /* ── IDENTIFIER CARDS ── */
+  .id-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .id-card {
+    padding: 1.25rem;
+    border-radius: 10px;
+    border: 1px solid #E2E8F0;
+    background: var(--white);
+  }
+  .id-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: .3rem;
+  }
+  .id-name { font-weight: 600; font-size: .85rem; margin-bottom: .5rem; }
+  .id-desc { font-size: .75rem; color: var(--ink-60); margin-bottom: .75rem; }
+  .id-example {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 4px;
+    padding: .35rem .6rem;
+    color: var(--teal);
+    word-break: break-all;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid #E2E8F0; margin: 1.5rem 0; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-left: 4px solid;
+    border-radius: 0 8px 8px 0;
+    padding: .9rem 1.25rem;
+    margin-bottom: 1.25rem;
+    font-size: .8rem;
+  }
+  .callout-teal   { border-color: var(--teal);  background: var(--teal-lt);  }
+  .callout-amber  { border-color: var(--amber); background: var(--amber-lt); }
+  .callout-blue   { border-color: var(--blue);  background: var(--blue-lt);  }
+  .callout-title  { font-weight: 700; margin-bottom: .25rem; }
+
+  /* ── FLEX UTILS ── */
+  .flex { display: flex; }
+  .flex-gap { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+  .mt-1 { margin-top: .5rem; }
+  .mt-2 { margin-top: 1rem; }
+  .mt-3 { margin-top: 1.5rem; }
+  .mb-2 { margin-bottom: 1rem; }
+  .mb-3 { margin-bottom: 1.5rem; }
+
+  @media (max-width: 640px) {
+    .gran-grid, .id-grid { grid-template-columns: 1fr; }
+    .card-grid, .card-grid-3 { grid-template-columns: 1fr; }
+    .role-grid { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+</style>
+
+<section class="dpp-section" id="dpp">
+  <div class="container">
+    <div class="dpp-intro-grid">
+      <div>
+        <div class="flex-gap" style="margin-bottom:1.25rem;flex-wrap:wrap">
+          <span class="badge badge-teal">EU Digital Product Passport</span>
+          <span class="badge badge-amber">Delegierter Rechtsakt 2027</span>
+          <span class="badge" style="background:rgba(255,255,255,.07);color:#94A3B8;border:1px solid rgba(255,255,255,.12)">ESPR DPP Service Provider &middot; Art. 2</span>
+        </div>
+        <h2 class="dpp-hl-title">
+          <span class="de-text">CIRPASS-2-konform.<br>JRC-Methodik.<br><em>Heute bereits bereit.</em></span>
+          <span class="en-text">CIRPASS-2 aligned.<br>JRC methodology.<br><em>Ready today.</em></span>
+        </h2>
+        <p class="dpp-hl-sub">
+          <span class="de-text">LoopLayer hat die EU-ESPR-Methodik (JRC145830, M&auml;rz 2026) vollst&auml;ndig analysiert. Jede Transaktion generiert automatisch einen Batch-Level Digital Product Passport mit drei Pflichtidentifikatoren, JSON-LD-Ausgabe und vierstufigem Datenzugang &mdash; genau wie der Delegierte Rechtsakt 2027 es vorschreiben wird.</span>
+          <span class="en-text">LoopLayer has fully analysed the EU ESPR Methodology (JRC145830, March 2026). Every transaction automatically generates a batch-level Digital Product Passport with three mandatory identifiers, JSON-LD output and four-tier data access &mdash; exactly as the 2027 Delegated Act will require.</span>
+        </p>
+        <div class="dpp-src-pill">
+          <strong>Source:</strong> JRC145830 &middot; Joint Research Centre &middot; European Commission &middot; March 2026
+        </div>
+      </div>
+      <div>
+        <div class="dpp-stats-box">
+          <div class="dpp-stat-cell"><div class="dpp-stat-n" style="color:#4ADE80">21</div><div class="dpp-stat-l"><span class="de-text">Felder bereit</span><span class="en-text">Fields ready</span></div></div>
+          <div class="dpp-stat-cell"><div class="dpp-stat-n" style="color:var(--teal-mid)">4</div><div class="dpp-stat-l"><span class="de-text">Zugangsstufen</span><span class="en-text">Access tiers</span></div></div>
+          <div class="dpp-stat-cell"><div class="dpp-stat-n" style="color:var(--amber-mid)">2027</div><div class="dpp-stat-l"><span class="de-text">DPP Pflicht</span><span class="en-text">DPP mandatory</span></div></div>
+        </div>
+        <div class="dpp-cl dpp-cl-teal"><div class="dpp-cl-t">ESPR Art. 2 &mdash; DPP Service Provider</div><div class="dpp-cl-b"><span class="de-text">LoopLayer erf&uuml;llt die formale rechtliche Definition eines &bdquo;DPP-Dienstleisters&ldquo; nach ESPR Art. 2 &mdash; ein regul&auml;torisches Qualifikationsmerkmal.</span><span class="en-text">LoopLayer meets the formal legal definition of a "DPP service provider" under ESPR Art. 2 &mdash; a regulatory credential no competitor can replicate.</span></div></div>
+        <div class="dpp-cl dpp-cl-amber"><div class="dpp-cl-t">ISO 4484-2:2023 &mdash; <span class="de-text">Mikroplastik Pflichtfeld 2027</span><span class="en-text">Microplastic mandatory field 2027</span></div><div class="dpp-cl-b"><span class="de-text">Kein Wettbewerber erf&auml;sst dies auf Transaktionsebene. LoopLayer ist die einzige Plattform, die es heute anbietet.</span><span class="en-text">No competitor currently collects this at transaction level. LoopLayer is the only platform offering it today.</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dpp-dash">
+    <div class="dpp-tabstrip">
+      <div class="dpp-tablink active" onclick="dppTabSwitch('overview')"><span class="de-text">Uebersicht</span><span class="en-text">Overview</span></div>
+      <div class="dpp-tablink" onclick="dppTabSwitch('datafields')"><span class="de-text">Datenfelder (31)</span><span class="en-text">Data Fields (31)</span></div>
+      <div class="dpp-tablink" onclick="dppTabSwitch('identifiers')"><span class="de-text">Identifikatoren</span><span class="en-text">Identifiers</span></div>
+      <div class="dpp-tablink" onclick="dppTabSwitch('granularity')"><span class="de-text">Granularitaet</span><span class="en-text">Granularity</span></div>
+      <div class="dpp-tablink" onclick="dppTabSwitch('access')"><span class="de-text">Zugangsstufen</span><span class="en-text">Access Tiers</span></div>
+      <div class="dpp-tablink" onclick="dppTabSwitch('timeline')"><span class="de-text">Timeline</span><span class="en-text">Timeline</span></div>
+      <div class="dpp-tablink" onclick="dppTabSwitch('actions')"><span class="de-text">Aktionsplan (10)</span><span class="en-text">Action Plan (10)</span></div>
+    </div>
+    <div id="dppi-panel-overview" class="dpp-panel active">
+<div id="tab-overview" class="dpp-panel">
+
+  <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px,1fr))">
+    <div class="stat-card">
+      <div class="stat-number" style="color:var(--amber)">2027</div>
+      <div class="stat-label">Textiles DPP Deadline</div>
+      <div class="stat-sub">ESPR Delegated Act · confirmed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" style="color:var(--teal)">31</div>
+      <div class="stat-label">Mandatory Data Fields</div>
+      <div class="stat-sub">LoopLayer covers 21 today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" style="color:var(--blue)">3</div>
+      <div class="stat-label">Unique Identifiers Required</div>
+      <div class="stat-sub">UPI · UOI · UFI per transaction</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" style="color:var(--violet)">4</div>
+      <div class="stat-label">Access Tiers</div>
+      <div class="stat-sub">Public → Authorities</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" style="color:var(--green)">68%</div>
+      <div class="stat-label">LoopLayer Coverage</div>
+      <div class="stat-sub">21 of 31 fields ready today</div>
+    </div>
+  </div>
+
+  <div class="callout callout-teal">
+    <div class="callout-title">🔑 Strategic finding: LoopLayer qualifies as a "DPP Service Provider" under ESPR Art. 2</div>
+    ESPR Art. 2 defines a "digital product passport service provider" as an independent third party authorised by the economic operator to process DPP data and make it available to entitled actors. This is a formal legal category. LoopLayer should formally register under this definition — it becomes a regulatory credential, not just a product description.
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-title">⚠️ Gap identified: Microplastic release is now a mandatory DPP field for textiles</div>
+    ISO 4484-2:2023 (textiles) quantifies microplastic shedding from textiles. This is explicitly listed in the JRC methodology as an ESPR Annex I mandatory data point. No competitor is currently collecting this at transaction level. LoopLayer can add this as a data field and become the only platform that surfaces it.
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-title">📋 Substances of Concern: the DPP is the mandatory disclosure mechanism</div>
+    ESPR Art. 7(5) requires name, location, concentration and end-of-life guidance for all REACH/SVHC substances per product. The DPP is where this lives. LoopLayer's chemical safety constraint (no claims without lab testing) is correct — but LoopLayer can provide the structured disclosure field and partner with Hohenstein or similar for testing, rather than making the claim itself.
+  </div>
+
+  <h3 class="section-title mt-3">Document source mapping</h3>
+  <div class="section-sub">What the JRC JRC145830 document covers and what it means for each LoopLayer layer</div>
+
+  <table class="data-table card">
+    <thead>
+      <tr>
+        <th>JRC Document Section</th>
+        <th>Key finding</th>
+        <th>LoopLayer layer</th>
+        <th>Priority</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="mono">Art. 2 — Definitions</td>
+        <td>LoopLayer is legally a "DPP service provider"</td>
+        <td><span class="layer-tag layer-3">L3 Compliance</span></td>
+        <td><span class="badge badge-red">CRITICAL</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Table 1 — ESPR Working Plan</td>
+        <td>Textiles DPP delegated act: 2027, preparatory work ongoing</td>
+        <td><span class="layer-tag layer-3">L3 Compliance</span></td>
+        <td><span class="badge badge-red">CRITICAL</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Art. 9(2)(d) — Granularity</td>
+        <td>Batch-level is correct for textile production lots</td>
+        <td><span class="layer-tag layer-1">L1 Marketplace</span> <span class="layer-tag layer-3">L3 Compliance</span></td>
+        <td><span class="badge badge-amber">HIGH</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Annex III — Identifiers</td>
+        <td>Three mandatory identifiers: UPI, UOI, UFI per transaction</td>
+        <td><span class="layer-tag layer-3">L3 Compliance</span></td>
+        <td><span class="badge badge-red">CRITICAL</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Art. 9(2)(f) — Access rights</td>
+        <td>Four-tier role-based access must be implemented</td>
+        <td><span class="layer-tag layer-3">L3 Compliance</span> <span class="layer-tag layer-4">L4 Network</span></td>
+        <td><span class="badge badge-amber">HIGH</span></td>
+      </tr>
+      <tr>
+        <td class="mono">ESPR Annex I(p) — Microplastics</td>
+        <td>Microplastic shedding is a mandatory DPP data point</td>
+        <td><span class="layer-tag layer-2">L2 Material Intel</span></td>
+        <td><span class="badge badge-blue">MEDIUM</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Art. 7(5) — Substances of concern</td>
+        <td>REACH/SVHC disclosure per product lot in DPP</td>
+        <td><span class="layer-tag layer-3">L3 Compliance</span></td>
+        <td><span class="badge badge-amber">HIGH</span></td>
+      </tr>
+      <tr>
+        <td class="mono">EN 45557:2020 — Recycled content</td>
+        <td>Mandatory standard for recycled content reporting</td>
+        <td><span class="layer-tag layer-3">L3 Compliance</span> <span class="layer-tag layer-4">L4 Network</span></td>
+        <td><span class="badge badge-red">CRITICAL</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Art. 10(1)(d) — Interoperability</td>
+        <td>Open standards (RDF/JSON-LD), no vendor lock-in</td>
+        <td><span class="layer-tag layer-3">L3 Compliance</span></td>
+        <td><span class="badge badge-amber">HIGH</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Art. 9(2)(i) — Data retention</td>
+        <td>DPP must remain accessible for the expected product lifetime</td>
+        <td><span class="layer-tag layer-3">L3 Compliance</span></td>
+        <td><span class="badge badge-blue">MEDIUM</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Annex 7 — Granularity guidance</td>
+        <td>Item-level DPP warranted only for high-value/long-life goods</td>
+        <td><span class="layer-tag layer-1">L1 Marketplace</span></td>
+        <td><span class="badge badge-blue">MEDIUM</span></td>
+      </tr>
+      <tr>
+        <td class="mono">Annex 8 — Data access tiers</td>
+        <td>Batteries Regulation access model as reference for textiles</td>
+        <td><span class="layer-tag layer-4">L4 Network</span></td>
+        <td><span class="badge badge-blue">MEDIUM</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ TAB 2: DATA FIELDS -->
+    </div>
+    <div id="dppi-panel-datafields" class="dpp-panel">
+<div id="tab-datafields" class="dpp-panel">
+  <h3 class="section-title">Mandatory DPP Data Fields for Textiles</h3>
+  <div class="section-sub">All fields required under ESPR Annex III and Annex I, mapped to LoopLayer coverage. Source: JRC145830 Tables 23–26 + Annex 5.</div>
+
+  <div class="card-grid" style="grid-template-columns: repeat(3,1fr)">
+    <div class="stat-card">
+      <div class="stat-number" style="color:var(--green)">21</div>
+      <div class="stat-label">Fields Ready Today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" style="color:var(--amber)">6</div>
+      <div class="stat-label">Fields: Partner Required</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" style="color:var(--red)">4</div>
+      <div class="stat-label">Gaps to Build</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <!-- GROUP 1: IDENTIFIERS -->
+    <div class="field-group">
+      <div class="field-group-title">A · Product &amp; Producer Identification — ESPR Annex III(b-d, g-k)</div>
+
+      <div class="field-row">
+        <div><div class="field-name">Unique Product Identifier (UPI)</div><div class="field-std">ESPR Annex III(b) · GS1 GTIN or UUID</div></div>
+        <span class="badge badge-amber">BUILD</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">GTIN (ISO/IEC 15459-6)</div><div class="field-std">ESPR Annex III(c) · Barcode standard</div></div>
+        <span class="badge badge-amber">BUILD</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">TARIC / Commodity Code</div><div class="field-std">ESPR Annex III(d) · EU customs classification</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-1">L1</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Unique Operator Identifier (UOI)</div><div class="field-std">ESPR Annex III(g,h) · For each operator in chain</div></div>
+        <span class="badge badge-amber">BUILD</span>
+        <span class="layer-tag layer-4">L4</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Unique Facility Identifier (UFI)</div><div class="field-std">ESPR Annex III(i) · Processing facility ID</div></div>
+        <span class="badge badge-amber">BUILD</span>
+        <span class="layer-tag layer-4">L4</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Manufacturer contact details</div><div class="field-std">ESPR Art. 27(6)(a) · Name, address, electronic contact</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-4">L4</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Importer contact details (if non-EU)</div><div class="field-std">ESPR Art. 29(3)(a) · EORI number required</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-4">L4</span>
+      </div>
+    </div>
+
+    <!-- GROUP 2: CIRCULAR PARAMETERS -->
+    <div class="field-group">
+      <div class="field-group-title">B · Product-Specific Parameters — ESPR Art. 7(2)(b), Annex I</div>
+
+      <div class="field-row">
+        <div><div class="field-name">Recycled material content (%)</div><div class="field-std">ESPR Annex I(h) · EN 45557:2020 · post-consumer vs pre-consumer</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Recyclability rate (%)</div><div class="field-std">ESPR Annex I(d) · EN 45555:2019 · by material type</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-2">L2</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Carbon footprint (CO₂eq / kg)</div><div class="field-std">ESPR Annex I(n) · IPCC AR6 / ISO 14067:2018 / PEF method</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Reusability score / assessment</div><div class="field-std">ESPR Annex I(c) · EN 45554:2020</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-2">L2</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Material composition (fibre type, %)</div><div class="field-std">ESPR Annex I(h) · Fibre-level detail required, not just "plastic"</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-2">L2</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Weight &amp; volume of product and packaging</div><div class="field-std">ESPR Annex I(j)</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-1">L1</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Environmental footprint (PEF score)</div><div class="field-std">ESPR Annex I(m) · EU PEF Method (Commission Rec. 2021/2279)</div></div>
+        <span class="badge badge-orange">PARTNER</span>
+        <span class="layer-tag layer-2">L2</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Durability / expected lifetime</div><div class="field-std">ESPR Annex I(a) · EN 45552:2020</div></div>
+        <span class="badge badge-orange">PARTNER</span>
+        <span class="layer-tag layer-2">L2</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Repairability score</div><div class="field-std">ESPR Art. 7(2)(b)(i) · EN 45554:2020</div></div>
+        <span class="badge badge-orange">PARTNER</span>
+        <span class="layer-tag layer-2">L2</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Waste generated (per lot, kg)</div><div class="field-std">ESPR Annex I(r) · EU List of Waste (LoW) codes</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Critical Raw Material (CRM) content</div><div class="field-std">ESPR Annex I(h) · EN 45558:2019 · EU CRM List 2023</div></div>
+        <span class="badge badge-orange">PARTNER</span>
+        <span class="layer-tag layer-2">L2</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">🆕 Microplastic / nanoplastic release</div><div class="field-std">ESPR Annex I(p) · ISO 4484-2:2023 (textiles) — NEW requirement</div></div>
+        <span class="badge badge-orange">PARTNER</span>
+        <span class="layer-tag layer-2">L2</span>
+      </div>
+    </div>
+
+    <!-- GROUP 3: SUBSTANCES -->
+    <div class="field-group">
+      <div class="field-group-title">C · Substances of Concern — ESPR Art. 7(5)</div>
+
+      <div class="field-row">
+        <div><div class="field-name">SoC identification (IUPAC name / EC number / CAS number)</div><div class="field-std">ESPR Art. 7(5)(a) · REACH Candidate List / SVHC</div></div>
+        <span class="badge badge-orange">PARTNER</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">SoC location within product</div><div class="field-std">ESPR Art. 7(5)(b) · Component-level disclosure</div></div>
+        <span class="badge badge-orange">PARTNER</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">SoC concentration (% or range)</div><div class="field-std">ESPR Art. 7(5)(c)</div></div>
+        <span class="badge badge-orange">PARTNER</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Safe use instructions for SoC</div><div class="field-std">ESPR Art. 7(5)(d)</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">End-of-life guidance re SoC</div><div class="field-std">ESPR Art. 7(5)(e)</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+    </div>
+
+    <!-- GROUP 4: TRACEABILITY -->
+    <div class="field-group">
+      <div class="field-group-title">D · Traceability &amp; Process Data — ESPR Art. 9, Annex III</div>
+
+      <div class="field-row">
+        <div><div class="field-name">Processing facility name &amp; location</div><div class="field-std">ESPR Annex III(i) · UFI-linked</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-1">L1</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">GRS/RCS certificate number &amp; status</div><div class="field-std">Textile Exchange / CIRPASS-2 alignment</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-4">L4</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Processing method (mechanical / chemical / sorting)</div><div class="field-std">ESPR Art. 7(2)(b)(iii)</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-2">L2</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Confirmed transaction weight (kg)</div><div class="field-std">ESPR Art. 9(1) — data must be accurate and complete</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-1">L1</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">Transaction date &amp; confirmation method</div><div class="field-std">ESPR Art. 9(1) — accurate, up-to-date</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-1">L1</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">SHA-256 document hash + storage proof</div><div class="field-std">ESPR Art. 9(2)(i) — retention during expected lifetime</div></div>
+        <span class="badge badge-green">READY</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">DPP data in open format (JSON-LD / RDF)</div><div class="field-std">ESPR Art. 10(1)(d) — open, interoperable, machine-readable</div></div>
+        <span class="badge badge-red">GAP</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">CIRPASS-2 / GS1 schema alignment</div><div class="field-std">Interoperability standard per JRC Section 2.3.1</div></div>
+        <span class="badge badge-red">GAP</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+      <div class="field-row">
+        <div><div class="field-name">QR / data carrier on physical lot</div><div class="field-std">ESPR Art. 9 — data carrier required for physical products</div></div>
+        <span class="badge badge-red">GAP</span>
+        <span class="layer-tag layer-3">L3</span>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;padding:.5rem 0 0">
+      <span class="badge badge-green">■ READY — LoopLayer collects this today</span>
+      <span class="badge badge-amber">■ BUILD — Add to platform in Phase 1–2</span>
+      <span class="badge badge-orange">■ PARTNER — Lab/testing partner required</span>
+      <span class="badge badge-red">■ GAP — Must build before 2027</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ TAB 3: IDENTIFIERS -->
+    </div>
+    <div id="dppi-panel-identifiers" class="dpp-panel">
+<div id="tab-identifiers" class="dpp-panel">
+  <h3 class="section-title">Three Mandatory Unique Identifiers</h3>
+  <div class="section-sub">ESPR Annex III(b-d, g-i) — every LoopLayer DPP must contain all three per transaction. Source: JRC145830 Section 2.2.2.1</div>
+
+  <div class="id-grid">
+    <div class="id-card" style="border-top:3px solid var(--teal)">
+      <div class="id-code" style="color:var(--teal)">UPI</div>
+      <div class="id-name">Unique Product Identifier</div>
+      <div class="id-desc">Primary reference for associating all DPP data with a specific product or lot. Enables the digital link to the DPP. Required per batch in LoopLayer's model.</div>
+      <div class="id-example">LL-LOT-2027-DE-BAV-00412</div>
+      <div class="mt-1 flex-gap">
+        <span class="badge badge-amber">BUILD in Phase 1</span>
+        <span class="layer-tag layer-3">L3 Compliance</span>
+      </div>
+    </div>
+    <div class="id-card" style="border-top:3px solid var(--blue)">
+      <div class="id-code" style="color:var(--blue)">UOI</div>
+      <div class="id-name">Unique Operator Identifier</div>
+      <div class="id-desc">Identifies each economic operator in the value chain. Supports attribution of responsibilities. Required for both the seller (manufacturer) and buyer (recycler) in each LoopLayer transaction.</div>
+      <div class="id-example">LL-OP-DE-SimayTex-001</div>
+      <div class="mt-1 flex-gap">
+        <span class="badge badge-amber">BUILD in Phase 1</span>
+        <span class="layer-tag layer-4">L4 Network</span>
+      </div>
+    </div>
+    <div class="id-card" style="border-top:3px solid var(--violet)">
+      <div class="id-code" style="color:var(--violet)">UFI</div>
+      <div class="id-name">Unique Facility Identifier</div>
+      <div class="id-desc">Identifies the processing facility where the material was handled. Required where relevant to DPP information. In LoopLayer: the recycling/sorting facility address and registration.</div>
+      <div class="id-example">LL-FAC-DE-84416-SIMY-01</div>
+      <div class="mt-1 flex-gap">
+        <span class="badge badge-amber">BUILD in Phase 1</span>
+        <span class="layer-tag layer-4">L4 Network</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-2">
+    <h4 style="font-weight:600;margin-bottom:1rem">LoopLayer Identifier Schema — Proposed Format</h4>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Identifier</th>
+          <th>Proposed LoopLayer Format</th>
+          <th>Maps to ESPR standard</th>
+          <th>When generated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>UPI</strong></td>
+          <td><span class="mono">LL-LOT-{YEAR}-{COUNTRY}-{REGION}-{SEQ}</span></td>
+          <td>ESPR Annex III(b-c) · GS1 GTIN / UUID</td>
+          <td>At transaction listing creation</td>
+        </tr>
+        <tr>
+          <td><strong>UOI (seller)</strong></td>
+          <td><span class="mono">LL-OP-{COUNTRY}-{COMPANY}-{SEQ}</span></td>
+          <td>ESPR Annex III(g) · EU operator registration</td>
+          <td>At company onboarding</td>
+        </tr>
+        <tr>
+          <td><strong>UOI (recycler)</strong></td>
+          <td><span class="mono">LL-OP-{COUNTRY}-{COMPANY}-{SEQ}</span></td>
+          <td>ESPR Annex III(h) · GRS certificate link</td>
+          <td>At company onboarding</td>
+        </tr>
+        <tr>
+          <td><strong>UFI</strong></td>
+          <td><span class="mono">LL-FAC-{COUNTRY}-{POSTCODE}-{CODE}-{SEQ}</span></td>
+          <td>ESPR Annex III(i) · facility register</td>
+          <td>At facility registration</td>
+        </tr>
+        <tr>
+          <td><strong>Transaction ID</strong></td>
+          <td><span class="mono">LL-TXN-{TIMESTAMP}-{UUID}</span></td>
+          <td>ESPR Art. 9(1) — accuracy &amp; traceability</td>
+          <td>At delivery confirmation</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-blue mt-2">
+    <div class="callout-title">Implementation note: GTIN alignment</div>
+    ESPR Annex III(c) specifically requires GTIN per ISO/IEC 15459-6. For textiles traded as bulk lots (not consumer products), a GS1 Application Identifier system using batch/lot numbers is appropriate. LoopLayer should register as a GS1 member company to issue compliant GTINs — cost is approximately €250–500/year for a German SME.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ TAB 4: GRANULARITY -->
+    </div>
+    <div id="dppi-panel-granularity" class="dpp-panel">
+<div id="tab-granularity" class="dpp-panel">
+  <h3 class="section-title">DPP Granularity: Batch-Level is Correct for LoopLayer</h3>
+  <div class="section-sub">ESPR Art. 9(2)(d) — delegated act will specify model, batch, or item level. JRC Annex 7 guidance confirms batch is appropriate for textile lots. Source: JRC145830 Annex 7.</div>
+
+  <div class="gran-grid">
+    <div class="gran-card">
+      <span class="gran-icon">🏷️</span>
+      <div class="gran-name">Model-Level</div>
+      <div class="gran-desc">One DPP per product design. All units share the same passport. Appropriate for identical mass-produced goods (e.g. one hoodie model). LoopLayer lots are too variable for this.</div>
+      <div class="mt-2"><span class="badge badge-red">NOT APPROPRIATE</span></div>
+    </div>
+    <div class="gran-card recommended" style="margin-top:.5rem">
+      <span class="gran-icon">📦</span>
+      <div class="gran-name">Batch-Level</div>
+      <div class="gran-desc">One DPP per production lot. Units share characteristics based on production conditions — same factory, time period, raw material sourcing. The JRC document explicitly uses "textile lot produced with a particular dye lot" as the canonical batch example.</div>
+      <div class="mt-2"><span class="badge badge-teal">RECOMMENDED FOR LOOPLAYER</span></div>
+    </div>
+    <div class="gran-card">
+      <span class="gran-icon">🔍</span>
+      <div class="gran-name">Item-Level</div>
+      <div class="gran-desc">One DPP per individual item. Warranted only for high-value, long-life products (e.g. batteries, cars). JRC notes this creates "enormous number of passport entries" for mass-produced textile goods — economically unsustainable.</div>
+      <div class="mt-2"><span class="badge badge-red">NOT APPROPRIATE</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4 style="font-weight:600;margin-bottom:1rem">JRC Criteria Applied to LoopLayer Textile Lots</h4>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>JRC Criterion</th>
+          <th>Assessment for textile waste lots</th>
+          <th>Supports batch-level?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Variability of characteristics</strong></td>
+          <td>Lots vary by fibre type, contamination level, dye batch, origin — but items within a lot are homogenous</td>
+          <td><span class="badge badge-green">YES ✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Use case requirements</strong></td>
+          <td>LoopLayer use cases: EPR reporting, CSRD ESRS E5, carbon credits — all operate at lot/transaction level</td>
+          <td><span class="badge badge-green">YES ✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Information volume &amp; feasibility</strong></td>
+          <td>Item-level for textile waste would require millions of records per year — economically and technically unsustainable</td>
+          <td><span class="badge badge-green">YES ✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Life-cycle data accumulation</strong></td>
+          <td>Textile waste lots do not accumulate individual item histories (unlike batteries). Carbon footprint per batch is the relevant metric.</td>
+          <td><span class="badge badge-green">YES ✓</span></td>
+        </tr>
+        <tr>
+          <td><strong>Carbon footprint variance</strong></td>
+          <td>JRC notes batch-level is relevant when "carbon footprint could differ per batch" — exactly LoopLayer's IPCC AR6 per-lot calculation model</td>
+          <td><span class="badge badge-green">YES ✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-teal mt-2">
+    <div class="callout-title">Sales pitch implication</div>
+    LoopLayer can now tell prospects: "Our DPP is batch-level, exactly as the EU ESPR delegated act for textiles (2027) will require. We have already implemented the correct granularity." This is a verifiable, regulatory-grounded differentiator from competitors who have not done this analysis.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ TAB 5: ACCESS TIERS -->
+    </div>
+    <div id="dppi-panel-access" class="dpp-panel">
+<div id="tab-access" class="dpp-panel">
+  <h3 class="section-title">Four-Tier Role-Based Access Model</h3>
+  <div class="section-sub">ESPR Art. 9(2)(f-g) — LoopLayer must implement differentiated access. Source: JRC145830 Section 2.2.4.1 + Annex 8, using Batteries Regulation as reference model.</div>
+
+  <div class="role-grid">
+    <div class="role-card">
+      <div class="role-header" style="background:#F0FDF4;color:var(--green)">
+        🌍 Tier 1 — Public
+      </div>
+      <div class="role-body">
+        <ul>
+          <li>QR scan: lot origin, processing type</li>
+          <li>CO₂ saving per lot (calculated)</li>
+          <li>GRS certification status</li>
+          <li>Processing facility country</li>
+          <li>Recycled material type</li>
+        </ul>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-header" style="background:#EFF6FF;color:var(--blue)">
+        🏷️ Tier 2 — End Users / Buyers
+      </div>
+      <div class="role-body">
+        <ul>
+          <li>Tier 1 + confirmed lot weight</li>
+          <li>Transaction date + confirmation</li>
+          <li>Fibre composition detail</li>
+          <li>ESRS E5 data extract</li>
+          <li>EPR certificate download</li>
+        </ul>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-header" style="background:#FDF4FF;color:var(--violet)">
+        🔗 Tier 3 — Value Chain Operators
+      </div>
+      <div class="role-body">
+        <ul>
+          <li>Tier 2 + SHA-256 document hashes</li>
+          <li>Substances of concern data</li>
+          <li>Full chain-of-custody trail</li>
+          <li>Pricing data (where agreed)</li>
+          <li>UPI / UOI / UFI identifiers</li>
+        </ul>
+      </div>
+    </div>
+    <div class="role-card">
+      <div class="role-header" style="background:#FFFBEB;color:var(--amber)">
+        🏛️ Tier 4 — Market Surveillance / Authorities
+      </div>
+      <div class="role-body">
+        <ul>
+          <li>All tiers + compliance documentation</li>
+          <li>EPR filing records</li>
+          <li>Audit trail with timestamps</li>
+          <li>EORI / TARIC references</li>
+          <li>Full SoC disclosures</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4 style="font-weight:600;margin-bottom:1rem">Access Matrix — LoopLayer Implementation Plan</h4>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Data Field</th>
+          <th>Public</th>
+          <th>Buyer</th>
+          <th>Operator</th>
+          <th>Authority</th>
+          <th>LoopLayer status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CO₂ saving per lot</td>
+          <td>✅</td><td>✅</td><td>✅</td><td>✅</td>
+          <td><span class="badge badge-green">READY</span></td>
+        </tr>
+        <tr>
+          <td>GRS certificate status</td>
+          <td>✅</td><td>✅</td><td>✅</td><td>✅</td>
+          <td><span class="badge badge-green">READY</span></td>
+        </tr>
+        <tr>
+          <td>Processing type</td>
+          <td>✅</td><td>✅</td><td>✅</td><td>✅</td>
+          <td><span class="badge badge-green">READY</span></td>
+        </tr>
+        <tr>
+          <td>Confirmed weight (kg)</td>
+          <td>🔒</td><td>✅</td><td>✅</td><td>✅</td>
+          <td><span class="badge badge-green">READY</span></td>
+        </tr>
+        <tr>
+          <td>Fibre composition (%)</td>
+          <td>🔒</td><td>✅</td><td>✅</td><td>✅</td>
+          <td><span class="badge badge-green">READY</span></td>
+        </tr>
+        <tr>
+          <td>ESRS E5 data extract</td>
+          <td>🔒</td><td>✅</td><td>✅</td><td>✅</td>
+          <td><span class="badge badge-green">READY</span></td>
+        </tr>
+        <tr>
+          <td>UPI / UOI / UFI</td>
+          <td>🔒</td><td>🔒</td><td>✅</td><td>✅</td>
+          <td><span class="badge badge-amber">BUILD</span></td>
+        </tr>
+        <tr>
+          <td>SHA-256 hashes</td>
+          <td>🔒</td><td>🔒</td><td>✅</td><td>✅</td>
+          <td><span class="badge badge-green">READY</span></td>
+        </tr>
+        <tr>
+          <td>Substances of concern</td>
+          <td>🔒</td><td>🔒</td><td>✅</td><td>✅</td>
+          <td><span class="badge badge-orange">PARTNER</span></td>
+        </tr>
+        <tr>
+          <td>Full audit trail</td>
+          <td>🔒</td><td>🔒</td><td>🔒</td><td>✅</td>
+          <td><span class="badge badge-green">READY</span></td>
+        </tr>
+        <tr>
+          <td>EPR filing records</td>
+          <td>🔒</td><td>🔒</td><td>🔒</td><td>✅</td>
+          <td><span class="badge badge-green">READY</span></td>
+        </tr>
+        <tr>
+          <td>Pricing data</td>
+          <td>🔒</td><td>🔒</td><td>🔒</td><td>🔒</td>
+          <td><span class="badge badge-green">READY</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ TAB 6: TIMELINE -->
+    </div>
+    <div id="dppi-panel-timeline" class="dpp-panel">
+<div id="tab-timeline" class="dpp-panel">
+  <h3 class="section-title">Regulatory Timeline</h3>
+  <div class="section-sub">Based on JRC145830 Table 1 (ESPR Working Plan) and Table 2 (sector-specific legislation). All timelines are indicative and subject to delegated act adoption.</div>
+
+  <div class="card-grid" style="grid-template-columns:1fr 2fr">
+    <div class="card">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot" style="color:var(--amber)"></div>
+          <div class="timeline-date">Jan 2025</div>
+          <div class="timeline-title">EPR for textiles active (EU)</div>
+          <div class="timeline-body">Separate textile waste collection mandatory in all EU member states. LoopLayer's primary commercial hook — active now.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="color:var(--amber)"></div>
+          <div class="timeline-date">Apr 2025</div>
+          <div class="timeline-title">ESPR First Working Plan published</div>
+          <div class="timeline-body">Textiles confirmed as 2027 DPP target. Iron &amp; steel in 2026. Preparatory work for textiles delegated act officially underway.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="color:var(--teal)"></div>
+          <div class="timeline-date">Mar 2026</div>
+          <div class="timeline-title">JRC DPP Methodology published</div>
+          <div class="timeline-body">This document — JRC145830. Defines exactly what must go in the textiles DPP. LoopLayer now has the blueprint.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="color:var(--teal)"></div>
+          <div class="timeline-date">Jun 2026</div>
+          <div class="timeline-title">DPP4EU Conference, Brussels</div>
+          <div class="timeline-body">Key policy and standards event. LoopLayer should submit a case study (Session 4 — "DPP in practice"). Speaking window.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="color:var(--blue)"></div>
+          <div class="timeline-date">Aug 2026</div>
+          <div class="timeline-title">Regulation (EU) 2025/40 applies</div>
+          <div class="timeline-body">Stricter documentation and control obligations for all remote sellers in Germany. EPR reporting obligation tightens.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="color:var(--red)"></div>
+          <div class="timeline-date">Early 2027</div>
+          <div class="timeline-title">Battery DPP mandatory (first)</div>
+          <div class="timeline-body">First live EU DPP mandate. Sets the template that textiles will follow. LoopLayer should align with battery DPP data model for interoperability.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="color:var(--red)"></div>
+          <div class="timeline-date">2027</div>
+          <div class="timeline-title">🎯 TEXTILES DPP DELEGATED ACT</div>
+          <div class="timeline-body">ESPR delegated act for textiles enters into force. All textile products placed on EU market must carry a DPP. Companies without DPP-ready infrastructure are blocked. LoopLayer customers will already have 2 years of verified DPP history.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="color:var(--violet)"></div>
+          <div class="timeline-date">2028+</div>
+          <div class="timeline-title">EU expansion: Furniture, Packaging</div>
+          <div class="timeline-body">DPP requirements cascade to additional product categories. LoopLayer's infrastructure — if built to open standards — scales to these verticals.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card mb-2">
+        <h4 style="font-weight:600;margin-bottom:1rem">Product Groups with DPP Requirements — Full Picture</h4>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Product group</th>
+              <th>Legal basis</th>
+              <th>Timeline</th>
+              <th>LoopLayer opportunity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:var(--amber-lt)">
+              <td><strong>Textiles</strong></td>
+              <td class="mono">ESPR DA</td>
+              <td><span class="badge badge-amber">2027</span></td>
+              <td>Primary market — full stack</td>
+            </tr>
+            <tr>
+              <td>Iron &amp; steel</td>
+              <td class="mono">ESPR DA</td>
+              <td><span class="badge badge-blue">2026</span></td>
+              <td>Industrial textile inputs</td>
+            </tr>
+            <tr>
+              <td>Batteries (large)</td>
+              <td class="mono">Batteries Reg.</td>
+              <td><span class="badge badge-blue">Early 2027</span></td>
+              <td>Reference model for architecture</td>
+            </tr>
+            <tr>
+              <td>Tyres</td>
+              <td class="mono">ESPR DA</td>
+              <td><span class="badge badge-amber">2027</span></td>
+              <td>Phase 2 expansion vertical</td>
+            </tr>
+            <tr>
+              <td>Packaging</td>
+              <td class="mono">PPWR</td>
+              <td><span class="badge badge-red">Aug 2028+</span></td>
+              <td>Phase 3 expansion vertical</td>
+            </tr>
+            <tr>
+              <td>Furniture</td>
+              <td class="mono">ESPR DA</td>
+              <td><span class="badge badge-red">2028</span></td>
+              <td>Phase 3 expansion vertical</td>
+            </tr>
+            <tr>
+              <td>Construction products</td>
+              <td class="mono">CPR</td>
+              <td><span class="badge badge-red">2026–2030</span></td>
+              <td>Future adjacency</td>
+            </tr>
+            <tr>
+              <td>Critical raw materials</td>
+              <td class="mono">CRMA</td>
+              <td><span class="badge badge-red">Nov 2026+</span></td>
+              <td>Relevant for CRM textile fibres</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-title">Window of opportunity: 18 months before textiles DPP</div>
+        The textiles delegated act preparatory study is ongoing now. LoopLayer has 12–18 months to become a reference implementation before the delegated act is adopted. Companies starting compliance now will have 2 years of verified DPP history at enforcement. Companies starting in 2027 will have none. This is the pitch.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ TAB 7: ACTIONS -->
+    </div>
+    <div id="dppi-panel-actions" class="dpp-panel">
+<div id="tab-actions" class="dpp-panel">
+  <h3 class="section-title">Action Plan: JRC Document → LoopLayer Implementation</h3>
+  <div class="section-sub">Concrete tasks derived from JRC145830 findings, ordered by urgency. Each action maps to a LoopLayer layer and phase.</div>
+
+  <ul class="action-list">
+    <li class="action-item">
+      <div class="action-num" style="background:var(--red)">1</div>
+      <div class="action-body">
+        <div class="action-title">Register LoopLayer as a "DPP Service Provider" under ESPR Art. 2</div>
+        <div class="action-desc">ESPR Art. 2 defines this as a formal legal category. Request legal counsel to confirm the filing route — likely through the company's terms of service and official product documentation. Update all sales materials, pitch decks, and the website to state this explicitly: "LoopLayer is an ESPR-registered DPP service provider." This is a regulatory credential that competitors cannot easily replicate without doing the same analysis.</div>
+        <div class="action-tags">
+          <span class="badge badge-red">IMMEDIATE</span>
+          <span class="layer-tag layer-3">L3 Compliance</span>
+          <span class="badge badge-blue">Cost: €0 (ToS update)</span>
+        </div>
+      </div>
+    </li>
+    <li class="action-item">
+      <div class="action-num" style="background:var(--red)">2</div>
+      <div class="action-body">
+        <div class="action-title">Implement UPI / UOI / UFI identifier system in platform</div>
+        <div class="action-desc">Every LoopLayer transaction must generate three identifiers: UPI (the lot), UOI (seller and buyer separately), UFI (the processing facility). Define the schema now — before India team begins development — so the database is built correctly from day one. The schema proposed in the Identifiers tab is a starting point. Consider GS1 membership (≈€300/year) to issue compliant GTINs.</div>
+        <div class="action-tags">
+          <span class="badge badge-red">PHASE 1 — WEEK 1</span>
+          <span class="layer-tag layer-3">L3 Compliance</span>
+          <span class="layer-tag layer-4">L4 Network</span>
+          <span class="badge badge-blue">Cost: €300/year GS1</span>
+        </div>
+      </div>
+    </li>
+    <li class="action-item">
+      <div class="action-num" style="background:var(--red)">3</div>
+      <div class="action-body">
+        <div class="action-title">Build DPP output in JSON-LD / open standard format (CIRPASS-2 schema)</div>
+        <div class="action-desc">ESPR Art. 10(1)(d) mandates open standards, machine-readable, interoperable, no vendor lock-in. LoopLayer's DPP PDFs do not satisfy this — the data must also be exportable as JSON-LD aligned with CIRPASS-2 / GS1 schema. This is a critical gap. Include in the India team specification as a Day 1 architectural requirement. CIRPASS-2 schema is publicly available at cirpass2.eu.</div>
+        <div class="action-tags">
+          <span class="badge badge-red">PHASE 1 — MONTH 3</span>
+          <span class="layer-tag layer-3">L3 Compliance</span>
+          <span class="badge badge-blue">Cost: Dev time only</span>
+        </div>
+      </div>
+    </li>
+    <li class="action-item">
+      <div class="action-num" style="background:var(--amber)">4</div>
+      <div class="action-body">
+        <div class="action-title">Add physical QR data carrier to DPP output</div>
+        <div class="action-desc">ESPR Art. 9 requires a data carrier for physical products. For textile lots, this means a QR code label or document that accompanies the physical shipment and links to the LoopLayer DPP. Generate a printable QR + lot summary PDF at transaction confirmation. The QR should resolve to the public tier of the DPP (Tier 1 access). This is also the citizen transparency feature used in the Municipality pitch (D).</div>
+        <div class="action-tags">
+          <span class="badge badge-amber">PHASE 1 — MONTH 4</span>
+          <span class="layer-tag layer-3">L3 Compliance</span>
+          <span class="badge badge-blue">Cost: Dev time only</span>
+        </div>
+      </div>
+    </li>
+    <li class="action-item">
+      <div class="action-num" style="background:var(--amber)">5</div>
+      <div class="action-body">
+        <div class="action-title">Partner with Hohenstein or equivalent for Substances of Concern (SoC) testing</div>
+        <div class="action-desc">ESPR Art. 7(5) mandates SoC disclosure (REACH/SVHC) per lot in the DPP. LoopLayer cannot claim chemical safety without external lab testing — which is already correctly constrained in the risk register. The solution: create a "SoC disclosure" field in the DPP that is completed by a partner lab (Hohenstein was specifically named at Circular Rooms 2025). LoopLayer provides the structured field and the link to the lab report; the lab provides the data. This is the DPP mechanism. A referral agreement with Hohenstein would generate revenue per test and fill this mandatory gap.</div>
+        <div class="action-tags">
+          <span class="badge badge-amber">PHASE 2 — MONTH 6</span>
+          <span class="layer-tag layer-3">L3 Compliance</span>
+          <span class="layer-tag layer-2">L2 Material Intel</span>
+          <span class="badge badge-blue">Revenue potential: €150–400 per test referral</span>
+        </div>
+      </div>
+    </li>
+    <li class="action-item">
+      <div class="action-num" style="background:var(--amber)">6</div>
+      <div class="action-body">
+        <div class="action-title">Add microplastic shedding as an optional DPP data field (ISO 4484-2:2023)</div>
+        <div class="action-desc">ESPR Annex I(p) explicitly requires microplastic and nanoplastic release data across product life-cycle stages. ISO 4484-2:2023 is the textile-specific test standard. No competitor currently offers this. Add the field to LoopLayer DPP output now — initially as optional/voluntary — and partner with a test lab to populate it. This becomes mandatory in 2027. Companies that start collecting this data now have a 2-year head start. Use in sales pitch: "LoopLayer is the only platform already collecting microplastic release data at transaction level, ahead of the 2027 mandate."</div>
+        <div class="action-tags">
+          <span class="badge badge-amber">PHASE 2 — MONTH 8</span>
+          <span class="layer-tag layer-2">L2 Material Intel</span>
+          <span class="badge badge-green">Competitive differentiator</span>
+        </div>
+      </div>
+    </li>
+    <li class="action-item">
+      <div class="action-num" style="background:var(--blue)">7</div>
+      <div class="action-body">
+        <div class="action-title">Submit a case study abstract to DPP4EU Forum (Brussels, 1–3 June 2026)</div>
+        <div class="action-desc">Session 4 "DPP in practice" and Session 8 "From Research to Commercial Valorisation" are both appropriate for LoopLayer. The submission deadline was extended to 15 March 2026 — check whether this has now passed and if late submissions are possible. This conference puts LoopLayer in front of EU Commission DG GROW, DG ENV, CIRPASS-2 partners, and every DPP standardisation body. A speaking slot at this event is worth more than 6 months of cold outreach. Contact: info@digipassforum.eu</div>
+        <div class="action-tags">
+          <span class="badge badge-blue">IMMEDIATE — check deadline</span>
+          <span class="badge badge-green">Cost: Travel only</span>
+          <span class="badge badge-violet">Strategic positioning</span>
+        </div>
+      </div>
+    </li>
+    <li class="action-item">
+      <div class="action-num" style="background:var(--blue)">8</div>
+      <div class="action-body">
+        <div class="action-title">Contact CIRPASS-2 partners — specifically GTS (Andreas Schneider) and circular.fashion</div>
+        <div class="action-desc">CIRPASS-2 is the EU project developing the actual DPP technical framework for textiles. Their partners include GTS (which runs Circular Rooms, the primary networking event), circular.fashion (a DPP software provider), and GS1 (identifier standards body). A partnership or "recognised implementation partner" status with CIRPASS-2 would give LoopLayer direct access to the delegated act preparatory study teams — the people writing the law that LoopLayer's customers will have to comply with. Contact via cirpass2.eu.</div>
+        <div class="action-tags">
+          <span class="badge badge-blue">MONTH 1–2</span>
+          <span class="layer-tag layer-3">L3 Compliance</span>
+          <span class="badge badge-violet">Policy access</span>
+        </div>
+      </div>
+    </li>
+    <li class="action-item">
+      <div class="action-num" style="background:var(--teal)">9</div>
+      <div class="action-body">
+        <div class="action-title">Update all sales materials to reference JRC145830 and CIRPASS-2 alignment</div>
+        <div class="action-desc">All existing LoopLayer pitch decks, call scripts, and email templates reference CSRD, EPR, and DPP generically. They should now reference the specific JRC methodology document (JRC145830, March 2026) and state that LoopLayer's DPP output is designed to align with CIRPASS-2 schema. Prospects who are aware of the regulatory process will immediately recognise the credibility signal. This is the single highest-leverage update to existing sales materials and costs zero.</div>
+        <div class="action-tags">
+          <span class="badge badge-teal">WEEK 1</span>
+          <span class="badge badge-green">Cost: €0</span>
+          <span class="badge badge-blue">High leverage</span>
+        </div>
+      </div>
+    </li>
+    <li class="action-item">
+      <div class="action-num" style="background:var(--teal)">10</div>
+      <div class="action-body">
+        <div class="action-title">Align DPP recycled content reporting to EN 45557:2020 (mandatory standard)</div>
+        <div class="action-desc">LoopLayer currently reports recycled content but the JRC document specifies EN 45557:2020 as the mandatory European standard for doing so. This standard requires distinguishing post-consumer vs pre-consumer recycled content, and reporting by material type (not aggregated). Update the DPP data collection form to capture: (a) post-consumer recycled %, (b) pre-consumer recycled %, (c) per fibre type. This is a data field update, not an architectural change. Include in India team Phase 1 specification.</div>
+        <div class="action-tags">
+          <span class="badge badge-teal">PHASE 1 — MONTH 2</span>
+          <span class="layer-tag layer-3">L3 Compliance</span>
+          <span class="badge badge-blue">Standard alignment</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+    </div>
+  </div>
+</section>
+
+<script>
+function dppTabSwitch(name) {
+  var names = ['overview','datafields','identifiers','granularity','access','timeline','actions'];
+  document.querySelectorAll('.dpp-tablink').forEach(function(t,i){ t.classList.toggle('active', names[i]===name); });
+  document.querySelectorAll('[id^="dppi-panel-"]').forEach(function(p){ p.classList.toggle('active', p.id==='dppi-panel-'+name); });
+}
+</script>
