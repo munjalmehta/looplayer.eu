@@ -1,0 +1,366 @@
+<style>
+.layers-section { background: var(--paper); padding: var(--section) 0; }
+.layers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-top: 3rem; }
+.layer-card {
+  background: var(--white); border-radius: var(--radius); border: 1px solid var(--ink-10);
+  padding: 1.75rem; position: relative; overflow: hidden;
+  transition: all .25s ease; cursor: pointer; user-select: none;
+}
+.layer-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; transition: opacity .25s; opacity: 0; }
+.layer-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.layer-card:hover::after, .layer-card.active::after { opacity: 1; }
+.layer-card.active { transform: translateY(-3px); }
+.lc-blue { color: var(--blue-mid); } .lc-blue::after { background: var(--blue-mid); }
+.lc-amber { color: var(--amber-mid); } .lc-amber::after { background: var(--amber-mid); }
+.lc-teal { color: var(--teal-mid); } .lc-teal::after { background: var(--teal-mid); }
+.lc-violet { color: var(--violet-mid); } .lc-violet::after { background: var(--violet-mid); }
+.lc-blue.active  { box-shadow: 0 0 0 2px var(--blue-mid), var(--shadow); }
+.lc-amber.active { box-shadow: 0 0 0 2px var(--amber-mid), var(--shadow); }
+.lc-teal.active  { box-shadow: 0 0 0 2px var(--teal-mid), var(--shadow); }
+.lc-violet.active{ box-shadow: 0 0 0 2px var(--violet-mid), var(--shadow); }
+.layer-num { font-family: var(--f-mono); font-size: .63rem; color: var(--ink-40); letter-spacing: .1em; margin-bottom: 1rem; }
+.layer-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.25rem; }
+.lc-blue .layer-icon { background: var(--blue-lt); }
+.lc-amber .layer-icon { background: var(--amber-lt); }
+.lc-teal .layer-icon { background: var(--teal-lt); }
+.lc-violet .layer-icon { background: var(--violet-lt); }
+.layer-name { font-family: var(--f-display); font-size: 1.25rem; font-weight: 600; margin-bottom: .3rem; color: inherit; }
+.layer-revenue { font-family: var(--f-mono); font-size: .65rem; color: var(--ink-40); margin-bottom: .9rem; }
+.layer-desc { font-size: .8rem; color: var(--ink-60); line-height: 1.65; margin-bottom: 1rem; }
+.layer-features { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+.layer-features li { display: flex; gap: .5rem; align-items: flex-start; font-size: .76rem; color: var(--ink-60); }
+.layer-features li::before { content: '\2192'; flex-shrink: 0; margin-top: .05rem; color: inherit; }
+.layer-cta-hint { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--ink-10); font-family: var(--f-mono); font-size: .63rem; color: inherit; display: flex; align-items: center; justify-content: space-between; opacity: .7; transition: opacity .2s; }
+.layer-card:hover .layer-cta-hint, .layer-card.active .layer-cta-hint { opacity: 1; }
+.layer-cta-hint .arr { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: currentColor; color: var(--white); font-size: .6rem; transition: transform .25s; flex-shrink: 0; }
+.layer-card.active .layer-cta-hint .arr { transform: rotate(180deg); }
+
+/* DETAIL PANEL */
+.layer-detail-wrap { max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.4,0,.2,1); margin-top: 0; }
+.layer-detail-wrap.open { max-height: 1400px; margin-top: 1.5rem; }
+.layer-detail { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--ink-10); display: none; }
+.layer-detail.active { display: block; }
+.ld-hdr { padding: 2rem 2.5rem 1.5rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; }
+.ld-tb { flex: 1; }
+.ld-ey { font-family: var(--f-mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; opacity: .6; margin-bottom: .5rem; }
+.ld-ti { font-family: var(--f-display); font-size: 1.75rem; font-weight: 600; margin-bottom: .4rem; }
+.ld-su { font-size: .85rem; opacity: .7; line-height: 1.6; max-width: 520px; }
+.ld-pb { text-align: right; flex-shrink: 0; }
+.ld-pr { font-family: var(--f-display); font-size: 2rem; font-weight: 600; line-height: 1; margin-bottom: .25rem; }
+.ld-pl { font-family: var(--f-mono); font-size: .65rem; opacity: .55; }
+.ld-cl { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: transparent; color: inherit; cursor: pointer; font-size: .9rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s; }
+.ld-cl:hover { background: rgba(255,255,255,.15); }
+.ld-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.ld-col { padding: 2rem 2.5rem; }
+.ld-col:first-child { border-right: 1px solid rgba(255,255,255,.12); }
+.ld-ct { font-family: var(--f-mono); font-size: .65rem; text-transform: uppercase; letter-spacing: .08em; opacity: .55; margin-bottom: 1rem; }
+.ld-steps { display: flex; flex-direction: column; gap: 0; }
+.ld-step { display: flex; gap: 1.25rem; padding-bottom: 1.5rem; }
+.ld-step:last-child { padding-bottom: 0; }
+.ld-sl { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.ld-sn { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); display: flex; align-items: center; justify-content: center; font-family: var(--f-mono); font-size: .7rem; font-weight: 600; flex-shrink: 0; }
+.ld-sli { width: 1px; flex: 1; background: rgba(255,255,255,.12); margin-top: .35rem; min-height: 20px; }
+.ld-step:last-child .ld-sli { display: none; }
+.ld-stit { font-weight: 600; font-size: .88rem; margin-bottom: .35rem; }
+.ld-sdsc { font-size: .78rem; opacity: .7; line-height: 1.6; }
+.ld-stag { display: inline-flex; align-items: center; font-family: var(--f-mono); font-size: .6rem; background: rgba(255,255,255,.1); padding: .2rem .55rem; border-radius: 4px; margin-top: .45rem; opacity: .8; }
+.ld-users { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 2rem; }
+.ld-user { display: flex; align-items: flex-start; gap: .85rem; padding: .9rem 1rem; border-radius: 8px; background: rgba(255,255,255,.08); }
+.ld-ui { font-size: 1.1rem; flex-shrink: 0; margin-top: .05rem; }
+.ld-un { font-weight: 600; font-size: .82rem; margin-bottom: .2rem; }
+.ld-ud { font-size: .73rem; opacity: .65; line-height: 1.5; }
+.ld-outs { display: flex; flex-direction: column; gap: .5rem; }
+.ld-out { display: flex; align-items: center; gap: .65rem; font-size: .78rem; opacity: .85; }
+.ld-od { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.ld-blue  { background: #1E3A5F; color: #BFDBFE; }
+.ld-amber { background: #431407; color: #FDE68A; }
+.ld-teal  { background: #0D3330; color: #99F6E4; }
+.ld-violet{ background: #2E1065; color: #DDD6FE; }
+@media(max-width:900px){ .layers-grid{grid-template-columns:repeat(2,1fr);} .ld-body{grid-template-columns:1fr;} .ld-col:first-child{border-right:none;border-bottom:1px solid rgba(255,255,255,.12);} .ld-hdr{flex-direction:column;gap:1rem;} .ld-pb{text-align:left;} }
+@media(max-width:640px){ .layers-grid{grid-template-columns:1fr;} .ld-col{padding:1.5rem;} .ld-hdr{padding:1.5rem;} }
+</style>
+
+<section class="layers-section" id="layers">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="eyebrow"><span class="de-text">Die Plattform</span><span class="en-text">The Platform</span></div>
+      <h2 class="display display-lg fade-in">
+        <span class="de-text">Jeder Layer unabh&auml;ngig wertvoll.<br>Zusammen unm&ouml;glich zu verlassen.</span>
+        <span class="en-text">Each independently valuable.<br>Together, impossible to leave.</span>
+      </h2>
+      <p style="font-size:.82rem;color:var(--ink-60);margin-top:.75rem;font-family:var(--f-mono);">
+        <span class="de-text">Klicken Sie auf einen Layer f&uuml;r Details &darr;</span>
+        <span class="en-text">Click any layer to see how it works &darr;</span>
+      </p>
+    </div>
+
+    <div class="layers-grid">
+      <div class="layer-card lc-blue fade-in" onclick="toggleLayer('marketplace')">
+        <div class="layer-num">LAYER 01</div>
+        <div class="layer-icon">&#128722;</div>
+        <div class="layer-name"><span class="de-text">Marktplatz</span><span class="en-text">Marketplace</span></div>
+        <div class="layer-revenue">5&ndash;8% <span class="de-text">Provision &middot; Tag 1</span><span class="en-text">Commission &middot; Day 1</span></div>
+        <p class="layer-desc"><span class="de-text">Digitale Handelsinfrastruktur, die Hersteller mit Recyclern verbindet. Treuhandpayment, Streitbeilegung, vollst&auml;ndige Transaktionshistorie.</span><span class="en-text">Digital trading infrastructure connecting waste generators with recyclers. Escrow payment, dispute resolution, full transaction history.</span></p>
+        <ul class="layer-features">
+          <li><span class="de-text">Suche nach Fasertyp, Volumen, Region</span><span class="en-text">Search by fibre type, volume, region</span></li>
+          <li><span class="de-text">Digitale Vertragsvorlagen</span><span class="en-text">Digital contract templates</span></li>
+          <li><span class="de-text">Treuhand-Payment &middot; K&auml;uferschutz</span><span class="en-text">Escrow payment &middot; buyer protection</span></li>
+          <li><span class="de-text">Batch-Level UPI je Lot</span><span class="en-text">Batch-level UPI per lot</span></li>
+        </ul>
+        <div class="layer-cta-hint">
+          <span class="de-text">Wie es funktioniert</span><span class="en-text">How it works</span>
+          <span class="arr">&#9660;</span>
+        </div>
+      </div>
+
+      <div class="layer-card lc-amber fade-in fade-in-delay-1" onclick="toggleLayer('compliance')">
+        <div class="layer-num">LAYER 03 &middot; <span class="de-text">PRIM&Auml;RER EINSTIEG</span><span class="en-text">PRIMARY ENTRY</span></div>
+        <div class="layer-icon">&#127963;</div>
+        <div class="layer-name">Compliance</div>
+        <div class="layer-revenue">&euro;299&ndash;1.500/mo &middot; <span class="de-text">Tag 1</span><span class="en-text">Day 1</span></div>
+        <p class="layer-desc"><span class="de-text">ESPR-DPP, CSRD ESRS E5, EPR-Exports, 3-Jahres-Archiv. Automatisch generiert. CIRPASS-2-konform &middot; JRC145830.</span><span class="en-text">ESPR DPP, CSRD ESRS E5, EPR exports, 3-year archive. Auto-generated. CIRPASS-2 aligned &middot; JRC145830.</span></p>
+        <ul class="layer-features">
+          <li>CIRPASS-2 DPP (JSON-LD)</li>
+          <li>UPI &middot; UOI &middot; UFI <span class="de-text">je Transaktion</span><span class="en-text">per transaction</span></li>
+          <li>CSRD ESRS E5 <span class="de-text">Jahresbericht</span><span class="en-text">annual report</span></li>
+          <li>EPR / Naber DE &middot; REFASHION FR</li>
+          <li>SHA-256 &middot; AWS S3 Object Lock</li>
+        </ul>
+        <div class="layer-cta-hint">
+          <span class="de-text">Wie es funktioniert</span><span class="en-text">How it works</span>
+          <span class="arr">&#9660;</span>
+        </div>
+      </div>
+
+      <div class="layer-card lc-teal fade-in fade-in-delay-2" onclick="toggleLayer('material')">
+        <div class="layer-num">LAYER 02</div>
+        <div class="layer-icon">&#129518;</div>
+        <div class="layer-name">Material Intelligence</div>
+        <div class="layer-revenue">&euro;199&ndash;799/mo &middot; <span class="de-text">ab Monat 10</span><span class="en-text">Month 10</span></div>
+        <p class="layer-desc"><span class="de-text">KI-gest&uuml;tzte Faserklassifizierung, Mischungskompatibilit&auml;t, Recyclingweg-Empfehlungen und CO&#8322;-Kalkulation nach IPCC AR6.</span><span class="en-text">AI-powered fibre classification, blend compatibility, recycling pathway recommendations and CO&#8322; calculation per IPCC AR6.</span></p>
+        <ul class="layer-features">
+          <li><span class="de-text">KI-Faserklassifizierung</span><span class="en-text">AI fibre classification</span></li>
+          <li><span class="de-text">Recyclingweg-Empfehlungen</span><span class="en-text">Recycling pathway recommendations</span></li>
+          <li>CO&#8322; <span class="de-text">Echtzeitrechner (IPCC AR6)</span><span class="en-text">live calculator (IPCC AR6)</span></li>
+          <li><span class="de-text">Mikroplastikfeld (ISO 4484-2:2023)</span><span class="en-text">Microplastic field (ISO 4484-2:2023)</span></li>
+        </ul>
+        <div class="layer-cta-hint">
+          <span class="de-text">Wie es funktioniert</span><span class="en-text">How it works</span>
+          <span class="arr">&#9660;</span>
+        </div>
+      </div>
+
+      <div class="layer-card lc-violet fade-in fade-in-delay-3" onclick="toggleLayer('network')">
+        <div class="layer-num">LAYER 04</div>
+        <div class="layer-icon">&#127760;</div>
+        <div class="layer-name">Circular Network</div>
+        <div class="layer-revenue">&euro;149/mo Premium</div>
+        <p class="layer-desc"><span class="de-text">Verifiziertes Partnerverzeichnis, GRS/RCS-Zertifikatsverfolgung, 4-stufiger Datenzugang nach ESPR Art. 9(2)(f).</span><span class="en-text">Verified partner directory, GRS/RCS certificate tracking, 4-tier data access per ESPR Art. 9(2)(f).</span></p>
+        <ul class="layer-features">
+          <li><span class="de-text">Verifizierte Profile &middot; UOI/UFI</span><span class="en-text">Verified profiles &middot; UOI/UFI</span></li>
+          <li><span class="de-text">GRS/RCS-Zertifikatsverfolgung</span><span class="en-text">GRS/RCS certificate tracking</span></li>
+          <li><span class="de-text">4-stufiger Datenzugang (ESPR Art. 9)</span><span class="en-text">4-tier data access (ESPR Art. 9)</span></li>
+          <li><span class="de-text">Rückverfolgbarkeitskette &middot; QR-Export</span><span class="en-text">Traceability chain &middot; QR export</span></li>
+        </ul>
+        <div class="layer-cta-hint">
+          <span class="de-text">Wie es funktioniert</span><span class="en-text">How it works</span>
+          <span class="arr">&#9660;</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL PANELS -->
+    <div class="layer-detail-wrap" id="layer-detail-wrap">
+
+      <!-- MARKETPLACE -->
+      <div class="layer-detail ld-blue" id="detail-marketplace">
+        <div class="ld-hdr">
+          <div class="ld-tb">
+            <div class="ld-ey">Layer 01 &mdash; Marketplace</div>
+            <div class="ld-ti"><span class="de-text">Wie der Marktplatz funktioniert</span><span class="en-text">How the Marketplace works</span></div>
+            <div class="ld-su"><span class="de-text">Von der Listung bis zum verifizierten Abschluss &mdash; jede Transaktion generiert automatisch alle Compliance-Dokumente f&uuml;r alle Beteiligten.</span><span class="en-text">From listing to verified close &mdash; every transaction automatically generates all compliance documents for all parties.</span></div>
+          </div>
+          <div class="ld-pb"><div class="ld-pr" style="color:#60A5FA">5&ndash;8%</div><div class="ld-pl"><span class="de-text">Provision je Transaktion</span><span class="en-text">Commission per transaction</span></div></div>
+          <button class="ld-cl" onclick="closeLayer()">&#10005;</button>
+        </div>
+        <div class="ld-body">
+          <div class="ld-col">
+            <div class="ld-ct"><span class="de-text">Schritt f&uuml;r Schritt</span><span class="en-text">Step by step</span></div>
+            <div class="ld-steps">
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">1</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Lot auflisten</span><span class="en-text">List a lot</span></div><div class="ld-sdsc"><span class="de-text">Hersteller listet Textilabfall-Lot: Fasertyp, Gewicht, Region, Qualit&auml;t. LoopLayer generiert automatisch einen UPI-Identifikator.</span><span class="en-text">Manufacturer lists textile waste lot: fibre type, weight, region, quality. LoopLayer auto-generates a UPI identifier.</span></div><div class="ld-stag">UPI: LL-LOT-2027-DE-BAV-00412</div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">2</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Recycler sucht &amp; bietet</span><span class="en-text">Recycler searches &amp; bids</span></div><div class="ld-sdsc"><span class="de-text">GRS-zertifizierter Recycler sucht nach Fasertyp und Volumen. Filter nach mechanisch/chemisch/sortierung. Angebot in der Plattform &mdash; kein E-Mail-Austausch.</span><span class="en-text">GRS-certified recycler searches by fibre type and volume. Filters by mechanical/chemical/sorting. Offer placed in-platform.</span></div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">3</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Treuh&auml;nder-Zahlung</span><span class="en-text">Escrow payment</span></div><div class="ld-sdsc"><span class="de-text">K&auml;ufer zahlt in Treuhand. Betrag wird gehalten bis zur best&auml;tigten Lieferung. Kein Ausfallrisiko f&uuml;r den Verk&auml;ufer.</span><span class="en-text">Buyer pays into escrow. Funds held until confirmed delivery. Zero default risk for the seller.</span></div><div class="ld-stag">Stripe Connect &middot; 0.5&ndash;1% Escrow</div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">4</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Lieferung &amp; Best&auml;tigung</span><span class="en-text">Delivery &amp; confirmation</span></div><div class="ld-sdsc"><span class="de-text">Recycler best&auml;tigt Eingang, Gewicht und Qualit&auml;t. eIDAS-Signatur. SHA-256-Hash aller Dokumente. Zahlung wird freigegeben.</span><span class="en-text">Recycler confirms receipt, weight and quality. eIDAS signature. SHA-256 hash of all documents. Payment released.</span></div><div class="ld-stag">DocuSign eIDAS &middot; AWS S3 Object Lock</div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">5</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Automatische Compliance-Docs</span><span class="en-text">Automatic compliance docs</span></div><div class="ld-sdsc"><span class="de-text">Sofort: EPR-Zertifikat f&uuml;r den Verk&auml;ufer, ESRS-E5-Eintrag f&uuml;r beide, Digital Product Passport &mdash; alles ohne zus&auml;tzliche Dateneingabe.</span><span class="en-text">Instantly: EPR certificate for seller, ESRS E5 entry for both, Digital Product Passport &mdash; zero additional data entry.</span></div><div class="ld-stag">EPR &middot; ESRS E5 &middot; DPP &middot; CO&#8322; <span class="de-text">in Sekunden</span><span class="en-text">in seconds</span></div></div></div>
+            </div>
+          </div>
+          <div class="ld-col">
+            <div class="ld-ct"><span class="de-text">Wer es nutzt</span><span class="en-text">Who uses it</span></div>
+            <div class="ld-users">
+              <div class="ld-user"><div class="ld-ui">&#127981;</div><div><div class="ld-un"><span class="de-text">Textilindustrie / Hersteller</span><span class="en-text">Textile manufacturers</span></div><div class="ld-ud"><span class="de-text">Verkauft Produktionsabf&auml;lle. Erh&auml;lt EPR-Zertifikat und ESRS-Dokumentation f&uuml;r jeden Verkauf automatisch.</span><span class="en-text">Sells production offcuts. Receives EPR certificate and ESRS documentation per sale automatically.</span></div></div></div>
+              <div class="ld-user"><div class="ld-ui">&#9851;</div><div><div class="ld-un"><span class="de-text">GRS-zertifizierte Recycler</span><span class="en-text">GRS-certified recyclers</span></div><div class="ld-ud"><span class="de-text">Kauft konsistenten Feedstock. Spart 7% vs. Broker-Margen von 12&ndash;18%. Liefert ESRS-Daten automatisch.</span><span class="en-text">Buys consistent feedstock. Saves 7% vs broker margins of 12&ndash;18%. Auto-delivers ESRS data.</span></div></div></div>
+              <div class="ld-user"><div class="ld-ui">&#127963;</div><div><div class="ld-un"><span class="de-text">Kommunen &amp; Abfallbetriebe</span><span class="en-text">Municipalities &amp; waste authorities</span></div><div class="ld-ud"><span class="de-text">Vermarktet Alttextilsammlungen. Erh&auml;lt CO&#8322;-Dokumentation f&uuml;r Klimaschutzbericht und EPR-Meldung.</span><span class="en-text">Markets old textile collections. Receives CO&#8322; documentation for climate report and EPR filing.</span></div></div></div>
+            </div>
+            <div class="ld-ct"><span class="de-text">Was Sie erhalten</span><span class="en-text">What you receive</span></div>
+            <div class="ld-outs">
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">Digitaler Kaufvertrag (eIDAS-signiert)</span><span class="en-text">Digital purchase contract (eIDAS-signed)</span></div>
+              <div class="ld-out"><div class="ld-od"></div>EPR-Zertifikat (Naber DE &middot; REFASHION FR)</div>
+              <div class="ld-out"><div class="ld-od"></div>ESRS E5 <span class="de-text">Transaktionseintrag</span><span class="en-text">transaction entry</span></div>
+              <div class="ld-out"><div class="ld-od"></div>CO&#8322; <span class="de-text">Nachweis (IPCC AR6)</span><span class="en-text">certificate (IPCC AR6)</span></div>
+              <div class="ld-out"><div class="ld-od"></div>Digital Product Passport (CIRPASS-2)</div>
+              <div class="ld-out"><div class="ld-od"></div>SHA-256 <span class="de-text">Dokumenten-Hash</span><span class="en-text">document hash</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPLIANCE -->
+      <div class="layer-detail ld-amber" id="detail-compliance">
+        <div class="ld-hdr">
+          <div class="ld-tb">
+            <div class="ld-ey">Layer 03 &mdash; Compliance &middot; <span class="de-text">Prim&auml;rer Einstieg</span><span class="en-text">Primary Entry</span></div>
+            <div class="ld-ti"><span class="de-text">Wie die Compliance-Engine funktioniert</span><span class="en-text">How the Compliance Engine works</span></div>
+            <div class="ld-su"><span class="de-text">EPR-Zertifikat, ESRS-E5-Bericht und DPP werden automatisch aus jeder best&auml;tigten Transaktion generiert. Kein manueller Aufwand. Audit-fertig ab Tag 1.</span><span class="en-text">EPR certificate, ESRS E5 report and DPP generated automatically from every confirmed transaction. Zero manual effort. Audit-ready from Day 1.</span></div>
+          </div>
+          <div class="ld-pb"><div class="ld-pr" style="color:#FCD34D">&euro;299+</div><div class="ld-pl"><span class="de-text">Pro Monat &middot; eigenst&auml;ndig nutzbar</span><span class="en-text">Per month &middot; standalone</span></div></div>
+          <button class="ld-cl" onclick="closeLayer()">&#10005;</button>
+        </div>
+        <div class="ld-body">
+          <div class="ld-col">
+            <div class="ld-ct"><span class="de-text">Was automatisch generiert wird</span><span class="en-text">What gets auto-generated</span></div>
+            <div class="ld-steps">
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">1</div><div class="ld-sli"></div></div><div><div class="ld-stit">EPR-Zertifikat (Naber DE &middot; REFASHION FR)</div><div class="ld-sdsc"><span class="de-text">Bei jeder best&auml;tigten Lieferung: EPR-Zertifikat im korrekten Naber-Format mit Transaktions-ID, Gewicht, GRS-Nummer. Bereit f&uuml;r die Jahreserkl&auml;rung am 31. Januar.</span><span class="en-text">On every confirmed delivery: EPR certificate in correct Naber format with transaction ID, weight, GRS number. Ready for the 31 January annual declaration.</span></div><div class="ld-stag"><span class="de-text">Frist: 31. Jan &middot; 6 EU-EPR-Systeme</span><span class="en-text">Deadline: 31 Jan &middot; 6 EU EPR schemes</span></div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">2</div><div class="ld-sli"></div></div><div><div class="ld-stit">CSRD ESRS E5 <span class="de-text">Jahresbericht</span><span class="en-text">Annual Report</span></div><div class="ld-sdsc"><span class="de-text">Am Jahresende: vollst&auml;ndiger ESRS-E5-Abschnitt mit allen Tonnemengen, CO&#8322;-Einsparungen (IPCC AR6), Verarbeitungsmethoden und Chain-of-Custody. Auditor-Nachweispaket inklusive.</span><span class="en-text">At year end: full ESRS E5 section with all tonnages, CO&#8322; savings (IPCC AR6), processing methods and chain of custody. Auditor evidence package included.</span></div><div class="ld-stag">EFRAG ESRS E5 &middot; EN 45557:2020 &middot; ISO 14067</div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">3</div><div class="ld-sli"></div></div><div><div class="ld-stit">Digital Product Passport (CIRPASS-2)</div><div class="ld-sdsc"><span class="de-text">Je Lot: CIRPASS-2-konformer DPP im JSON-LD-Format mit UPI/UOI/UFI-Identifikatoren. 4-stufiger Datenzugang. QR-Code-Etikett f&uuml;r physische Lieferung.</span><span class="en-text">Per lot: CIRPASS-2 compliant DPP in JSON-LD with UPI/UOI/UFI identifiers. 4-tier data access. QR code label for physical delivery.</span></div><div class="ld-stag">ESPR Art. 2 &middot; JRC145830 &middot; <span class="de-text">Pflicht ab 2027</span><span class="en-text">Mandatory 2027</span></div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">4</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Audit-Nachweispaket</span><span class="en-text">Audit evidence package</span></div><div class="ld-sdsc"><span class="de-text">Alle Dokumente SHA-256-gehasht in AWS S3 Object Lock. 3-Jahres-Aufbewahrung. Ihr Wirtschaftspr&uuml;fer kann jeden Wert bis zur Originaltransaktion zur&uuml;ckverfolgen.</span><span class="en-text">All documents SHA-256 hashed in AWS S3 Object Lock. 3-year retention. Your auditor can trace every figure back to the original transaction.</span></div><div class="ld-stag">SHA-256 &middot; AWS S3 Object Lock &middot; 3 <span class="de-text">Jahre</span><span class="en-text">years</span></div></div></div>
+            </div>
+          </div>
+          <div class="ld-col">
+            <div class="ld-ct"><span class="de-text">Wer es nutzt</span><span class="en-text">Who uses it</span></div>
+            <div class="ld-users">
+              <div class="ld-user"><div class="ld-ui">&#127981;</div><div><div class="ld-un"><span class="de-text">Textilindustrie (CSRD Wave 1 &amp; 2)</span><span class="en-text">Textile industry (CSRD Wave 1 &amp; 2)</span></div><div class="ld-ud"><span class="de-text">Muss ESRS E5 f&uuml;r FY2025 (Wave 1) oder FY2026 (Wave 2) berichten. LoopLayer generiert den kompletten Abschnitt automatisch.</span><span class="en-text">Must report ESRS E5 for FY2025 (Wave 1) or FY2026 (Wave 2). LoopLayer generates the complete section automatically.</span></div></div></div>
+              <div class="ld-user"><div class="ld-ui">&#9851;</div><div><div class="ld-un"><span class="de-text">Recycler (Datenzulieferer)</span><span class="en-text">Recyclers (data suppliers)</span></div><div class="ld-ud"><span class="de-text">Liefert Kunden automatisch alle ESRS-Daten bei jeder Transaktion. Keine manuellen Zertifikatsanfragen mehr.</span><span class="en-text">Automatically delivers all ESRS data to customers per transaction. No more manual certificate requests.</span></div></div></div>
+              <div class="ld-user"><div class="ld-ui">&#9878;</div><div><div class="ld-un"><span class="de-text">Wirtschaftspr&uuml;fer &amp; Auditoren</span><span class="en-text">Auditors &amp; verifiers</span></div><div class="ld-ud"><span class="de-text">Vollst&auml;ndiges Nachweispaket: Transaktions-IDs, DocuSign-Envelopes, GRS-Nummern, SHA-256-Hashes.</span><span class="en-text">Complete evidence package: transaction IDs, DocuSign envelopes, GRS numbers, SHA-256 hashes.</span></div></div></div>
+            </div>
+            <div class="ld-ct"><span class="de-text">Dokumente die Sie erhalten</span><span class="en-text">Documents you receive</span></div>
+            <div class="ld-outs">
+              <div class="ld-out"><div class="ld-od"></div>EPR-Zertifikat (Naber DE &middot; REFASHION FR &middot; ARA AT)</div>
+              <div class="ld-out"><div class="ld-od"></div>ESRS E5 <span class="de-text">vollst&auml;ndiger Abschnitt (EFRAG-konform)</span><span class="en-text">complete section (EFRAG-compliant)</span></div>
+              <div class="ld-out"><div class="ld-od"></div>CIRPASS-2 DPP (JSON-LD &middot; UPI/UOI/UFI)</div>
+              <div class="ld-out"><div class="ld-od"></div>CO&#8322; <span class="de-text">Zertifikat (IPCC AR6 WG3 2022)</span><span class="en-text">certificate (IPCC AR6 WG3 2022)</span></div>
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">QR-Code-Etikett f&uuml;r physisches Lot</span><span class="en-text">QR code label for physical lot</span></div>
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">Auditor-Nachweispaket (SHA-256 &middot; S3)</span><span class="en-text">Auditor evidence package (SHA-256 &middot; S3)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MATERIAL INTELLIGENCE -->
+      <div class="layer-detail ld-teal" id="detail-material">
+        <div class="ld-hdr">
+          <div class="ld-tb">
+            <div class="ld-ey">Layer 02 &mdash; Material Intelligence</div>
+            <div class="ld-ti"><span class="de-text">Wie die KI-Faserklassifizierung funktioniert</span><span class="en-text">How the AI fibre classification works</span></div>
+            <div class="ld-su"><span class="de-text">Trainiert auf echten Transaktionsdaten. Klassifiziert Faserzusammensetzung, berechnet CO&#8322;-Einsparungen und empfiehlt optimale Recyclingwege.</span><span class="en-text">Trained on real transaction data. Classifies fibre composition, calculates CO&#8322; savings and recommends optimal recycling pathways.</span></div>
+          </div>
+          <div class="ld-pb"><div class="ld-pr" style="color:#5EEAD4">&euro;199+</div><div class="ld-pl"><span class="de-text">Pro Monat &middot; ab Monat 10</span><span class="en-text">Per month &middot; from Month 10</span></div></div>
+          <button class="ld-cl" onclick="closeLayer()">&#10005;</button>
+        </div>
+        <div class="ld-body">
+          <div class="ld-col">
+            <div class="ld-ct"><span class="de-text">Wie die KI arbeitet</span><span class="en-text">How the AI works</span></div>
+            <div class="ld-steps">
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">1</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Materialinput erfassen</span><span class="en-text">Capture material input</span></div><div class="ld-sdsc"><span class="de-text">Verk&auml;ufer beschreibt das Lot. Die KI analysiert Beschreibung, Foto (optional) und Lieferantenhistorie.</span><span class="en-text">Seller describes the lot. AI analyses description, photo (optional) and supplier history.</span></div><div class="ld-stag"><span class="de-text">Texteingabe &middot; Foto optional</span><span class="en-text">Text input &middot; photo optional</span></div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">2</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Faserzusammensetzung klassifizieren</span><span class="en-text">Classify fibre composition</span></div><div class="ld-sdsc"><span class="de-text">Ausgabe: gesch&auml;tzte Faserzusammensetzung mit Konfidenzintervall. Trennt post-consumer von pre-consumer Anteilen nach EN 45557:2020.</span><span class="en-text">Output: estimated fibre composition with confidence interval. Separates post-consumer from pre-consumer per EN 45557:2020.</span></div><div class="ld-stag">EN 45557:2020 &middot; ISO 14067:2018</div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">3</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Recyclingweg empfehlen</span><span class="en-text">Recommend recycling pathway</span></div><div class="ld-sdsc"><span class="de-text">Mechanisch, chemisch, Faser-zu-Faser oder thermisch. Mit Preisspanne je Pathway und Liste kompatibler K&auml;ufer auf der Plattform.</span><span class="en-text">Mechanical, chemical, fibre-to-fibre or thermal. With price range per pathway and compatible buyers on platform.</span></div><div class="ld-stag"><span class="de-text">K&auml;ufer-Match &middot; Preistransparenz</span><span class="en-text">Buyer match &middot; price transparency</span></div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">4</div><div class="ld-sli"></div></div><div><div class="ld-stit">CO&#8322; <span class="de-text">Echtzeit-Kalkulation</span><span class="en-text">real-time calculation</span></div><div class="ld-sdsc"><span class="de-text">CO&#8322;-Einsparung vs. Verbrennung nach IPCC AR6 WG3 2022. Basis f&uuml;r Carbonkredite und ESRS-E5-Berichterstattung.</span><span class="en-text">CO&#8322; savings vs incineration per IPCC AR6 WG3 2022. Basis for carbon credits and ESRS E5 reporting.</span></div><div class="ld-stag">IPCC AR6 WG3 2022 &middot; <span class="de-text">Kreditierbar</span><span class="en-text">Carbon creditable</span></div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">5</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Mikroplastikfeld (NEU 2027)</span><span class="en-text">Microplastic field (NEW 2027)</span></div><div class="ld-sdsc"><span class="de-text">ESPR Annex I(p): Mikroplastik-Freisetzungsdaten Pflicht ab 2027. LoopLayer bietet dies heute. Kein Wettbewerber erf&auml;sst dies auf Transaktionsebene.</span><span class="en-text">ESPR Annex I(p): microplastic release data mandatory 2027. LoopLayer offers this today. No competitor collects this at transaction level.</span></div><div class="ld-stag">ISO 4484-2:2023 &middot; <span class="de-text">Pflicht 2027</span><span class="en-text">Mandatory 2027</span></div></div></div>
+            </div>
+          </div>
+          <div class="ld-col">
+            <div class="ld-ct"><span class="de-text">Wer es nutzt</span><span class="en-text">Who uses it</span></div>
+            <div class="ld-users">
+              <div class="ld-user"><div class="ld-ui">&#9851;</div><div><div class="ld-un"><span class="de-text">Recycler &mdash; Feedstock-Planung</span><span class="en-text">Recyclers &mdash; feedstock planning</span></div><div class="ld-ud"><span class="de-text">Wei&szlig; vor dem Kauf, welche Ausbeute ein Lot ergibt. Verhindert teure Fehlk&auml;ufe.</span><span class="en-text">Knows before buying what yield a lot will produce. Prevents expensive bad purchases.</span></div></div></div>
+              <div class="ld-user"><div class="ld-ui">&#127981;</div><div><div class="ld-un"><span class="de-text">Hersteller &mdash; Listing-Optimierung</span><span class="en-text">Manufacturers &mdash; listing optimisation</span></div><div class="ld-ud"><span class="de-text">Versteht den Wert seines Abfalls. Listet mit korrekter Fasercharakterisierung f&uuml;r h&ouml;here Preise.</span><span class="en-text">Understands the value of their waste. Lists with correct fibre characterisation for higher prices.</span></div></div></div>
+              <div class="ld-user"><div class="ld-ui">&#128202;</div><div><div class="ld-un"><span class="de-text">Nachhaltigkeitsbeauftragte</span><span class="en-text">Sustainability managers</span></div><div class="ld-ud"><span class="de-text">CO&#8322;-Echtzeit-Dashboard. Carbonkredit-Pipeline-Kalkulation. Automatisch in ESRS-E5-Bericht integriert.</span><span class="en-text">Real-time CO&#8322; dashboard. Carbon credit pipeline calculation. Automatically in ESRS E5 report.</span></div></div></div>
+            </div>
+            <div class="ld-ct">KI-Outputs</div>
+            <div class="ld-outs">
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">Faserzusammensetzung mit Konfidenzwert</span><span class="en-text">Fibre composition with confidence score</span></div>
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">Recyclingweg-Empfehlung</span><span class="en-text">Recycling pathway recommendation</span></div>
+              <div class="ld-out"><div class="ld-od"></div>CO&#8322; <span class="de-text">Einsparung vs. Verbrennung (IPCC AR6)</span><span class="en-text">savings vs incineration (IPCC AR6)</span></div>
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">Kompatible K&auml;ufer auf der Plattform</span><span class="en-text">Compatible buyers on platform</span></div>
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">Preisspanne je Pathway</span><span class="en-text">Price range per pathway</span></div>
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">Mikroplastikfeld (ISO 4484-2:2023)</span><span class="en-text">Microplastic field (ISO 4484-2:2023)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CIRCULAR NETWORK -->
+      <div class="layer-detail ld-violet" id="detail-network">
+        <div class="ld-hdr">
+          <div class="ld-tb">
+            <div class="ld-ey">Layer 04 &mdash; Circular Network</div>
+            <div class="ld-ti"><span class="de-text">Wie das Vertrauens-Netzwerk funktioniert</span><span class="en-text">How the trust network works</span></div>
+            <div class="ld-su"><span class="de-text">Verifizierte Identit&auml;ten, GRS-Zertifikatsverfolgung und 4-stufiger ESPR-Datenzugang &mdash; das Vertrauensfundament f&uuml;r alle Marktteilnehmer.</span><span class="en-text">Verified identities, GRS certificate tracking and 4-tier ESPR data access &mdash; the trust foundation for every marketplace participant.</span></div>
+          </div>
+          <div class="ld-pb"><div class="ld-pr" style="color:#C4B5FD">&euro;149</div><div class="ld-pl">Premium Membership</div></div>
+          <button class="ld-cl" onclick="closeLayer()">&#10005;</button>
+        </div>
+        <div class="ld-body">
+          <div class="ld-col">
+            <div class="ld-ct"><span class="de-text">Die vier Kernfunktionen</span><span class="en-text">The four core functions</span></div>
+            <div class="ld-steps">
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">1</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Verifizierte Unternehmensprofile (UOI/UFI)</span><span class="en-text">Verified company profiles (UOI/UFI)</span></div><div class="ld-sdsc"><span class="de-text">Jedes Unternehmen erh&auml;lt einen UOI, jede Anlage einen UFI. ESPR-pflichtig und dauerhaft mit allen Transaktionen verkn&uuml;pft.</span><span class="en-text">Every company receives a UOI, every facility a UFI. ESPR-mandatory and permanently linked to all transactions.</span></div><div class="ld-stag">ESPR Annex III(g,h,i) &middot; GS1 GTIN</div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">2</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">GRS/RCS-Zertifikatsverfolgung</span><span class="en-text">GRS/RCS certificate tracking</span></div><div class="ld-sdsc"><span class="de-text">Alle Recycler-Zertifikate automatisch verifiziert und Ablaufdatum &uuml;berwacht. Abgelaufene Zertifikate blockieren neue Transaktionen &mdash; technisch erzwungen.</span><span class="en-text">All recycler certificates automatically verified and expiry monitored. Expired certificates block new transactions &mdash; technically enforced.</span></div><div class="ld-stag">Textile Exchange &middot; CIRPASS-2</div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">3</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">4-stufiger Datenzugang (ESPR Art. 9)</span><span class="en-text">4-tier data access (ESPR Art. 9)</span></div><div class="ld-sdsc"><span class="de-text">Tier 1 &Ouml;ffentlich &middot; Tier 2 K&auml;ufer &middot; Tier 3 Betreiber &middot; Tier 4 Beh&ouml;rden. Jede Stufe enth&auml;lt alle Daten der vorherigen Stufe plus zus&auml;tzliche Details.</span><span class="en-text">Tier 1 Public &middot; Tier 2 Buyer &middot; Tier 3 Operator &middot; Tier 4 Authorities. Each tier includes all data from the previous tier plus additional details.</span></div><div class="ld-stag">ESPR Art. 9(2)(f-g) &middot; JRC145830 Annex 8</div></div></div>
+              <div class="ld-step"><div class="ld-sl"><div class="ld-sn">4</div><div class="ld-sli"></div></div><div><div class="ld-stit"><span class="de-text">Reputations-Scoring &amp; QR-Transparenz</span><span class="en-text">Reputation scoring &amp; QR transparency</span></div><div class="ld-sdsc"><span class="de-text">Transaktionshistorie jedes Teilnehmers &ouml;ffentlich einsehbar. B&uuml;rger k&ouml;nnen QR-Code auf Sammelcontainern scannen und sehen, wohin ihre Altkleidung ging.</span><span class="en-text">Transaction history of every participant publicly visible. Citizens can scan QR codes on collection containers and see where their old clothes went.</span></div><div class="ld-stag"><span class="de-text">&Ouml;ffentlich &middot; B&uuml;rgertransparenz &middot; QR</span><span class="en-text">Public &middot; Citizen transparency &middot; QR</span></div></div></div>
+            </div>
+          </div>
+          <div class="ld-col">
+            <div class="ld-ct"><span class="de-text">Wer es nutzt</span><span class="en-text">Who uses it</span></div>
+            <div class="ld-users">
+              <div class="ld-user"><div class="ld-ui">&#128269;</div><div><div class="ld-un"><span class="de-text">K&auml;ufer &mdash; Lieferantenpr&uuml;fung</span><span class="en-text">Buyers &mdash; supplier due diligence</span></div><div class="ld-ud"><span class="de-text">Pr&uuml;ft Zertifikatsstatus und Transaktionshistorie eines Recyclers vor dem Kauf. Verhindert Betrug.</span><span class="en-text">Checks certificate status and transaction history of a recycler before buying. Prevents fraud.</span></div></div></div>
+              <div class="ld-user"><div class="ld-ui">&#127963;</div><div><div class="ld-un"><span class="de-text">Kommunen &mdash; B&uuml;rgertransparenz</span><span class="en-text">Municipalities &mdash; citizen transparency</span></div><div class="ld-ud"><span class="de-text">QR-Code auf Sammelcontainern: B&uuml;rger sehen, wohin ihre Altkleidung ging und wie viel CO&#8322; gespart wurde.</span><span class="en-text">QR code on collection containers: citizens see where their old clothes went and CO&#8322; saved.</span></div></div></div>
+              <div class="ld-user"><div class="ld-ui">&#128203;</div><div><div class="ld-un"><span class="de-text">Beh&ouml;rden &mdash; Markt&uuml;berwachung</span><span class="en-text">Authorities &mdash; market surveillance</span></div><div class="ld-ud"><span class="de-text">Tier-4-Zugang: vollst&auml;ndige Audit-Trails, EPR-Meldungsunterlagen, EORI/TARIC-Referenzen.</span><span class="en-text">Tier 4 access: full audit trails, EPR filing records, EORI/TARIC references.</span></div></div></div>
+            </div>
+            <div class="ld-ct"><span class="de-text">Was im Netzwerk gespeichert wird</span><span class="en-text">What the network stores</span></div>
+            <div class="ld-outs">
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">UOI je Unternehmen &middot; UFI je Anlage</span><span class="en-text">UOI per company &middot; UFI per facility</span></div>
+              <div class="ld-out"><div class="ld-od"></div>GRS/RCS <span class="de-text">Zertifikate mit Ablaufdatum</span><span class="en-text">certificates with expiry dates</span></div>
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">Vollst&auml;ndige Transaktionshistorie je Teilnehmer</span><span class="en-text">Full transaction history per participant</span></div>
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">Rückverfolgbarkeitskette (3 Ebenen)</span><span class="en-text">Traceability chain (3 levels)</span></div>
+              <div class="ld-out"><div class="ld-od"></div>QR-Code <span class="de-text">je Lot &middot; &ouml;ffentlich scanbar</span><span class="en-text">per lot &middot; publicly scannable</span></div>
+              <div class="ld-out"><div class="ld-od"></div><span class="de-text">EORI/TARIC-Referenzen (Tier 4)</span><span class="en-text">EORI/TARIC references (Tier 4)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /layer-detail-wrap -->
+  </div>
+</section>
+
+<script>
+var _al = null;
+var _cm = {marketplace:0,compliance:1,material:2,network:3};
+function toggleLayer(n){
+  if(_al===n){closeLayer();return;}
+  _al=n;
+  document.querySelectorAll('.layer-card').forEach(function(c){c.classList.remove('active');});
+  document.querySelectorAll('.layer-detail').forEach(function(d){d.classList.remove('active');});
+  var cs=document.querySelectorAll('.layer-card');
+  if(cs[_cm[n]])cs[_cm[n]].classList.add('active');
+  var d=document.getElementById('detail-'+n);
+  var w=document.getElementById('layer-detail-wrap');
+  if(d&&w){d.classList.add('active');w.classList.add('open');setTimeout(function(){w.scrollIntoView({behavior:'smooth',block:'nearest'});},80);}
+}
+function closeLayer(){
+  _al=null;
+  document.querySelectorAll('.layer-card').forEach(function(c){c.classList.remove('active');});
+  document.querySelectorAll('.layer-detail').forEach(function(d){d.classList.remove('active');});
+  var w=document.getElementById('layer-detail-wrap');
+  if(w)w.classList.remove('open');
+}
+</script>
