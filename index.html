@@ -3,49 +3,156 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LoopLayer – Das digitale Rückgrat der europäischen Textilzirkularität</title>
-  <meta name="description" content="LoopLayer verbindet Hersteller, Recycler und Kommunen im EU-Textilkreislauf. EPR-Zertifikate, CSRD ESRS E5, Digital Product Passport – automatisch aus jeder bestätigten Transaktion.">
-  <meta property="og:title" content="LoopLayer – Textile Circularity Platform">
-  <meta property="og:description" content="EPR · CSRD ESRS E5 · EU Digital Product Passport. Automatisierte Compliance für Bayerische Textilindustrie.">
+  <title>LoopLayer - EPR und Digital Product Passport fuer Textilien</title>
+  <meta name="description" content="LoopLayer automatisiert EPR-Meldungen, CSRD ESRS E5-Berichte und Digital Product Passports fuer Textilindustrie, Recycler und Kommunen. Ab 149 Euro pro Monat. Demo anfragen.">
+  <link rel="canonical" href="https://looplayer.eu/">
+  <link rel="alternate" hreflang="de" href="https://looplayer.eu/">
+  <link rel="alternate" hreflang="en" href="https://looplayer.eu/?lang=en">
+  <link rel="alternate" hreflang="x-default" href="https://looplayer.eu/">
+  <meta property="og:title" content="LoopLayer - EPR und Digital Product Passport fuer Textilien">
+  <meta property="og:description" content="Automatisierte EPR-Zertifikate, CSRD ESRS E5 und CIRPASS-2 Digital Product Passports aus jeder Recyclingtransaktion.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://looplayer.eu">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="assets/css/style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"LoopLayer","description":"B2B Compliance-Plattform fuer Textilkreislaufwirtschaft. Automatisiert EPR-Jahreserklarungen, CSRD ESRS E5 und EU Digital Product Passports.","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://looplayer.eu","offers":{"@type":"Offer","price":"149","priceCurrency":"EUR"},"provider":{"@type":"Organization","name":"LoopLayer GmbH","url":"https://looplayer.eu","email":"info@looplayer.eu","address":{"@type":"PostalAddress","addressLocality":"Freising","addressRegion":"Bayern","addressCountry":"DE"}}}<\/script>
   <style>
-    /* Skeleton loader */
-    .mod-placeholder {
-      min-height: 60px;
-      background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
-      background-size: 200% 100%;
-      animation: skeleton 1.4s ease infinite;
-      border-radius: 4px;
-    }
-    @keyframes skeleton {
-      0%   { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
+    body{margin:0;background:#0F172A;font-family:"DM Sans",sans-serif;}
+    #inh{min-height:100vh;display:flex;align-items:center;padding:130px 0 80px;position:relative;overflow:hidden;background:#0F172A;}
+    #inh::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 70% 50%,rgba(15,118,110,.18) 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 10% 80%,rgba(29,78,216,.1) 0%,transparent 60%);pointer-events:none;}
+    .ic{max-width:1280px;margin:0 auto;padding:0 2rem;position:relative;}
+    .ig{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+    .ib{display:inline-flex;align-items:center;gap:.3rem;background:rgba(15,118,110,.15);border:1px solid rgba(15,118,110,.3);color:#5EEAD4;padding:.2rem .65rem;border-radius:100px;font-family:"DM Mono",monospace;font-size:.62rem;margin-bottom:1.25rem;}
+    h1.it{font-family:"Cormorant Garamond",serif;font-size:clamp(2.6rem,5.5vw,4.5rem);font-weight:600;line-height:1.1;color:#fff;letter-spacing:-.02em;margin:0 0 1.25rem;}
+    h1.it em{font-style:italic;color:#5EEAD4;}
+    .is{font-size:1rem;color:#94A3B8;font-weight:300;line-height:1.7;margin:0 0 2rem;max-width:460px;}
+    .ia{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;margin-bottom:2.5rem;}
+    .ip{display:inline-flex;align-items:center;gap:.5rem;background:#0D9488;color:#fff;padding:.85rem 1.75rem;border-radius:100px;font-weight:600;font-size:.92rem;text-decoration:none;}
+    .ie{font-family:"DM Mono",monospace;font-size:.78rem;color:#5EEAD4;text-decoration:none;}
+    .istat{display:flex;gap:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;}
+    .isn{font-family:"Cormorant Garamond",serif;font-size:2rem;font-weight:600;color:#fff;line-height:1;}
+    .isl{font-family:"DM Mono",monospace;font-size:.6rem;color:#64748B;text-transform:uppercase;letter-spacing:.06em;}
+    .ir{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:1.5rem;}
+    .isp{display:flex;align-items:flex-start;gap:.85rem;margin-bottom:1rem;}
+    .isn2{width:28px;height:28px;border-radius:50%;background:rgba(15,118,110,.15);border:1px solid rgba(15,118,110,.3);display:flex;align-items:center;justify-content:center;font-family:"DM Mono",monospace;font-size:.68rem;color:#5EEAD4;flex-shrink:0;}
+    .ist{font-weight:600;font-size:.85rem;color:#fff;margin-bottom:.2rem;}
+    .isd{font-size:.75rem;color:#64748B;line-height:1.55;}
+    .idiv{height:1px;background:rgba(255,255,255,.07);margin:1.25rem 0;}
+    .ipr{display:flex;gap:.5rem;flex-wrap:wrap;}
+    .ipri{display:flex;align-items:center;gap:.35rem;font-family:"DM Mono",monospace;font-size:.62rem;color:#475569;}
+    .iprd{width:5px;height:5px;border-radius:50%;background:#5EEAD4;flex-shrink:0;}
+    #inav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,23,42,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07);height:64px;display:flex;align-items:center;}
+    .ni{max-width:1280px;margin:0 auto;padding:0 2rem;width:100%;display:flex;align-items:center;gap:1.5rem;}
+    .nl a{font-family:"Cormorant Garamond",serif;font-size:1.45rem;font-weight:600;color:#fff;text-decoration:none;}
+    .nl a span{color:#5EEAD4;}
+    .nm{display:flex;gap:1.5rem;flex:1;}
+    .nm a{font-size:.82rem;color:#64748B;text-decoration:none;}
+    .nr{display:flex;align-items:center;gap:.75rem;margin-left:auto;}
+    .ndb{display:inline-flex;align-items:center;gap:.4rem;background:#0D9488;color:#fff;padding:.5rem 1.1rem;border-radius:100px;font-weight:600;font-size:.82rem;text-decoration:none;}
+    .lbtn{padding:.22rem .6rem;border-radius:100px;border:none;font-size:.72rem;cursor:pointer;font-family:"DM Mono",monospace;}
+    .lbtn.active{background:rgba(255,255,255,.15);color:#fff;}
+    .lbtn:not(.active){background:transparent;color:#64748B;}
+    .ltog{display:flex;background:rgba(255,255,255,.08);border-radius:100px;padding:2px;}
+    @media(max-width:900px){.ig{grid-template-columns:1fr;}.ir{display:none;}.nm{display:none;}}
   </style>
 </head>
 <body>
+<nav id="inav">
+  <div class="ni">
+    <div class="nl"><a href="/">Loop<span>Layer</span></a></div>
+    <div class="nm">
+      <a href="#compliance" class="de-text">Compliance</a>
+      <a href="#compliance" class="en-text" style="display:none">Compliance</a>
+      <a href="#dpp">DPP</a>
+      <a href="#layers" class="de-text">Plattform</a>
+      <a href="#layers" class="en-text" style="display:none">Platform</a>
+    </div>
+    <div class="nr">
+      <a href="#cta" class="ndb">
+        Demo <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <div class="ltog">
+        <button onclick="setLang('de')" data-lang="de" class="lbtn lang-btn active">DE</button>
+        <button onclick="setLang('en')" data-lang="en" class="lbtn lang-btn">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
 
-  <div id="mod-nav"></div>
-  <div id="mod-reg-strip"></div>
-  <main>
-    <div id="mod-hero"></div>
-    <div id="mod-problem"></div>
-    <div id="mod-layers"></div>
-    <div id="mod-compliance"></div>
-    <div id="mod-marketplace"></div>
-    <div id="mod-material"></div>
-    <div id="mod-network"></div>
-    <div id="mod-dpp"></div>
-    <div id="mod-competitive"></div>
-    <div id="mod-gtm"></div>
-    <div id="mod-cta"></div>
-  </main>
-  <div id="mod-footer"></div>
+<section id="inh" aria-label="LoopLayer Hero">
+  <div class="ic">
+    <div class="ig">
+      <div>
+        <div class="ib">ESPR DPP Service Provider &middot; Art. 2</div>
+        <h1 class="it">
+          <span class="de-text">EPR. CSRD. DPP.<br><em>Alles automatisch.</em></span>
+          <span class="en-text" style="display:none">EPR. CSRD. DPP.<br><em>Fully automated.</em></span>
+        </h1>
+        <p class="is">
+          <span class="de-text">LoopLayer generiert EPR-Zertifikate, ESRS-E5-Berichte und Digital Product Passports automatisch aus jeder bestätigten Recyclingtransaktion. Für Hersteller, Recycler und Kommunen in Bayern und der EU.</span>
+          <span class="en-text" style="display:none">LoopLayer generates EPR certificates, ESRS E5 reports and Digital Product Passports automatically from every confirmed recycling transaction. For manufacturers, recyclers and municipalities across the EU.</span>
+        </p>
+        <div class="ia">
+          <a href="#cta" class="ip">
+            <span class="de-text">30-min Demo anfragen</span>
+            <span class="en-text" style="display:none">Request 30-min demo</span>
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="mailto:info@looplayer.eu" class="ie">info@looplayer.eu</a>
+        </div>
+        <div class="istat">
+          <div><div class="isn">149 &euro;</div><div class="isl"><span class="de-text">Ab / Monat</span><span class="en-text" style="display:none">From / month</span></div></div>
+          <div><div class="isn">3</div><div class="isl"><span class="de-text">Monate Pilot kostenlos</span><span class="en-text" style="display:none">Month free pilot</span></div></div>
+          <div><div class="isn">2027</div><div class="isl"><span class="de-text">DPP Pflicht (ESPR)</span><span class="en-text" style="display:none">DPP mandatory</span></div></div>
+        </div>
+      </div>
+      <div class="ir">
+        <div style="display:inline-flex;align-items:center;gap:.35rem;background:rgba(15,118,110,.1);border:1px solid rgba(15,118,110,.2);color:#5EEAD4;padding:.22rem .7rem;border-radius:100px;font-family:'DM Mono',monospace;font-size:.65rem;margin-bottom:1rem;">
+          <span class="de-text">So funktioniert LoopLayer</span><span class="en-text" style="display:none">How LoopLayer works</span>
+        </div>
+        <div class="isp">
+          <div class="isn2">1</div>
+          <div><div class="ist"><span class="de-text">Transaktion bestätigen</span><span class="en-text" style="display:none">Confirm transaction</span></div><div class="isd"><span class="de-text">Recycler bestätigt Lieferung: Gewicht, Fasertyp, GRS-Zertifikat. eIDAS-signiert, unveränderbar.</span><span class="en-text" style="display:none">Recycler confirms delivery: weight, fibre type, GRS certificate. eIDAS-signed, immutable.</span></div></div>
+        </div>
+        <div class="isp">
+          <div class="isn2">2</div>
+          <div><div class="ist"><span class="de-text">Automatische Dokumentengenerierung</span><span class="en-text" style="display:none">Automatic document generation</span></div><div class="isd"><span class="de-text">EPR-Zertifikat (Naber DE) &middot; ESRS E5-Eintrag &middot; DPP (CIRPASS-2) &middot; CO2-Berechnung nach IPCC AR6</span><span class="en-text" style="display:none">EPR certificate (Naber DE) &middot; ESRS E5 entry &middot; DPP (CIRPASS-2) &middot; CO2 calc per IPCC AR6</span></div></div>
+        </div>
+        <div class="isp">
+          <div class="isn2">3</div>
+          <div><div class="ist"><span class="de-text">Audit-fertiges Nachweispaket</span><span class="en-text" style="display:none">Audit-ready evidence package</span></div><div class="isd"><span class="de-text">SHA-256-Hash, AWS S3 Object Lock, vollständige Prüfpfade. Ihr Wirtschaftsprüfer kann jeden Wert verifizieren.</span><span class="en-text" style="display:none">SHA-256 hash, AWS S3 Object Lock, complete audit trails. Your auditor can verify every figure.</span></div></div>
+        </div>
+        <div class="idiv"></div>
+        <div class="ipr">
+          <div class="ipri"><div class="iprd"></div> Naber DE &middot; REFASHION FR</div>
+          <div class="ipri"><div class="iprd"></div> EFRAG ESRS E5</div>
+          <div class="ipri"><div class="iprd"></div> CIRPASS-2 &middot; JRC145830</div>
+          <div class="ipri"><div class="iprd"></div> EN 45557:2020</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <script src="assets/js/main.js"></script>
+<div id="mod-nav" style="display:none"></div>
+<div id="mod-reg-strip"></div>
+<main>
+  <div id="mod-problem"></div>
+  <div id="mod-layers"></div>
+  <div id="mod-compliance"></div>
+  <div id="mod-marketplace"></div>
+  <div id="mod-material"></div>
+  <div id="mod-network"></div>
+  <div id="mod-dpp"></div>
+  <div id="mod-competitive"></div>
+  <div id="mod-gtm"></div>
+  <div id="mod-cta"></div>
+</main>
+<div id="mod-footer"></div>
+<script src="assets/js/main.js"></script>
+<script>
+(function(){var p=new URLSearchParams(window.location.search).get('lang');if(p==='en'){document.documentElement.setAttribute('data-lang','en');localStorage.setItem('ll-lang','en');}})();
+</script>
 </body>
 </html>
