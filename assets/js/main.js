@@ -41,10 +41,9 @@ async function loadModule(id, src) {
 }
 
 async function loadAllModules() {
+  // Hero and nav are inline in index.html for SEO/speed — not loaded as modules
   const modules = [
-    ['mod-nav',             'modules/nav.html'],
     ['mod-reg-strip',       'modules/reg-strip.html'],
-    ['mod-hero',            'modules/hero.html'],
     ['mod-problem',         'modules/problem.html'],
     ['mod-layers',          'modules/layers.html'],
     ['mod-compliance',      'modules/compliance.html'],
@@ -57,7 +56,6 @@ async function loadAllModules() {
     ['mod-cta',             'modules/cta.html'],
     ['mod-footer',          'modules/footer.html'],
   ];
-  // Load in order, sequentially for nav/hero, parallel for rest
   await Promise.all(modules.map(([id, src]) => loadModule(id, src)));
   initLang();
   initScrollAnimations();
