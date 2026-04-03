@@ -1,0 +1,69 @@
+<!-- CIRCULAR NETWORK MODULE -->
+<style>
+.network-section { background: var(--violet-lt); padding: var(--section) 0; border-top: 1px solid var(--violet-bd); border-bottom: 1px solid var(--violet-bd); }
+.network-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.net-title { font-family: var(--f-display); font-size: clamp(1.8rem,3.5vw,2.8rem); font-weight: 600; line-height: 1.2; margin-bottom: 1.25rem; }
+.net-title em { font-style: italic; color: var(--violet); }
+.net-tiers { display: flex; flex-direction: column; gap: .75rem; }
+.net-tier { display: flex; gap: 1rem; padding: 1rem 1.25rem; background: var(--white); border-radius: var(--radius-sm); border: 1px solid var(--violet-bd); }
+.net-tier-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .8rem; color: white; flex-shrink: 0; }
+.net-tier-title { font-weight: 600; font-size: .85rem; margin-bottom: .2rem; }
+.net-tier-desc { font-size: .75rem; color: var(--ink-60); line-height: 1.55; }
+.net-tier-fields { font-family: var(--f-mono); font-size: .62rem; color: var(--violet); margin-top: .35rem; }
+</style>
+
+<section class="network-section" id="network">
+  <div class="container">
+    <div class="network-grid">
+      <div>
+        <div class="eyebrow" style="margin-bottom:1rem">Layer 04 · Circular Network · <span class="de-text">ab Monat 6</span><span class="en-text">from Month 6</span></div>
+        <h2 class="net-title">
+          <span class="de-text">Vertrauen skalierbar<br><em>machen.</em></span>
+          <span class="en-text">Making trust<br><em>scalable.</em></span>
+        </h2>
+        <p class="lead" style="font-size:.95rem;margin-bottom:2rem;color:var(--ink-60)">
+          <span class="de-text">Verifizierte Partnerverzeichnisse mit Reputations-Scoring. GRS/RCS-Zertifikatsverfolgung. Rollenbasierter Datenzugang nach ESPR Art. 9(2)(f) — vier Stufen, von öffentlich bis Marktüberwachung.</span>
+          <span class="en-text">Verified partner directories with reputation scoring. GRS/RCS certificate tracking. Role-based data access per ESPR Art. 9(2)(f) — four tiers, from public to market surveillance.</span>
+        </p>
+        <a href="#cta" class="btn btn-outline" style="border-color:var(--violet-bd);color:var(--violet)">
+          <span class="de-text">Netzwerk beitreten</span>
+          <span class="en-text">Join the network</span>
+        </a>
+      </div>
+      <div class="net-tiers fade-in">
+        <div class="net-tier">
+          <div class="net-tier-num" style="background:var(--green)">1</div>
+          <div>
+            <div class="net-tier-title"><span class="de-text">Öffentlich · QR-Scan</span><span class="en-text">Public · QR scan</span></div>
+            <p class="net-tier-desc"><span class="de-text">Bürger und Verbraucher sehen: CO₂-Einsparung, Verarbeitungstyp, GRS-Status, Lot-Herkunftsland.</span><span class="en-text">Citizens and consumers see: CO₂ saving, processing type, GRS status, lot origin country.</span></p>
+            <div class="net-tier-fields">ESPR Art. 9(3)(a) · öffentlicher Zugang</div>
+          </div>
+        </div>
+        <div class="net-tier">
+          <div class="net-tier-num" style="background:var(--blue-mid)">2</div>
+          <div>
+            <div class="net-tier-title"><span class="de-text">Käufer / Endnutzer</span><span class="en-text">Buyer / End users</span></div>
+            <p class="net-tier-desc"><span class="de-text">+ Bestätigtes Gewicht, Faserzusammensetzung, ESRS-E5-Extrakt, EPR-Zertifikat-Download.</span><span class="en-text">+ Confirmed weight, fibre composition, ESRS E5 extract, EPR certificate download.</span></p>
+            <div class="net-tier-fields">ESPR Art. 9(2)(f) · buyer access</div>
+          </div>
+        </div>
+        <div class="net-tier">
+          <div class="net-tier-num" style="background:var(--violet-mid)">3</div>
+          <div>
+            <div class="net-tier-title"><span class="de-text">Wertschöpfungskettenoperatoren</span><span class="en-text">Value chain operators</span></div>
+            <p class="net-tier-desc"><span class="de-text">+ SHA-256-Hashes, UPI/UOI/UFI, Gefahrstoffdaten (SoC), vollständige Rückverfolgungskette.</span><span class="en-text">+ SHA-256 hashes, UPI/UOI/UFI, substances of concern, full traceability chain.</span></p>
+            <div class="net-tier-fields">ESPR Art. 9(2)(f-g) · operator access</div>
+          </div>
+        </div>
+        <div class="net-tier">
+          <div class="net-tier-num" style="background:var(--amber-mid)">4</div>
+          <div>
+            <div class="net-tier-title"><span class="de-text">Marktüberwachung / Behörden</span><span class="en-text">Market surveillance / Authorities</span></div>
+            <p class="net-tier-desc"><span class="de-text">Vollständige Compliance-Dokumentation, EPR-Meldungen, vollständiger Prüfpfad, EORI/TARIC.</span><span class="en-text">Full compliance documentation, EPR filings, complete audit trail, EORI/TARIC references.</span></p>
+            <div class="net-tier-fields">ESPR Art. 9(3)(b) · full authority access</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
