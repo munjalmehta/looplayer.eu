@@ -3,480 +3,1129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LoopLayer — EPR · CSRD · Digital Product Passport für Textilien</title>
-<meta name="description" content="LoopLayer generiert EPR-Zertifikate, CSRD ESRS E5 Berichte und Digital Product Passports automatisch aus jeder bestätigten Recyclingtransaktion.">
+<title>LoopLayer — EPR · CSRD ESRS E5 · Digital Product Passport für Textilien</title>
+<meta name="description" content="LoopLayer automatisiert EPR-Zertifikate, CSRD ESRS E5-Berichte und ESPR Digital Product Passports aus jeder bestätigten Recyclingtransaktion. REFASHION FR · UPV NL · Naber DE.">
+<meta property="og:title" content="LoopLayer — EPR. CSRD. DPP. Alles automatisch.">
+<meta property="og:description" content="Per-Transaktions-Compliance für die europäische Textilkreislaufwirtschaft. REFASHION FR · UPV NL · Naber DE.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--teal:#0D9488;--teal-lt:#5EEAD4;--teal-dk:#0F766E;--teal-bg:#F0FDFA;--dark:#0F172A;--dark-2:#1E293B;--dark-3:#334155;--grey:#64748B;--grey-lt:#94A3B8;--white:#FFFFFF;--amber:#D97706;--amber-bg:#FFFBEB;--r:8px;--r-lg:16px;--shadow-lg:0 16px 48px rgba(15,23,42,.18);--font-serif:'DM Serif Display',Georgia,serif;--font-body:'Outfit',system-ui,sans-serif;--font-mono:'DM Mono',monospace}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--font-body);background:var(--dark);color:var(--white);line-height:1.6;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-button{cursor:pointer;border:none;font-family:inherit;background:none}
-[data-en]{display:none}
-body.en [data-de]{display:none}
-body.en [data-en]{display:revert}
+:root {
+  --teal:      #0D9488;
+  --teal-dk:   #0F766E;
+  --teal-lt:   #5EEAD4;
+  --teal-mid:  #CCFBF1;
+  --dark:      #0F172A;
+  --dark2:     #1E293B;
+  --dark3:     #334155;
+  --grey:      #64748B;
+  --grey-lt:   #94A3B8;
+  --slate:     #F1F5F9;
+  --white:     #FFFFFF;
+  --amber:     #D97706;
+  --amber-lt:  #FEF3C7;
+  --red:       #DC2626;
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);height:64px;background:rgba(15,23,42,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
-.nav-logo{font-family:var(--font-serif);font-size:1.35rem;display:flex;align-items:center;gap:10px;flex-shrink:0}
-.nav-logo .loop{color:var(--teal-lt)}
-.nav-logo .layer{color:var(--white);font-style:italic}
-.nav-center{display:flex;align-items:center;gap:2rem;font-size:.85rem;color:var(--grey-lt);font-weight:500}
-.nav-center a:hover{color:var(--teal-lt);transition:color .2s}
-.nav-right{display:flex;align-items:center;gap:.8rem}
-.lang-toggle{display:flex;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:99px;overflow:hidden;padding:2px}
-.lang-btn{padding:.28rem .7rem;border-radius:99px;font-size:.75rem;font-weight:700;letter-spacing:.06em;color:var(--grey-lt);transition:all .2s;background:none;border:none;cursor:pointer;font-family:inherit}
-.lang-btn.active{background:var(--teal);color:var(--white)}
-.nav-cta{background:var(--teal);color:var(--white);padding:.45rem 1.1rem;border-radius:var(--r);font-size:.85rem;font-weight:600;transition:background .2s,transform .15s;white-space:nowrap}
-.nav-cta:hover{background:var(--teal-dk);transform:translateY(-1px)}
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
 
-/* HERO */
-.hero{min-height:100vh;padding-top:64px;padding-bottom:3rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-left:clamp(1.5rem,5vw,4rem);padding-right:clamp(1.5rem,5vw,4rem);position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(13,148,136,.18) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 80% 70%,rgba(94,234,212,.06) 0%,transparent 60%)}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(13,148,136,.15);border:1px solid rgba(94,234,212,.25);padding:.35rem .9rem;border-radius:99px;font-size:.78rem;font-weight:600;color:var(--teal-lt);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2rem;animation:fadeUp .6s ease both}
-.bdot{width:6px;height:6px;border-radius:50%;background:var(--teal-lt);animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
-.hero h1{font-family:var(--font-serif);font-size:clamp(2.4rem,6vw,4.5rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:1.5rem;animation:fadeUp .7s .1s ease both}
-.hero h1 em{color:var(--teal-lt);font-style:italic}
-.hero-sub{font-size:clamp(1rem,2vw,1.15rem);color:var(--grey-lt);max-width:640px;line-height:1.75;margin-bottom:2.5rem;animation:fadeUp .7s .2s ease both}
-.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeUp .7s .3s ease both;margin-bottom:3rem}
-.btn-p{background:var(--teal);color:var(--white);padding:.75rem 1.8rem;border-radius:var(--r);font-size:.95rem;font-weight:600;transition:all .2s}
-.btn-p:hover{background:var(--teal-dk);transform:translateY(-2px);box-shadow:0 8px 24px rgba(13,148,136,.4)}
-.btn-g{background:transparent;color:var(--grey-lt);padding:.75rem 1.8rem;border-radius:var(--r);font-size:.95rem;font-weight:500;border:1px solid rgba(255,255,255,.12);transition:all .2s}
-.btn-g:hover{border-color:var(--teal-lt);color:var(--teal-lt)}
-.stats{display:flex;flex-wrap:wrap;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--r-lg);overflow:hidden;animation:fadeUp .7s .4s ease both;max-width:720px;width:100%}
-.stat{flex:1;min-width:130px;padding:1.2rem 1.5rem;border-right:1px solid rgba(255,255,255,.06);text-align:center}
-.stat:last-child{border-right:none}
-.stat-v{font-family:var(--font-mono);font-size:1.5rem;font-weight:500;color:var(--teal-lt);display:block;line-height:1.2}
-.stat-l{font-size:.7rem;color:var(--grey-lt);text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem}
-.ms-banner{margin-top:2.5rem;display:inline-flex;align-items:center;gap:.7rem;background:rgba(13,148,136,.12);border:1px solid rgba(13,148,136,.3);padding:.6rem 1.2rem;border-radius:var(--r);font-size:.82rem;color:var(--teal-lt);animation:fadeUp .7s .5s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  --max: 1100px;
+  --r: 10px;
+}
 
-/* TICKER */
-.ticker{background:var(--dark-2);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);padding:.65rem 0;overflow:hidden}
-.ticker-inner{display:flex;gap:4rem;animation:scroll 35s linear infinite;width:max-content}
-.ti{white-space:nowrap;font-size:.78rem;font-weight:500;display:flex;align-items:center;gap:.6rem;color:var(--grey-lt)}
-.ti strong{color:var(--white)}
-.td{width:5px;height:5px;border-radius:50%;background:var(--teal);flex-shrink:0}
-@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* SECTIONS */
-section{padding:clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem)}
-.sl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--teal);margin-bottom:1rem}
-.st{font-family:var(--font-serif);font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:1.2rem}
-.st em{color:var(--teal-lt);font-style:italic}
-.ss{color:var(--grey-lt);max-width:580px;font-size:1rem;line-height:1.75}
-.bg1{background:var(--dark)}
-.bg2{background:var(--dark-2)}
-.tc{text-align:center}
+html { scroll-behavior: smooth; font-size: 16px; }
 
-/* PROBLEM */
-.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
-.pc{background:var(--dark-2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-lg);padding:1.8rem;transition:all .3s}
-.pc:hover{border-color:rgba(94,234,212,.25);transform:translateY(-3px)}
-.pi{font-size:1.6rem;margin-bottom:1rem}
-.ptag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .7rem;border-radius:99px;margin-bottom:.8rem}
-.te{background:rgba(13,148,136,.15);color:var(--teal-lt)}
-.tc2{background:rgba(217,119,6,.15);color:#FCD34D}
-.td2{background:rgba(99,102,241,.15);color:#A5B4FC}
-.pc h3{font-size:1.05rem;font-weight:600;margin-bottom:.6rem}
-.pc p{font-size:.9rem;color:var(--grey-lt);line-height:1.65}
-.pdl{margin-top:1rem;font-family:var(--font-mono);font-size:.78rem;color:var(--teal);border-top:1px solid rgba(255,255,255,.06);padding-top:.8rem}
+body {
+  font-family: var(--sans);
+  background: var(--white);
+  color: var(--dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-/* HOW */
-.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:3rem;border:1px solid rgba(255,255,255,.07);border-radius:var(--r-lg);overflow:hidden}
-.hs{padding:2rem 1.5rem;border-right:1px solid rgba(255,255,255,.07)}
-.hs:last-child{border-right:none}
-.hn{font-family:var(--font-mono);font-size:.68rem;font-weight:500;color:var(--teal);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem}
-.hi{font-size:1.4rem;margin-bottom:.8rem}
-.hs h4{font-size:.95rem;font-weight:600;margin-bottom:.5rem}
-.hs p{font-size:.85rem;color:var(--grey-lt);line-height:1.6}
-.htag{font-family:var(--font-mono);font-size:.68rem;color:var(--teal-lt);margin-top:.8rem;display:block}
+/* ── LANG ── */
+[data-en] { display: none; }
+body.en [data-de] { display: none; }
+body.en [data-en] { display: revert; }
 
-/* LAYERS */
-.lg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem}
-.lc{background:var(--dark-2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-lg);padding:1.8rem;display:flex;flex-direction:column;transition:all .3s}
-.lc:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
-.lc.pri{border-color:rgba(94,234,212,.3);background:linear-gradient(135deg,rgba(13,148,136,.12) 0%,var(--dark-2) 60%)}
-.ln{font-family:var(--font-mono);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem}
-.lc h3{font-size:1.1rem;font-weight:600;margin-bottom:.4rem}
-.lp{font-family:var(--font-mono);font-size:.8rem;color:var(--grey-lt);margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,.06)}
-.lp strong{color:var(--teal-lt)}
-.lf{list-style:none;display:flex;flex-direction:column;gap:.5rem;flex:1}
-.lf li{font-size:.85rem;color:var(--grey-lt);display:flex;align-items:flex-start;gap:.6rem;line-height:1.5}
-.lf li::before{content:"→";color:var(--teal);flex-shrink:0;margin-top:1px}
-.lb{margin-top:1.2rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.3rem .8rem;border-radius:99px;display:inline-block;align-self:flex-start}
-.ba{background:rgba(13,148,136,.2);color:var(--teal-lt)}
-.bs{background:rgba(255,255,255,.07);color:var(--grey-lt)}
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,23,42,.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  padding: 0 clamp(1.5rem,4vw,3rem);
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--serif); font-size: 1.3rem; font-weight: 700;
+  text-decoration: none; color: var(--white);
+  display: flex; align-items: center; gap: 0;
+}
+.nav-logo span.tl { color: var(--teal-lt); }
+.nav-logo span.ly { color: var(--white); font-style: italic; }
+.nav-links {
+  display: flex; align-items: center; gap: 1.5rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: .82rem; font-weight: 500; color: var(--grey-lt);
+  text-decoration: none; letter-spacing: .04em;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--teal-lt); }
+.nav-right { display: flex; align-items: center; gap: .75rem; }
+.lang-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: .78rem; font-weight: 600; font-family: var(--sans);
+  color: var(--grey); letter-spacing: .05em; padding: .2rem .4rem;
+  border-radius: 4px; transition: color .2s;
+}
+.lang-btn.active, .lang-btn:hover { color: var(--teal-lt); }
+.nav-cta {
+  background: var(--teal); color: var(--white) !important;
+  padding: .4rem 1rem; border-radius: 6px;
+  font-weight: 600 !important; font-size: .8rem !important;
+  transition: background .2s;
+}
+.nav-cta:hover { background: var(--teal-dk) !important; }
 
-/* DQL */
-.dql-into{max-width:700px;color:var(--grey-lt);font-size:1rem;line-height:1.75;margin-bottom:3rem}
-.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-bottom:2rem}
-.dc{border-radius:var(--r-lg);padding:1.5rem;border-left:4px solid transparent;transition:transform .2s}
-.dc:hover{transform:translateY(-2px)}
-.d1{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.15)}
-.d2{background:rgba(13,148,136,.08);border-color:rgba(13,148,136,.4)}
-.d3{background:rgba(13,148,136,.12);border-color:rgba(13,148,136,.6)}
-.d4{background:rgba(13,148,136,.18);border-color:var(--teal-lt)}
-.dlv{font-family:var(--font-mono);font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
-.d1 .dlv{color:var(--grey-lt)}
-.d2 .dlv,.d3 .dlv,.d4 .dlv{color:var(--teal-lt)}
-.dc h4{font-size:.95rem;font-weight:600;margin-bottom:.5rem}
-.dc p{font-size:.83rem;color:var(--grey-lt);line-height:1.55}
-.do{margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.06);font-size:.75rem;font-family:var(--font-mono)}
-.d1 .do{color:var(--grey-lt)}
-.d2 .do,.d3 .do,.d4 .do{color:var(--teal)}
-.dr{background:rgba(13,148,136,.08);border:1px solid rgba(13,148,136,.2);border-radius:var(--r);padding:1.2rem 1.5rem;display:flex;align-items:flex-start;gap:1rem;font-size:.9rem;color:var(--grey-lt);line-height:1.6}
-.dr strong{color:var(--white)}
+/* ── HERO ── */
+.hero {
+  background: var(--dark);
+  padding: clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,4rem) clamp(4rem,8vw,7rem);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 80% 30%, rgba(13,148,136,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { max-width: var(--max); margin: 0 auto; position: relative; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: rgba(13,148,136,.12); border: 1px solid rgba(94,234,212,.2);
+  color: var(--teal-lt); font-size: .75rem; font-weight: 600;
+  letter-spacing: .1em; padding: .35rem 1rem; border-radius: 100px;
+  margin-bottom: 1.75rem; font-family: var(--mono);
+}
+.bdot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal-lt); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.85)} }
 
-/* DPP */
-.dw{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;margin-top:3rem}
-.df{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-top:1.5rem}
-.df li{font-size:.88rem;color:var(--grey-lt);display:flex;align-items:center;gap:.7rem}
-.df li::before{content:"✓";color:var(--teal);font-weight:700;flex-shrink:0}
-.dppc{background:var(--dark-2);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-lg)}
-.dpph{background:var(--teal);padding:1rem 1.4rem;display:flex;align-items:center;justify-content:space-between}
-.dpph h4{font-size:.85rem;font-weight:600}
-.sp{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:rgba(255,255,255,.25);padding:.2rem .6rem;border-radius:99px}
-.dppb{padding:1.4rem}
-.dpr{display:flex;justify-content:space-between;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.05);gap:1rem}
-.dpr:last-child{border-bottom:none}
-.dk{font-size:.78rem;color:var(--grey-lt);font-family:var(--font-mono);flex-shrink:0}
-.dv{font-size:.82rem;font-weight:500;text-align:right}
-.dv .ok{color:var(--teal-lt)}
-.dppf{background:rgba(0,0,0,.2);padding:.8rem 1.4rem;display:flex;flex-wrap:wrap;gap:.4rem}
-.dtick{font-size:.68rem;font-weight:600;background:rgba(13,148,136,.2);color:var(--teal-lt);padding:.2rem .6rem;border-radius:99px;font-family:var(--font-mono)}
-.dppn{padding:.6rem 1.4rem;font-size:.72rem;color:var(--grey-lt);font-style:italic;border-top:1px solid rgba(255,255,255,.05);text-align:center}
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(2.8rem,7vw,5rem);
+  line-height: 1.05; letter-spacing: -.02em;
+  color: var(--white); margin-bottom: 1.5rem;
+  font-weight: 900;
+}
+.hero h1 em { color: var(--teal-lt); font-style: italic; }
+.hero-sub {
+  font-size: clamp(.95rem,2vw,1.1rem); color: var(--grey-lt);
+  line-height: 1.75; max-width: 640px; margin-bottom: 2.5rem;
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 3.5rem; }
+.btn-p {
+  background: var(--teal); color: var(--white);
+  padding: .8rem 1.75rem; border-radius: 8px;
+  font-weight: 600; font-size: .9rem; text-decoration: none;
+  display: inline-flex; align-items: center; gap: .5rem;
+  transition: background .2s, transform .15s;
+  border: none; cursor: pointer; font-family: var(--sans);
+}
+.btn-p:hover { background: var(--teal-dk); transform: translateY(-1px); }
+.btn-s {
+  background: transparent; color: var(--grey-lt);
+  padding: .8rem 1.5rem; border-radius: 8px;
+  font-weight: 500; font-size: .9rem; text-decoration: none;
+  border: 1px solid rgba(255,255,255,.12);
+  transition: border-color .2s, color .2s;
+}
+.btn-s:hover { border-color: var(--teal-lt); color: var(--teal-lt); }
 
-/* DOCS */
-.docg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:3rem}
-.docc{background:var(--dark);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-lg);padding:1.5rem;transition:all .2s}
-.docc:hover{border-color:rgba(94,234,212,.2);transform:translateY(-2px)}
-.docn{font-family:var(--font-mono);font-size:.68rem;color:var(--teal);font-weight:600;letter-spacing:.08em;margin-bottom:.6rem}
-.docc h4{font-size:.98rem;font-weight:600;margin-bottom:.5rem}
-.docc p{font-size:.83rem;color:var(--grey-lt);line-height:1.6;margin-bottom:.8rem}
-.docs{font-family:var(--font-mono);font-size:.7rem;color:var(--grey-lt);border-top:1px solid rgba(255,255,255,.06);padding-top:.7rem;line-height:1.6}
+.hero-stats { display: flex; flex-wrap: wrap; gap: 1rem; }
+.stat {
+  background: var(--dark2); border: 1px solid rgba(94,234,212,.15);
+  border-radius: 10px; padding: 1rem 1.5rem; min-width: 120px;
+}
+.stat-v { display: block; font-family: var(--serif); font-size: 1.8rem; font-weight: 700; color: var(--teal-lt); line-height: 1; }
+.stat-l { display: block; font-size: .72rem; color: var(--grey-lt); margin-top: .3rem; font-family: var(--mono); letter-spacing: .04em; }
 
-/* USERS */
-.ug{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:3rem}
-.uc{background:var(--dark-2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-lg);padding:1.8rem}
-.uic{font-size:1.8rem;margin-bottom:1rem}
-.uc h3{font-size:1rem;font-weight:600;margin-bottom:.6rem}
-.uc p{font-size:.88rem;color:var(--grey-lt);line-height:1.65}
-.ug2{margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;gap:.35rem}
-.ug2 span{font-size:.78rem;color:var(--teal-lt);display:flex;align-items:center;gap:.5rem}
-.ug2 span::before{content:"→";color:var(--teal)}
+.hero-milestone {
+  margin-top: 2rem; padding: .6rem 1rem;
+  background: rgba(13,148,136,.1); border: 1px solid rgba(94,234,212,.15);
+  border-radius: 8px; display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .82rem; color: var(--teal-lt); font-family: var(--mono);
+}
 
-/* STATUS */
-.stb{background:var(--dark-2);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
-.sti{max-width:640px;margin:0 auto;text-align:center}
-.sbadge{display:inline-flex;align-items:center;gap:.5rem;background:var(--amber-bg);border:1px solid rgba(217,119,6,.3);padding:.5rem 1.1rem;border-radius:99px;font-size:.78rem;font-weight:600;color:var(--amber);letter-spacing:.04em;margin-bottom:1.5rem}
-.stb h3{font-family:var(--font-serif);font-size:1.5rem;margin-bottom:1rem}
-.stb p{font-size:.93rem;color:var(--grey-lt);line-height:1.7;margin-bottom:1rem}
-.msl{margin-top:2rem;display:flex;flex-direction:column;gap:.7rem;text-align:left}
-.ms{display:flex;align-items:flex-start;gap:.9rem;padding:.8rem 1rem;background:rgba(255,255,255,.03);border-radius:var(--r);border:1px solid rgba(255,255,255,.05)}
-.msic{font-size:1rem;flex-shrink:0;margin-top:1px}
-.ms strong{display:block;font-size:.88rem;font-weight:600}
-.ms span{font-size:.8rem;color:var(--grey-lt)}
-.lbox{background:var(--teal-bg);border:1px solid rgba(13,148,136,.2);border-radius:var(--r);padding:1rem 1.4rem;font-size:.82rem;color:#134e4a;line-height:1.6;max-width:680px;margin:2rem auto 0}
-.lbox strong{color:var(--teal-dk)}
+/* ticker */
+.ticker-wrap {
+  background: var(--dark2); border-top: 1px solid rgba(255,255,255,.04);
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  overflow: hidden; white-space: nowrap; padding: .6rem 0;
+}
+.ticker { display: inline-flex; animation: tick 35s linear infinite; }
+.ticker-wrap:hover .ticker { animation-play-state: paused; }
+@keyframes tick { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.ti {
+  font-size: .72rem; color: var(--grey); font-family: var(--mono);
+  padding: 0 2rem; display: inline-flex; align-items: center; gap: .5rem;
+}
+.td { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); display: inline-block; flex-shrink: 0; }
+.ti strong { color: var(--grey-lt); }
 
-/* CTA */
-.cta{background:var(--dark);text-align:center}
-.ctab{max-width:680px;margin:0 auto;background:linear-gradient(135deg,rgba(13,148,136,.15),var(--dark-2));border:1px solid rgba(94,234,212,.2);border-radius:var(--r-lg);padding:3rem 2rem}
-.ctab h2{font-family:var(--font-serif);font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:1rem}
-.ctab > p{color:var(--grey-lt);font-size:.95rem;line-height:1.7;margin-bottom:2rem}
-.ctaf{display:flex;flex-direction:column;gap:1rem;max-width:420px;margin:0 auto}
-.cs,.ci{background:var(--dark-2);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:.75rem 1rem;border-radius:var(--r);font-family:var(--font-body);font-size:.9rem;width:100%}
-.cs{color:var(--grey-lt);appearance:none;cursor:pointer}
-.ci::placeholder{color:var(--grey-lt)}
-.cs:focus,.ci:focus{outline:2px solid var(--teal);border-color:var(--teal)}
-.crow{display:flex;gap:.8rem}
-.crow .ci{flex:1}
-.cn{font-size:.75rem;color:var(--grey-lt);text-align:center;margin-top:.5rem;line-height:1.5}
-.plls{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;margin-top:1.5rem}
-.pll{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:.4rem 1rem;font-size:.8rem;color:var(--grey-lt)}
-.pll strong{color:var(--teal-lt)}
+/* ── SECTIONS ── */
+section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); }
+.inner { max-width: var(--max); margin: 0 auto; }
+.sl { font-family: var(--mono); font-size: .72rem; letter-spacing: .15em; color: var(--teal); font-weight: 500; text-transform: uppercase; margin-bottom: .75rem; }
+.st { font-family: var(--serif); font-size: clamp(1.8rem,4vw,2.8rem); line-height: 1.2; margin-bottom: 1rem; }
+.st em { color: var(--teal); font-style: italic; }
+.ss { color: var(--grey); font-size: 1.05rem; line-height: 1.75; max-width: 600px; margin-bottom: 2.5rem; }
 
-/* FOOTER */
-footer{background:rgba(0,0,0,.4);border-top:1px solid rgba(255,255,255,.06);padding:2.5rem clamp(1.5rem,5vw,4rem)}
-.fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;max-width:1100px;margin:0 auto}
-.fb h3{font-family:var(--font-serif);font-size:1.2rem;margin-bottom:.5rem}
-.fb .loop{color:var(--teal-lt)}
-.fb .layer{font-style:italic}
-.fb p{font-size:.82rem;color:var(--grey-lt);line-height:1.65;max-width:300px}
-.fb a{display:inline-block;margin-top:.8rem;color:var(--teal-lt);font-size:.85rem;font-weight:500}
-.fc h4{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-bottom:.8rem}
-.fc ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.fc li{font-size:.8rem;color:var(--grey-lt)}
-.fc li strong{color:var(--white)}
-.fbot{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.06);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center}
-.fbot p{font-size:.75rem;color:var(--grey-lt)}
-.fleg{margin-top:1rem;font-size:.72rem;color:var(--grey-lt);line-height:1.6;max-width:700px}
+.bg1 { background: var(--white); }
+.bg2 { background: var(--slate); }
+.bgdk { background: var(--dark); color: var(--white); }
 
-/* FADE */
-.fade{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
-.fade.in{opacity:1;transform:translateY(0)}
+/* ── REFASHION ROI HERO ── */
+.roi-section {
+  background: linear-gradient(135deg, #064E3B 0%, #0F766E 100%);
+  padding: clamp(3.5rem,7vw,6rem) clamp(1.5rem,5vw,4rem);
+}
+.roi-inner { max-width: var(--max); margin: 0 auto; }
+.roi-tag {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: rgba(94,234,212,.15); border: 1px solid rgba(94,234,212,.3);
+  color: var(--teal-lt); font-size: .72rem; font-weight: 700;
+  letter-spacing: .12em; padding: .35rem 1rem; border-radius: 100px;
+  margin-bottom: 1.5rem; font-family: var(--mono);
+}
+.roi-section h2 {
+  font-family: var(--serif); font-size: clamp(1.8rem,4.5vw,3rem);
+  color: var(--white); margin-bottom: 1rem; line-height: 1.15;
+}
+.roi-section h2 em { color: var(--teal-lt); font-style: italic; }
+.roi-sub { color: rgba(255,255,255,.7); font-size: 1.05rem; line-height: 1.75; max-width: 660px; margin-bottom: 2.5rem; }
+.roi-sub strong { color: var(--teal-lt); }
+.roi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; margin-bottom: 2rem; }
+.roi-card {
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+  border-radius: 12px; padding: 1.4rem 1.25rem;
+}
+.roi-num { font-family: var(--serif); font-size: 2.4rem; font-weight: 700; color: var(--teal-lt); line-height: 1; }
+.roi-lbl { color: rgba(255,255,255,.6); font-size: .8rem; margin-top: .4rem; line-height: 1.5; }
+.roi-calc {
+  background: rgba(0,0,0,.25); border-left: 3px solid var(--teal-lt);
+  padding: 1.1rem 1.4rem; border-radius: 0 10px 10px 0;
+  color: rgba(255,255,255,.8); font-size: .9rem; line-height: 1.7;
+}
+.roi-calc strong { color: var(--teal-lt); }
 
-/* RESPONSIVE */
-@media(max-width:900px){.nav-center{display:none}.dw{grid-template-columns:1fr}.fg{grid-template-columns:1fr;gap:1.5rem}}
-@media(max-width:600px){.hg{grid-template-columns:1fr}.hs{border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}.hs:last-child{border-bottom:none}.dg{grid-template-columns:1fr 1fr}.crow{flex-direction:column}.stats{flex-direction:column}.stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}.stat:last-child{border-bottom:none}}
-@media(max-width:420px){.dg{grid-template-columns:1fr}}
+/* ── PROBLEM CARDS ── */
+.pg { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1.25rem; }
+.pc {
+  background: var(--white); border: 1px solid #E2E8F0;
+  border-radius: 12px; padding: 1.75rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,.05);
+  border-top: 3px solid var(--teal);
+  transition: transform .2s, box-shadow .2s;
+}
+.pc:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.09); }
+.pi { font-size: 2rem; margin-bottom: 1rem; }
+.ptag {
+  display: inline-block; font-family: var(--mono); font-size: .7rem;
+  font-weight: 500; padding: .25rem .75rem; border-radius: 100px;
+  margin-bottom: .75rem; letter-spacing: .06em;
+}
+.te  { background: var(--teal-mid); color: var(--teal-dk); }
+.tc2 { background: #FEF9C3; color: #854D0E; }
+.td2 { background: #EDE9FE; color: #5B21B6; }
+.pc h3 { font-family: var(--serif); font-size: 1.15rem; margin-bottom: .65rem; }
+.pc p { font-size: .9rem; color: var(--grey); line-height: 1.65; margin-bottom: 1rem; }
+.pdl { font-family: var(--mono); font-size: .72rem; color: var(--teal); letter-spacing: .04em; }
+
+/* ── HOW IT WORKS ── */
+.how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1.25rem; }
+.hs {
+  background: var(--white); border: 1px solid #E2E8F0;
+  border-radius: 12px; padding: 1.75rem;
+  position: relative;
+}
+.bgdk .hs { background: var(--dark2); border-color: rgba(255,255,255,.08); }
+.hn { font-family: var(--mono); font-size: .68rem; color: var(--teal); font-weight: 500; letter-spacing: .1em; margin-bottom: .75rem; }
+.hi { font-size: 2rem; margin-bottom: .75rem; }
+.hs h4 { font-weight: 600; font-size: .95rem; margin-bottom: .5rem; }
+.bgdk .hs h4 { color: var(--white); }
+.hs p { font-size: .85rem; color: var(--grey); line-height: 1.6; margin-bottom: .75rem; }
+.bgdk .hs p { color: var(--grey-lt); }
+.htag { font-family: var(--mono); font-size: .68rem; color: var(--teal-lt); background: rgba(13,148,136,.12); padding: .2rem .6rem; border-radius: 4px; }
+
+/* ── URGENCY BAND ── */
+.urgency {
+  background: var(--dark2);
+  padding: 1.5rem clamp(1.5rem,5vw,4rem);
+}
+.urgency-inner { max-width: var(--max); margin: 0 auto; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
+.urg-item { display: flex; align-items: center; gap: .6rem; }
+.urg-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
+.urg-dot.red { background: var(--red); }
+.urg-dot.green { background: #22C55E; }
+.urg-text { font-size: .8rem; color: var(--grey-lt); font-family: var(--mono); }
+.urg-text strong { color: var(--white); }
+
+/* ── LAYERS ── */
+.layers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.25rem; }
+.lc {
+  background: var(--white); border: 1px solid #E2E8F0;
+  border-radius: 12px; padding: 1.75rem;
+  position: relative; overflow: hidden;
+}
+.lc::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--teal);
+}
+.lc.pri { background: var(--dark); border-color: var(--teal); }
+.lc.pri::before { background: var(--teal-lt); }
+.ln { font-family: var(--mono); font-size: .68rem; color: var(--teal); font-weight: 600; letter-spacing: .1em; margin-bottom: .5rem; }
+.lc.pri .ln { color: var(--teal-lt); }
+.lc h3 { font-weight: 700; font-size: 1rem; margin-bottom: .5rem; }
+.lc.pri h3 { color: var(--white); }
+.lp { font-family: var(--mono); font-size: .85rem; color: var(--teal); font-weight: 600; margin-bottom: 1rem; }
+.lc.pri .lp { color: var(--teal-lt); }
+.lf { list-style: none; font-size: .82rem; color: var(--grey); }
+.lf li { padding: .3rem 0; border-bottom: 1px solid #F1F5F9; display: flex; gap: .4rem; align-items: baseline; }
+.lf li::before { content: '→'; color: var(--teal); font-size: .72rem; flex-shrink: 0; }
+.lc.pri .lf li { color: var(--grey-lt); border-color: rgba(255,255,255,.06); }
+.lc.pri .lf li::before { color: var(--teal-lt); }
+.lb {
+  display: inline-block; margin-top: 1.25rem;
+  font-family: var(--mono); font-size: .7rem; font-weight: 600;
+  padding: .3rem .8rem; border-radius: 4px; letter-spacing: .06em;
+}
+.ba { background: rgba(13,148,136,.1); color: var(--teal); }
+.bs { background: rgba(100,116,139,.1); color: var(--grey); }
+.lc.pri .ba { background: rgba(94,234,212,.15); color: var(--teal-lt); }
+
+/* ── DQL ── */
+.dql-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1.25rem; }
+.dc {
+  border-radius: 12px; padding: 1.5rem;
+  border: 1px solid rgba(255,255,255,.1);
+}
+.d1 { background: var(--dark2); }
+.d2 { background: #064E3B; border-color: rgba(94,234,212,.2); }
+.d3 { background: #0A4F49; border-color: rgba(94,234,212,.3); }
+.d4 { background: #065F46; border-color: rgba(94,234,212,.4); }
+.dlv { font-family: var(--mono); font-size: .68rem; color: var(--teal-lt); font-weight: 600; letter-spacing: .1em; margin-bottom: .4rem; }
+.dc h4 { color: var(--white); font-weight: 700; font-size: .95rem; margin-bottom: .6rem; }
+.dc p { font-size: .82rem; color: rgba(255,255,255,.6); line-height: 1.6; margin-bottom: 1rem; }
+.do {
+  font-family: var(--mono); font-size: .75rem;
+  background: rgba(0,0,0,.2); border-radius: 6px;
+  padding: .5rem .75rem; color: var(--teal-lt); line-height: 1.5;
+}
+.d1 .do { color: var(--grey-lt); }
+.dql-note {
+  margin-top: 1.5rem; padding: 1rem 1.25rem;
+  background: rgba(13,148,136,.08); border-left: 3px solid var(--teal);
+  border-radius: 0 8px 8px 0; font-size: .85rem; color: var(--grey-lt); line-height: 1.65;
+  display: flex; gap: .75rem; align-items: flex-start;
+}
+.bgdk .dql-note { background: rgba(0,0,0,.2); }
+
+/* ── DPP DEMO ── */
+.dpp-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+@media(max-width:700px){.dpp-wrap{grid-template-columns:1fr}}
+.df { list-style: none; font-size: .9rem; color: var(--grey-lt); }
+.df li { padding: .35rem 0; display: flex; gap: .5rem; align-items: baseline; border-bottom: 1px solid rgba(255,255,255,.06); }
+.df li::before { content: '✓'; color: var(--teal-lt); font-size: .8rem; flex-shrink: 0; }
+.dpp-card {
+  background: var(--dark); border: 1px solid rgba(94,234,212,.2);
+  border-radius: 14px; overflow: hidden;
+}
+.dpph { background: rgba(13,148,136,.15); padding: .85rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+.dpph h4 { font-size: .85rem; font-weight: 700; color: var(--white); font-family: var(--mono); }
+.sp { font-size: .68rem; font-family: var(--mono); background: rgba(94,234,212,.15); color: var(--teal-lt); padding: .2rem .6rem; border-radius: 4px; }
+.dpr { display: flex; justify-content: space-between; align-items: center; padding: .65rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,.04); font-size: .82rem; }
+.dk { color: var(--grey); font-family: var(--mono); font-size: .75rem; }
+.dv { color: var(--white); font-weight: 500; text-align: right; }
+.ok { color: var(--teal-lt); }
+.dpp-badges { padding: .85rem 1.25rem; display: flex; flex-wrap: wrap; gap: .4rem; }
+.dbadge { font-family: var(--mono); font-size: .68rem; background: rgba(13,148,136,.15); color: var(--teal-lt); padding: .25rem .6rem; border-radius: 4px; }
+.dppn { padding: .75rem 1.25rem; font-size: .72rem; color: var(--grey); font-family: var(--mono); border-top: 1px solid rgba(255,255,255,.04); }
+
+/* ── DOCS ── */
+.docs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 1.25rem; }
+.docc {
+  background: var(--white); border: 1px solid #E2E8F0;
+  border-radius: 12px; padding: 1.5rem;
+  border-top: 3px solid var(--teal);
+}
+.docn { font-family: var(--mono); font-size: .68rem; color: var(--grey); letter-spacing: .08em; margin-bottom: .5rem; }
+.docc h4 { font-weight: 700; font-size: .95rem; margin-bottom: .5rem; }
+.docc p { font-size: .82rem; color: var(--grey); line-height: 1.6; margin-bottom: .75rem; }
+.docs { font-family: var(--mono); font-size: .7rem; color: var(--teal); line-height: 1.6; }
+
+/* ── USERS ── */
+.ug { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1.25rem; }
+.uc {
+  background: var(--white); border: 1px solid #E2E8F0;
+  border-radius: 12px; padding: 1.75rem;
+}
+.uic { font-size: 2rem; margin-bottom: 1rem; }
+.uc h3 { font-weight: 700; font-size: .97rem; margin-bottom: .5rem; }
+.uc p { font-size: .85rem; color: var(--grey); line-height: 1.65; margin-bottom: 1rem; }
+.ug2 { display: flex; flex-direction: column; gap: .35rem; }
+.ug2 span { font-family: var(--mono); font-size: .72rem; color: var(--teal-dk); background: var(--teal-mid); padding: .25rem .7rem; border-radius: 4px; display: inline-block; width: fit-content; }
+
+/* ── VALUE CHAIN ── */
+.chain-wrap { overflow-x: auto; padding: .5rem 0; }
+.chain {
+  display: flex; align-items: stretch; gap: 0;
+  min-width: 760px; border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden;
+}
+.ch-step {
+  flex: 1; padding: 1.25rem 1rem; background: var(--white);
+  border-right: 1px solid #E2E8F0; position: relative;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.ch-step:last-child { border-right: none; }
+.ch-step::after {
+  content: '→'; position: absolute; right: -10px; top: 50%; transform: translateY(-50%);
+  color: var(--teal); font-size: .9rem; z-index: 1; background: var(--white); padding: 0 2px;
+}
+.ch-step:last-child::after { display: none; }
+.ch-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+.ch-name { font-weight: 700; font-size: .78rem; margin-bottom: .3rem; }
+.ch-role { font-size: .68rem; color: var(--grey); font-family: var(--mono); }
+.ch-doc { margin-top: .6rem; font-size: .65rem; font-family: var(--mono); background: var(--teal-mid); color: var(--teal-dk); padding: .2rem .5rem; border-radius: 3px; }
+
+/* ── STATUS ── */
+.stb { background: var(--dark2); padding: clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem); }
+.sti { max-width: 680px; margin: 0 auto; }
+.sbadge {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: rgba(217,119,6,.15); border: 1px solid rgba(217,119,6,.3);
+  color: var(--amber); font-family: var(--mono); font-size: .72rem;
+  font-weight: 700; letter-spacing: .1em; padding: .35rem 1rem;
+  border-radius: 100px; margin-bottom: 1.5rem;
+}
+.stb h3 { font-family: var(--serif); font-size: 1.6rem; color: var(--white); margin-bottom: 1rem; }
+.stb p { color: var(--grey-lt); line-height: 1.7; font-size: .92rem; margin-bottom: 1.75rem; }
+.msl { display: flex; flex-direction: column; gap: .85rem; margin-bottom: 1.75rem; }
+.ms { display: flex; gap: 1rem; align-items: flex-start; }
+.msic { font-size: 1.1rem; flex-shrink: 0; margin-top: .1rem; }
+.ms div { display: flex; flex-direction: column; gap: .2rem; }
+.ms strong { font-size: .88rem; color: var(--white); }
+.ms span { font-size: .8rem; color: var(--grey); }
+.lbox {
+  background: rgba(0,0,0,.2); border: 1px solid rgba(255,255,255,.06);
+  border-radius: 8px; padding: 1rem 1.25rem;
+  font-size: .8rem; color: var(--grey); line-height: 1.65;
+}
+.lbox strong { color: var(--grey-lt); }
+
+/* ── CTA ── */
+.cta { background: var(--dark); padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); }
+.ctab { max-width: 560px; margin: 0 auto; text-align: center; }
+.ctab h2 { font-family: var(--serif); font-size: clamp(1.7rem,3.5vw,2.4rem); color: var(--white); margin-bottom: 1rem; }
+.ctab p { color: var(--grey-lt); line-height: 1.7; margin-bottom: 2rem; font-size: .95rem; }
+.ctaf { display: flex; flex-direction: column; gap: .75rem; }
+.cs {
+  width: 100%; padding: .85rem 1rem; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.1); background: var(--dark2);
+  color: var(--white); font-family: var(--sans); font-size: .9rem; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+}
+.crow { display: flex; gap: .5rem; }
+.ci {
+  flex: 1; padding: .85rem 1rem; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.1); background: var(--dark2);
+  color: var(--white); font-family: var(--sans); font-size: .9rem;
+}
+.ci::placeholder { color: var(--grey); }
+.cn { font-size: .78rem; color: var(--grey); text-align: center; }
+.cn strong { color: var(--teal-lt); }
+.cta-mini { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin-top: 2.5rem; }
+.cm-item { text-align: center; }
+.cm-v { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; color: var(--teal-lt); }
+.cm-l { font-size: .72rem; color: var(--grey); font-family: var(--mono); }
+
+/* ── FOOTER ── */
+footer {
+  background: #080D17; padding: 2.5rem clamp(1.5rem,5vw,4rem);
+  border-top: 1px solid rgba(255,255,255,.04);
+}
+.footer-inner { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 2fr repeat(2,1fr); gap: 2rem; }
+@media(max-width:640px){.footer-inner{grid-template-columns:1fr}}
+.footer-brand .logo-txt { font-family: var(--serif); font-size: 1.2rem; margin-bottom: .5rem; }
+.logo-txt .tl { color: var(--teal-lt); }
+.logo-txt .ly { color: var(--white); font-style: italic; }
+.footer-brand p { font-size: .78rem; color: var(--grey); line-height: 1.65; max-width: 280px; margin-bottom: .75rem; }
+.footer-brand a { color: var(--teal-lt); font-size: .78rem; }
+.footer-col h5 { font-size: .75rem; font-weight: 600; color: var(--grey-lt); letter-spacing: .08em; text-transform: uppercase; margin-bottom: .75rem; font-family: var(--mono); }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+.footer-col a { font-size: .78rem; color: var(--grey); text-decoration: none; transition: color .2s; }
+.footer-col a:hover { color: var(--teal-lt); }
+.footer-bottom {
+  max-width: var(--max); margin: 2rem auto 0;
+  padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.04);
+  display: flex; flex-wrap: wrap; gap: .75rem; justify-content: space-between; align-items: center;
+}
+.footer-bottom span { font-size: .72rem; color: var(--grey); font-family: var(--mono); }
+
+/* ── FADE IN ── */
+.fade { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
+.fade.visible { opacity: 1; transform: translateY(0); }
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .nav-links { display: none; }
+  .dpp-wrap { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a href="#top" class="nav-logo">
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-      <circle cx="16" cy="16" r="14" stroke="#0F766E" stroke-width="1.5" stroke-opacity=".35"/>
-      <circle cx="16" cy="16" r="14" stroke="#5EEAD4" stroke-width="2.5" stroke-dasharray="22 66" stroke-linecap="round"/>
-      <circle cx="16" cy="16" r="10" stroke="#0D9488" stroke-width="2" stroke-dasharray="16 47" stroke-dashoffset="8" stroke-linecap="round"/>
-      <circle cx="16" cy="16" r="6" stroke="#5EEAD4" stroke-width="1.5" stroke-dasharray="10 28" stroke-dashoffset="-4" stroke-linecap="round" stroke-opacity=".75"/>
-    </svg>
-    <span><span class="loop">Loop</span><span class="layer">Layer</span></span>
-  </a>
-  <div class="nav-center">
-    <a href="#problem"><span data-de>Problem</span><span data-en>Problem</span></a>
-    <a href="#layers"><span data-de>Plattform</span><span data-en>Platform</span></a>
-    <a href="#dql"><span data-de>Datenqualität</span><span data-en>Data Quality</span></a>
-    <a href="#compliance">Compliance</a>
-    <a href="#cta">Demo</a>
-  </div>
+  <a href="#top" class="nav-logo"><span class="tl">Loop</span><span class="ly">Layer</span></a>
+  <ul class="nav-links">
+    <li><a href="#problem"><span data-de>Problem</span><span data-en>Problem</span></a></li>
+    <li><a href="#roi"><span data-de>REFASHION ROI</span><span data-en>REFASHION ROI</span></a></li>
+    <li><a href="#layers"><span data-de>Plattform</span><span data-en>Platform</span></a></li>
+    <li><a href="#dql"><span data-de>Datenqualität</span><span data-en>Data Quality</span></a></li>
+    <li><a href="#users"><span data-de>Kunden</span><span data-en>Clients</span></a></li>
+  </ul>
   <div class="nav-right">
-    <div class="lang-toggle">
-      <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
-      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
-    </div>
-    <a href="#cta" class="nav-cta"><span data-de>Demo anfragen</span><span data-en>Request demo</span></a>
+    <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    <a href="#cta" class="nav-links a nav-cta"><span data-de>Demo anfragen</span><span data-en>Request demo</span></a>
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero" id="top">
-  <div class="hero-bg"></div>
-  <div class="hero-badge"><span class="bdot"></span><span data-de>ESPR DPP Service Provider · Aufbauphase 2026</span><span data-en>ESPR DPP Service Provider · Build Phase 2026</span></div>
-  <h1><span data-de>EPR. CSRD. DPP.<br><em>Alles automatisch.</em></span><span data-en>EPR. CSRD. DPP.<br><em>Fully automated.</em></span></h1>
-  <p class="hero-sub">
-    <span data-de>LoopLayer generiert EPR-Zertifikate, ESRS E5-Berichte und Digital Product Passports automatisch aus jeder bestätigten Recyclingtransaktion — für Textilindustrie, Recycler und Kommunen in Bayern und der EU.</span>
-    <span data-en>LoopLayer generates EPR certificates, ESRS E5 reports and Digital Product Passports automatically from every confirmed recycling transaction — for textile manufacturers, recyclers and municipalities across the EU.</span>
-  </p>
-  <div class="hero-actions">
-    <a href="#cta" class="btn-p"><span data-de>30-min Demo anfragen</span><span data-en>Request 30-min demo</span></a>
-    <a href="mailto:info@looplayer.eu" class="btn-g">info@looplayer.eu</a>
-  </div>
-  <div class="stats">
-    <div class="stat"><span class="stat-v">€299</span><span class="stat-l"><span data-de>Compliance / Monat</span><span data-en>Compliance / month</span></span></div>
-    <div class="stat"><span class="stat-v"><span data-de>3 Mo.</span><span data-en>3 mo.</span></span><span class="stat-l"><span data-de>Pilot kostenlos</span><span data-en>Free pilot</span></span></div>
-    <div class="stat"><span class="stat-v">6</span><span class="stat-l"><span data-de>EU-EPR-Systeme</span><span data-en>EU EPR schemes</span></span></div>
-    <div class="stat"><span class="stat-v">Apr 28</span><span class="stat-l"><span data-de>EU Textil-EPR</span><span data-en>EU Textile EPR</span></span></div>
-  </div>
-  <div class="ms-banner">✓ <span data-de><strong>BMUV-Stellungnahme Textilgesetz eingereicht</strong> — 7. April 2026</span><span data-en><strong>BMUV Stellungnahme submitted</strong> — 7 April 2026</span></div>
-</section>
-
-<div class="ticker"><div class="ticker-inner">
-  <div class="ti"><span class="td"></span><strong>EPR Naber DE</strong> — <span data-de>Jahreserklärung 31. Januar · Keine Größenausnahme</span><span data-en>Annual declaration 31 January · No size exemption</span></div>
-  <div class="ti"><span class="td"></span><strong>CSRD ESRS E5</strong> — <span data-de>Wave 1 FY2025 · Wave 2 unter Omnibus-Revision</span><span data-en>Wave 1 FY2025 · Wave 2 under Omnibus revision</span></div>
-  <div class="ti"><span class="td"></span><strong>ESPR DPP</strong> — <span data-de>Delegierter Rechtsakt erwartet · Prioritär 2025–2030</span><span data-en>Delegated act expected · Priority 2025–2030</span></div>
-  <div class="ti"><span class="td"></span><strong>Textilgesetz DE</strong> — <span data-de>Transpositionsfrist 17. Juni 2027</span><span data-en>Transposition deadline 17 June 2027</span></div>
-  <div class="ti"><span class="td"></span><strong>EU EPR</strong> — <span data-de>Nationale Systeme bis 17. April 2028 · Kleinstunternehmen 17. April 2029</span><span data-en>National schemes by 17 April 2028 · Micro-enterprises 17 April 2029</span></div>
-  <div class="ti"><span class="td"></span><strong><span data-de>Textilzerstörungsverbot</span><span data-en>Destruction ban</span></strong> — <span data-de>Großunternehmen 19. Juli 2026 · KMU 19. Juli 2030</span><span data-en>Large enterprises 19 July 2026 · SMEs 19 July 2030</span></div>
-  <div class="ti"><span class="td"></span><strong>EPR Naber DE</strong> — <span data-de>Jahreserklärung 31. Januar · Keine Größenausnahme</span><span data-en>Annual declaration 31 January · No size exemption</span></div>
-  <div class="ti"><span class="td"></span><strong>CSRD ESRS E5</strong> — <span data-de>Wave 1 FY2025 · Wave 2 unter Omnibus-Revision</span><span data-en>Wave 1 FY2025 · Wave 2 under Omnibus revision</span></div>
-  <div class="ti"><span class="td"></span><strong>ESPR DPP</strong> — <span data-de>Delegierter Rechtsakt erwartet · Prioritär 2025–2030</span><span data-en>Delegated act expected · Priority 2025–2030</span></div>
-  <div class="ti"><span class="td"></span><strong>Textilgesetz DE</strong> — <span data-de>Transpositionsfrist 17. Juni 2027</span><span data-en>Transposition deadline 17 June 2027</span></div>
-  <div class="ti"><span class="td"></span><strong>EU EPR</strong> — <span data-de>Nationale Systeme bis 17. April 2028</span><span data-en>National schemes by 17 April 2028</span></div>
-  <div class="ti"><span class="td"></span><strong><span data-de>Textilzerstörungsverbot</span><span data-en>Destruction ban</span></strong> — <span data-de>19. Juli 2026 · KMU 2030</span><span data-en>19 July 2026 · SMEs 2030</span></div>
-</div></div>
-
-<section class="bg1" id="problem">
-  <div class="sl"><span data-de>Das Problem</span><span data-en>The Problem</span></div>
-  <h2 class="st"><span data-de>Drei regulatorische Kräfte.<br><em>Eine Datenlage.</em></span><span data-en>Three regulatory forces.<br><em>One data problem.</em></span></h2>
-  <p class="ss"><span data-de>EPR, CSRD und ESPR kommen gestaffelt — brauchen aber alle dieselben Quelldaten: verifizierten Recycler, bestätigtes Gewicht, GRS-Zertifikat, CO₂-Einsparung.</span><span data-en>EPR, CSRD and ESPR arrive in stages — but all require the same underlying data: verified recycler, confirmed weight, GRS certificate, CO₂ savings.</span></p>
-  <div class="pg">
-    <div class="pc fade"><div class="pi">📄</div><div class="ptag te">EPR — Naber DE · REFASHION FR</div><h3><span data-de>Erweiterte Herstellerverantwortung</span><span data-en>Extended Producer Responsibility</span></h3><p><span data-de>Getrennte Erfassung in Deutschland seit 1. Januar 2025 aktiv. Nationale EPR-Systeme EU-weit bis 17. April 2028. Keine Größenausnahme. Ohne Transaktionsdokumentation nicht bestehbar.</span><span data-en>Separate collection active in Germany since 1 January 2025. National EPR schemes EU-wide by 17 April 2028. No size exemption. Requires transaction-level documentation.</span></p><div class="pdl"><span data-de>Frist: 31. Januar · 6 EU-EPR-Systeme</span><span data-en>Due: 31 January · 6 EU EPR schemes</span></div></div>
-    <div class="pc fade"><div class="pi">📋</div><div class="ptag tc2">CSRD ESRS E5</div><h3><span data-de>Nachhaltigkeitsberichterstattung</span><span data-en>Sustainability reporting</span></h3><p><span data-de>Wave 1 berichtet für FY2025. Datendruck geht in die Lieferkette — auch wenn spätere Wellen durch das Omnibus-Paket (EU) 2025/794 verschoben werden. Auditoren verlangen Transaktionsnachweise, keine Schätzungen.</span><span data-en>Wave 1 reporting for FY2025. Data pressure cascading into supply chains — even as later waves are delayed by Omnibus package (EU) 2025/794. Auditors require transaction evidence, not estimates.</span></p><div class="pdl"><span data-de>Wave 1: FY2025 · EFRAG-konform · IPCC AR6</span><span data-en>Wave 1: FY2025 · EFRAG-aligned · IPCC AR6</span></div></div>
-    <div class="pc fade"><div class="pi">🔗</div><div class="ptag td2">ESPR Digital Product Passport</div><h3><span data-de>Produktrückverfolgbarkeit</span><span data-en>Product traceability</span></h3><p><span data-de>ESPR schafft den rechtlichen Rahmen. Textilien sind prioritäre Produktgruppe im Arbeitsprogramm 2025–2030. Verbindliche Anforderungen kommen durch nachgelagerten Delegierten Rechtsakt. Wer jetzt beginnt, hat beim Inkrafttreten Transaktionshistorie.</span><span data-en>ESPR establishes the legal framework. Textiles are a priority product category in the 2025–2030 work plan. Binding requirements come via a future delegated act. Starting now builds verified history.</span></p><div class="pdl">ESPR-<span data-de>ausgerichtet</span><span data-en>aligned</span> · CIRPASS-2 · JRC145830</div></div>
-  </div>
-</section>
-
-<section class="bg2" id="how">
-  <div class="sl"><span data-de>So funktioniert LoopLayer</span><span data-en>How LoopLayer works</span></div>
-  <h2 class="st"><span data-de>Eine Transaktion.<br><em>Vier Dokumente.</em></span><span data-en>One transaction.<br><em>Four documents.</em></span></h2>
-  <div class="hg">
-    <div class="hs fade"><div class="hn"><span data-de>Schritt</span><span data-en>Step</span> 01</div><div class="hi">📦</div><h4><span data-de>Transaktion bestätigen</span><span data-en>Confirm transaction</span></h4><p><span data-de>Recycler bestätigt Lieferung: Gewicht, Fasertyp, GRS-Zertifikat. eIDAS-signiert, unveränderbar.</span><span data-en>Recycler confirms delivery: weight, fibre type, GRS certificate. eIDAS-signed, immutable.</span></p><span class="htag">eIDAS · GRS</span></div>
-    <div class="hs fade"><div class="hn"><span data-de>Schritt</span><span data-en>Step</span> 02</div><div class="hi">⚙️</div><h4><span data-de>Automatische Generierung</span><span data-en>Automatic generation</span></h4><p><span data-de>EPR-Zertifikat · ESRS-E5-Eintrag · DPP (ESPR-ausgerichtet) · CO₂-Berechnung nach IPCC AR6.</span><span data-en>EPR certificate · ESRS E5 entry · DPP (ESPR-aligned) · CO₂ calculation per IPCC AR6.</span></p><span class="htag">&lt;5 <span data-de>Sekunden</span><span data-en>seconds</span></span></div>
-    <div class="hs fade"><div class="hn"><span data-de>Schritt</span><span data-en>Step</span> 03</div><div class="hi">🔒</div><h4><span data-de>Audit-fertiges Paket</span><span data-en>Audit-ready package</span></h4><p><span data-de>SHA-256-Hash, AWS S3 Object Lock, vollständige Prüfpfade. Jeder Wert rückverfolgbar.</span><span data-en>SHA-256 hash, AWS S3 Object Lock, complete audit trails. Every figure traceable.</span></p><span class="htag">SHA-256 · S3 Object Lock</span></div>
-    <div class="hs fade"><div class="hn"><span data-de>Schritt</span><span data-en>Step</span> 04</div><div class="hi">📊</div><h4><span data-de>Jahresbericht per Knopfdruck</span><span data-en>Annual report on demand</span></h4><p><span data-de>Naber-Jahresmeldung ready für 31. Januar. ESRS-E5-Bericht für Wirtschaftsprüfer. DPP-Register für Behörden.</span><span data-en>Naber annual declaration ready for 31 January. ESRS E5 report for auditors. DPP registry for authorities.</span></p><span class="htag">31. Jan · EFRAG · 6 EPR</span></div>
-  </div>
-</section>
-
-<section class="bg1" id="layers">
-  <div class="sl"><span data-de>Die Plattform</span><span data-en>The Platform</span></div>
-  <h2 class="st"><span data-de>Vier Layer.<br><em>Jeder unabhängig wertvoll.</em></span><span data-en>Four layers.<br><em>Each independently valuable.</em></span></h2>
-  <div class="lg">
-    <div class="lc fade"><div class="ln">L01 · <span data-de>Marktplatz</span><span data-en>Marketplace</span></div><h3><span data-de>Marktplatz</span><span data-en>Marketplace</span></h3><div class="lp"><strong>5–8%</strong> <span data-de>Provision · Tag 1</span><span data-en>Commission · Day 1</span></div><ul class="lf"><li><span data-de>Hersteller verbinden sich mit GRS-zertifizierten Recyclern</span><span data-en>Manufacturers connect with GRS-certified recyclers</span></li><li><span data-de>Escrow-Payment · Käuferschutz</span><span data-en>Escrow payment · buyer protection</span></li><li><span data-de>UPI-Identifikator je Lot (ESPR Annex III)</span><span data-en>UPI identifier per lot (ESPR Annex III)</span></li><li><span data-de>Vollständige Transaktionshistorie</span><span data-en>Complete transaction history</span></li></ul><span class="lb ba"><span data-de>Verfügbar ab Tag 1</span><span data-en>Available Day 1</span></span></div>
-    <div class="lc pri fade"><div class="ln">L03 · <span data-de>PRIMÄRER EINSTIEG</span><span data-en>PRIMARY ENTRY</span></div><h3>Compliance Engine</h3><div class="lp"><strong>€299–1.500</strong>/mo · standalone</div><ul class="lf"><li>EPR Naber DE · REFASHION FR · ARA AT</li><li>CSRD ESRS E5 · EFRAG-<span data-de>konform</span><span data-en>aligned</span></li><li>ESPR-<span data-de>ausgerichteter</span><span data-en>aligned</span> DPP (JSON-LD · UPI/UOI/UFI)</li><li>SHA-256 · AWS S3 Object Lock · 3 <span data-de>Jahre Archiv</span><span data-en>year archive</span></li><li><span data-de>Nur DQL 2+ generiert Compliance-Dokumente</span><span data-en>Only DQL 2+ generates compliance documents</span></li></ul><span class="lb ba"><span data-de>Piloten ab Monat 4</span><span data-en>Pilots from Month 4</span></span></div>
-    <div class="lc fade"><div class="ln">L02 · <span data-de>KI</span><span data-en>AI</span></div><h3>Material Intelligence</h3><div class="lp"><strong>€199–799</strong>/mo · <span data-de>ab Monat 10</span><span data-en>from Month 10</span></div><ul class="lf"><li><span data-de>KI-Faserklassifizierung mit Konfidenzwert</span><span data-en>AI fibre classification with confidence score</span></li><li>CO₂ <span data-de>Kalkulation (IPCC AR6 WG3 2022)</span><span data-en>calculation (IPCC AR6 WG3 2022)</span></li><li><span data-de>Recyclingweg-Empfehlung</span><span data-en>Recycling pathway recommendation</span></li><li><span data-de>Mikroplastikfeld (ISO 4484-2:2023)</span><span data-en>Microplastic field (ISO 4484-2:2023)</span></li></ul><span class="lb bs"><span data-de>Beta ab Monat 10</span><span data-en>Beta from Month 10</span></span></div>
-    <div class="lc fade"><div class="ln">L04 · <span data-de>Netzwerk</span><span data-en>Network</span></div><h3>Circular Network</h3><div class="lp"><strong>€149</strong>/mo · <span data-de>ab Monat 6</span><span data-en>from Month 6</span></div><ul class="lf"><li><span data-de>UOI je Unternehmen · UFI je Anlage</span><span data-en>UOI per company · UFI per facility</span></li><li><span data-de>GRS/RCS-Ablaufwarnungen automatisch</span><span data-en>GRS/RCS expiry alerts automatic</span></li><li><span data-de>4-stufiger Datenzugang (ESPR Art. 9(2)(f))</span><span data-en>4-tier data access (ESPR Art. 9(2)(f))</span></li><li><span data-de>QR-Code-Bürgertransparenz</span><span data-en>QR code citizen transparency</span></li></ul><span class="lb bs"><span data-de>Verfügbar ab Monat 6</span><span data-en>Available from Month 6</span></span></div>
-  </div>
-</section>
-
-<section class="bg2" id="dql">
-  <div class="sl"><span data-de>Datenqualität</span><span data-en>Data Quality</span></div>
-  <h2 class="st"><span data-de>Kein Datenmüll.<br><em>Vier Qualitätsstufen.</em></span><span data-en>No garbage data.<br><em>Four quality levels.</em></span></h2>
-  <p class="dql-into">
-    <span data-de>LoopLayer wendet das Datenstufen-Framework aus <strong>DIN SPEC 91446</strong> — ursprünglich für Kunststoffrezyklate entwickelt, durch <strong>EN 18065</strong> auf europäischer Ebene verankert — auf Textilfasern an. Jede Transaktion erhält eine Datenstufe (DQL 1–4). Compliance-Dokumente werden strukturell nur ab DQL 2 generiert. Das ist keine Policy — das ist eine Datenbankregel.</span>
-    <span data-en>LoopLayer applies the Data Quality Level framework from <strong>DIN SPEC 91446</strong> — originally developed for plastic recyclates, anchored at European level through <strong>EN 18065</strong> — to textile fibres. Every transaction is assigned a DQL level. Compliance documents are generated only from DQL 2 upward. This is not a policy — it is a database rule.</span>
-  </p>
-  <div class="dg">
-    <div class="dc d1 fade"><div class="dlv">DQL 1 — <span data-de>Basis</span><span data-en>Basic</span></div><h4><span data-de>Selbstdeklaration</span><span data-en>Self-declaration</span></h4><p><span data-de>Materialtyp und Recyclatanteil angegeben, nicht verifiziert. Kein GRS-Zertifikat, keine Gewichtsbestätigung.</span><span data-en>Material type and recycled content declared but not verified. No GRS certificate, no confirmed weight.</span></p><div class="do">→ <span data-de>Nur Listung · keine Compliance-Dokumente</span><span data-en>Listing only · no compliance documents</span></div></div>
-    <div class="dc d2 fade"><div class="dlv">DQL 2 — <span data-de>Verifiziert</span><span data-en>Verified</span></div><h4><span data-de>GRS + Bestätigung</span><span data-en>GRS + Confirmation</span></h4><p><span data-de>GRS-Zertifikat via Textile Exchange API geprüft. Gewicht käuferbestätigt. EWC-Code aus kontrolliertem Vokabular. Verarbeitungsmethode standardisiert.</span><span data-en>GRS certificate verified via Textile Exchange API. Weight buyer-confirmed. EWC code from controlled vocabulary. Processing method standardised.</span></p><div class="do">→ <span data-de>EPR-Zertifikat · ESRS-E5-Eintrag · DPP T1/T2</span><span data-en>EPR certificate · ESRS E5 entry · DPP T1/T2</span></div></div>
-    <div class="dc d3 fade"><div class="dlv">DQL 3 — <span data-de>Charakterisiert</span><span data-en>Characterised</span></div><h4><span data-de>Laboranalysiert</span><span data-en>Lab analysed</span></h4><p><span data-de>+ Faserkompositionsprüfung (NIR oder Labor) + Kontaminationsgrad + EN 45557:2020 Recyclatanteil zertifiziert.</span><span data-en>+ Fibre composition test (NIR or lab) + Contamination level + EN 45557:2020 recycled content certified.</span></p><div class="do">→ <span data-de>ESRS-E5 vollständig · DPP T3 Operator</span><span data-en>Full ESRS E5 · DPP T3 operator access</span></div></div>
-    <div class="dc d4 fade"><div class="dlv">DQL 4 — <span data-de>Vollständig</span><span data-en>Full traceability</span></div><h4><span data-de>Vollständige Rückverfolgung</span><span data-en>Complete chain of custody</span></h4><p><span data-de>+ Vollständige Chain-of-Custody + Substances of Concern (ISO 4484-2:2023) + GRS-Auditpfad. Carbon-Credit-Berechtigung.</span><span data-en>+ Full chain of custody + Substances of Concern (ISO 4484-2:2023) + GRS audit trail. Carbon credit eligibility.</span></p><div class="do">→ <span data-de>DPP T4 Behörde · Carbon Credits · Vollaudit</span><span data-en>DPP T4 authority · Carbon credits · Full audit</span></div></div>
-  </div>
-  <div class="dr"><span style="font-size:1.2rem;flex-shrink:0;margin-top:2px">🔒</span><div><strong><span data-de>Technische Schranke — keine Policy:</span><span data-en>Technical constraint — not a policy:</span></strong> <span data-de>Compliance-Dokumente werden ausschließlich für abgeschlossene, bestätigte Transaktionen generiert — niemals für projizierte Mengen. Fehlende Pflichtfelder blockieren die Einreichung strukturell. Plausibilitätsprüfungen (Gewichtsabweichung &gt;25%, GRS-Ablauf, fehlerhafte Fasersummen) erzeugen automatische Prüfmarkierungen.</span><span data-en>Compliance documents are only generated for completed, confirmed transactions — never for projected quantities. Missing mandatory fields block submission structurally. Plausibility checks (weight deviation &gt;25%, GRS expiry, incorrect fibre totals) trigger automatic review flags.</span></div></div>
-</section>
-
-<section class="bg1" id="dpp">
-  <div class="sl">Digital Product Passport</div>
-  <div class="dw">
-    <div>
-      <h2 class="st"><span data-de>ESPR-ausgerichtet.<br><em>Anpassungsfähig.</em></span><span data-en>ESPR-aligned.<br><em>Adaptable.</em></span></h2>
-      <p style="color:var(--grey-lt);font-size:.95rem;line-height:1.75;margin-bottom:1rem"><span data-de>LoopLayerss DPP-Architektur ist ESPR-ausgerichtet und darauf ausgelegt, sich an den finalen textilspezifischen Delegierten Rechtsakt anzupassen. Das Datenmodell orientiert sich an den CIRPASS-2-Arbeitsprogrammen — ohne davon auszugehen, dass die Pilotarchitektur selbst der finale Rechtsstandard ist.</span><span data-en>LoopLayer's DPP architecture is ESPR-aligned and designed to adapt to the final textile-specific delegated act. The data model draws on CIRPASS-2 workstreams — without assuming the pilot architecture is itself the final legal standard.</span></p>
-      <ul class="df"><li>JSON-LD · UPI/UOI/UFI (ESPR Annex III)</li><li><span data-de>4-stufiger Zugang · T1 öffentlich bis T4 Behörde</span><span data-en>4-tier access · T1 public to T4 authority</span></li><li>SHA-256 · S3 Object Lock · <span data-de>permanente URL</span><span data-en>permanent URL</span></li><li><span data-de>QR-Code je Lot · öffentlich scanbar</span><span data-en>QR code per lot · publicly scannable</span></li><li>JRC145830 · CIRPASS-2 · <span data-de>adaptierbar</span><span data-en>adaptable</span></li></ul>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="bdot"></span>
+      <span data-de>ESPR DPP Service Provider · Aufbauphase 2026</span>
+      <span data-en>ESPR DPP Service Provider · Build Phase 2026</span>
     </div>
-    <div class="dppc fade">
-      <div class="dpph"><h4>Digital Product Passport</h4><span class="sp"><span data-de>Beispieldaten</span><span data-en>Sample data</span></span></div>
-      <div class="dppb">
-        <div class="dpr"><span class="dk">UPI</span><span class="dv">LL-LOT-2026-DE-BAV-00001</span></div>
-        <div class="dpr"><span class="dk"><span data-de>Fasertyp</span><span data-en>Fibre type</span></span><span class="dv"><span data-de>Baumwolle &gt;95%</span><span data-en>Cotton &gt;95%</span></span></div>
+    <h1>
+      <span data-de>EPR. CSRD. DPP.<br><em>Alles automatisch.</em></span>
+      <span data-en>EPR. CSRD. DPP.<br><em>Fully automated.</em></span>
+    </h1>
+    <p class="hero-sub">
+      <span data-de>LoopLayer generiert EPR-Zertifikate, CSRD ESRS E5-Berichte und ESPR-ausgerichtete Digital Product Passports automatisch aus jeder bestätigten Recyclingtransaktion — für Textilindustrie, Recycler, Sortierer, Kommunen und Marken in der EU.</span>
+      <span data-en>LoopLayer generates EPR certificates, CSRD ESRS E5 reports and ESPR-aligned Digital Product Passports automatically from every confirmed recycling transaction — for textile manufacturers, recyclers, sorters, municipalities and brands across the EU.</span>
+    </p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-p"><span data-de>30-min Demo anfragen</span><span data-en>Request 30-min demo</span></a>
+      <a href="mailto:info@looplayer.eu" class="btn-s">info@looplayer.eu</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-v">€499</span>
+        <span class="stat-l"><span data-de>REFASHION FR / Monat</span><span data-en>REFASHION FR / month</span></span>
+      </div>
+      <div class="stat">
+        <span class="stat-v">27×</span>
+        <span class="stat-l"><span data-de>Kunden-ROI (100 t/Jahr)</span><span data-en>Client ROI (100 t/year)</span></span>
+      </div>
+      <div class="stat">
+        <span class="stat-v">6</span>
+        <span class="stat-l"><span data-de>EU-EPR-Systeme</span><span data-en>EU EPR schemes</span></span>
+      </div>
+      <div class="stat">
+        <span class="stat-v">30 Nov</span>
+        <span class="stat-l"><span data-de>REFASHION Vordeklaration</span><span data-en>REFASHION pre-declaration</span></span>
+      </div>
+    </div>
+    <div class="hero-milestone">
+      ✓ <span data-de><strong>BMUV-Stellungnahme Textilgesetz eingereicht</strong> — 7. April 2026 · CIRPASS-2-Partnerantrag gestellt</span>
+      <span data-en><strong>BMUV Stellungnahme submitted</strong> — 7 April 2026 · CIRPASS-2 partner application filed</span>
+    </div>
+  </div>
+</section>
+
+<!-- URGENCY TICKER -->
+<div class="urgency">
+  <div class="urgency-inner">
+    <div class="urg-item">
+      <span class="urg-dot red"></span>
+      <span class="urg-text"><strong data-de>19. Juli 2026</strong><strong data-en>19 July 2026</strong> <span data-de>— ESPR Textilvernichtungsverbot (Großunternehmen)</span><span data-en>— ESPR unsold textile destruction ban (large enterprises)</span></span>
+    </div>
+    <div class="urg-item">
+      <span class="urg-dot"></span>
+      <span class="urg-text"><strong>30 Nov 2026</strong> — <span data-de>REFASHION FR Vordeklaration DQL-Nachweis</span><span data-en>REFASHION FR pre-declaration DQL evidence</span></span>
+    </div>
+    <div class="urg-item">
+      <span class="urg-dot"></span>
+      <span class="urg-text"><strong data-de>1. Apr 2027</strong><strong data-en>1 Apr 2027</strong> — <span data-de>NL UPV Textiel Jahresmeldung</span><span data-en>NL UPV Textiel annual declaration</span></span>
+    </div>
+    <div class="urg-item">
+      <span class="urg-dot green"></span>
+      <span class="urg-text"><strong data-de>17. Apr 2028</strong><strong data-en>17 Apr 2028</strong> — <span data-de>EU Textil-EPR alle Mitgliedstaaten</span><span data-en>EU Textile EPR all member states</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="bg1" id="problem">
+  <div class="inner">
+    <div class="sl"><span data-de>Das Problem</span><span data-en>The Problem</span></div>
+    <h2 class="st"><span data-de>Drei regulatorische Kräfte.<br><em>Eine Datenlage.</em></span><span data-en>Three regulatory forces.<br><em>One data problem.</em></span></h2>
+    <p class="ss"><span data-de>REFASHION FR, UPV NL, Naber DE, CSRD und ESPR verlangen alle dieselben Quelldaten: verifizierten Recycler, bestätigtes Gewicht, GRS-Zertifikat, CO₂-Einsparung. Ohne automatisierte Infrastruktur ist das manuell und fehleranfällig.</span><span data-en>REFASHION FR, UPV NL, Naber DE, CSRD and ESPR all require the same source data: verified recycler, confirmed weight, GRS certificate, CO₂ savings. Without automated infrastructure this is manual and error-prone.</span></p>
+    <div class="pg">
+      <div class="pc fade">
+        <div class="pi">📄</div>
+        <div class="ptag te">EPR — REFASHION FR · UPV NL · Naber DE</div>
+        <h3><span data-de>Erweiterte Herstellerverantwortung</span><span data-en>Extended Producer Responsibility</span></h3>
+        <p><span data-de>REFASHION FR aktiv seit 2007 mit €1.000/Tonne Ökomodulierungsbonus für verifiziertes Recycling. Niederlande UPV Textiel aktiv seit 2023 inkl. Fibre-to-Fibre-Rate ab 2026. Deutschland Textilgesetz ab April 2028. Keine Größenausnahme.</span><span data-en>REFASHION FR active since 2007 with €1,000/tonne eco-modulation bonus for verified recycling. Netherlands UPV Textiel active since 2023 including fibre-to-fibre rate from 2026. Germany Textilgesetz from April 2028. No size exemption.</span></p>
+        <div class="pdl"><span data-de>FR: Aktiv · NL: Aktiv · DE: 2028 · 6 EU-Systeme</span><span data-en>FR: Active · NL: Active · DE: 2028 · 6 EU schemes</span></div>
+      </div>
+      <div class="pc fade">
+        <div class="pi">📋</div>
+        <div class="ptag tc2">CSRD ESRS E5</div>
+        <h3><span data-de>Nachhaltigkeitsberichterstattung</span><span data-en>Sustainability reporting</span></h3>
+        <p><span data-de>Wave 1 berichtet für FY2025. EFRAG vereinfachtes ESRS fügt neues Pflichtfeld ein: Anteil Abfall mit unbekanntem Endverbleib. Jede LoopLayer-Transaktion ist ein bestätigter Verbleib — dieses Risiko wird automatisch eliminiert.</span><span data-en>Wave 1 reporting for FY2025. EFRAG simplified ESRS adds new mandatory field: percentage of waste with unknown final destination. Every LoopLayer transaction is a confirmed destination — this risk is automatically eliminated.</span></p>
+        <div class="pdl">Wave 1: FY2025 · EFRAG · IPCC AR6 WG3 2022</div>
+      </div>
+      <div class="pc fade">
+        <div class="pi">🔗</div>
+        <div class="ptag td2">ESPR Digital Product Passport</div>
+        <h3><span data-de>Produktrückverfolgbarkeit</span><span data-en>Product traceability</span></h3>
+        <p><span data-de>Zentrales EU-DPP-Register ab 19. Juli 2026 operativ. Textilien als prioritäre Produktgruppe 2025–2030. Delegierter Rechtsakt erwartet 2026/2027. Wer jetzt beginnt, hat beim Inkrafttreten verifizierte Transaktionshistorie.</span><span data-en>Central EU DPP Registry operational from 19 July 2026. Textiles as priority product category 2025–2030. Delegated act expected 2026/2027. Starting now builds verified transaction history before enforcement.</span></p>
+        <div class="pdl">ESPR-aligned · CIRPASS-2 · JRC145830</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFASHION ROI -->
+<section class="roi-section" id="roi">
+  <div class="roi-inner">
+    <div class="roi-tag"><span data-de>REFASHION FR — SOFORTIGE MONETARISIERUNG</span><span data-en>REFASHION FR — IMMEDIATE MONETISATION</span></div>
+    <h2>
+      <span data-de>€1.000 pro Tonne Bonus.<br><em>Automatisch nachgewiesen.</em></span>
+      <span data-en>€1,000 per tonne bonus.<br><em>Automatically documented.</em></span>
+    </h2>
+    <p class="roi-sub">
+      <span data-de>Das REFASHION-System zahlt Herstellern <strong>€1.000 pro Tonne Ökomodulierungsbonus</strong> für verifiziertes Textilrecycling über ein akkreditiertes System — aber nur mit nachgewiesenen Transaktionsdaten. LoopLayer generiert exakt diese Nachweise automatisch bei jeder Lieferungsbestätigung. Vordeklarationsfrist: 30. November jedes Jahres.</span>
+      <span data-en>The REFASHION system pays manufacturers a <strong>€1,000 per tonne eco-modulation bonus</strong> for verified textile recycling via an accredited system — but only with documented transaction evidence. LoopLayer generates exactly this evidence automatically at every delivery confirmation. Pre-declaration deadline: 30 November each year.</span>
+    </p>
+    <div class="roi-grid">
+      <div class="roi-card">
+        <div class="roi-num">€1.000</div>
+        <div class="roi-lbl"><span data-de>Ökomodulierungsbonus / Tonne<br>REFASHION FR (ab 2025)</span><span data-en>Eco-modulation bonus / tonne<br>REFASHION FR (from 2025)</span></div>
+      </div>
+      <div class="roi-card">
+        <div class="roi-num">27×</div>
+        <div class="roi-lbl"><span data-de>Kunden-ROI bei 100 t/Jahr<br>LoopLayer €499/Monat</span><span data-en>Client ROI at 100 t/year<br>LoopLayer €499/month</span></div>
+      </div>
+      <div class="roi-card">
+        <div class="roi-num">30 Nov</div>
+        <div class="roi-lbl"><span data-de>REFASHION Vordeklarations-<br>frist (jährlich)</span><span data-en>REFASHION pre-declaration<br>deadline (annual)</span></div>
+      </div>
+      <div class="roi-card">
+        <div class="roi-num">7.000+</div>
+        <div class="roi-lbl"><span data-de>REFASHION-registrierte<br>Hersteller in Frankreich</span><span data-en>REFASHION-registered<br>producers in France</span></div>
+      </div>
+    </div>
+    <div class="roi-calc">
+      <strong><span data-de>Beispielrechnung:</span><span data-en>Example calculation:</span></strong>
+      <span data-de> Hersteller mit 100 t verifiziertem Recycling/Jahr → €100.000 Ökomodulierungsbonus. LoopLayer: €499/Monat = €5.988/Jahr. Netto-Vorteil für den Kunden: <strong>€94.012</strong>. Dieses Gespräch führt der CFO, nicht die Beschaffung.</span>
+      <span data-en> Manufacturer with 100 t verified recycling/year → €100,000 eco-modulation bonus. LoopLayer: €499/month = €5,988/year. Net benefit to client: <strong>€94,012</strong>. This conversation is with the CFO, not procurement.</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="bgdk" id="how">
+  <div class="inner">
+    <div class="sl" style="color:var(--teal-lt)"><span data-de>So funktioniert LoopLayer</span><span data-en>How LoopLayer works</span></div>
+    <h2 class="st" style="color:var(--white)"><span data-de>Eine Transaktion.<br><em style="color:var(--teal-lt)">Vier Dokumente.</em></span><span data-en>One transaction.<br><em style="color:var(--teal-lt)">Four documents.</em></span></h2>
+    <div class="how-grid" style="margin-top:2rem">
+      <div class="hs fade">
+        <div class="hn"><span data-de>Schritt</span><span data-en>Step</span> 01</div>
+        <div class="hi">📦</div>
+        <h4><span data-de>Transaktion bestätigen</span><span data-en>Confirm transaction</span></h4>
+        <p><span data-de>Recycler bestätigt Lieferung: Gewicht, Fasertyp, GRS-Zertifikat. eIDAS-signiert, unveränderbar, zeitgestempelt.</span><span data-en>Recycler confirms delivery: weight, fibre type, GRS certificate. eIDAS-signed, immutable, timestamped.</span></p>
+        <span class="htag">eIDAS · GRS API</span>
+      </div>
+      <div class="hs fade">
+        <div class="hn"><span data-de>Schritt</span><span data-en>Step</span> 02</div>
+        <div class="hi">⚙️</div>
+        <h4><span data-de>DQL-Gate prüft Datenqualität</span><span data-en>DQL gate validates data quality</span></h4>
+        <p><span data-de>GRS-Zertifikat via Textile Exchange API live geprüft. Gewicht, EWC-Code, Fasersumme validiert. Datenmüll wird strukturell blockiert.</span><span data-en>GRS certificate verified live via Textile Exchange API. Weight, EWC code, fibre total validated. Garbage data is structurally blocked.</span></p>
+        <span class="htag">DQL 1–4 · DIN SPEC 91446</span>
+      </div>
+      <div class="hs fade">
+        <div class="hn"><span data-de>Schritt</span><span data-en>Step</span> 03</div>
+        <div class="hi">📄</div>
+        <h4><span data-de>4 Dokumente gleichzeitig</span><span data-en>4 documents simultaneously</span></h4>
+        <p><span data-de>EPR-Zertifikat (REFASHION FR / UPV NL / Naber DE) + ESRS-E5-Eintrag + DPP + Audit-Paket. Alle generiert in unter 5 Sekunden.</span><span data-en>EPR certificate (REFASHION FR / UPV NL / Naber DE) + ESRS E5 entry + DPP + Audit package. All generated in under 5 seconds.</span></p>
+        <span class="htag">&lt;5 <span data-de>Sekunden</span><span data-en>seconds</span></span>
+      </div>
+      <div class="hs fade">
+        <div class="hn"><span data-de>Schritt</span><span data-en>Step</span> 04</div>
+        <div class="hi">🔒</div>
+        <h4><span data-de>SHA-256-Hash · Object Lock</span><span data-en>SHA-256 hash · Object Lock</span></h4>
+        <p><span data-de>Jedes Dokument SHA-256-gehasht und in AWS S3 Object Lock gespeichert. 3 Jahre Aufbewahrung. Mathematisch beweisbarer Integritätsnachweis.</span><span data-en>Every document SHA-256-hashed and stored in AWS S3 Object Lock. 3-year retention. Mathematically provable integrity.</span></p>
+        <span class="htag">SHA-256 · S3 Object Lock · eIDAS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LAYERS -->
+<section class="bg1" id="layers">
+  <div class="inner">
+    <div class="sl"><span data-de>Die Plattform</span><span data-en>The Platform</span></div>
+    <h2 class="st"><span data-de>Vier Layer.<br><em>Jeder unabhängig wertvoll.</em></span><span data-en>Four layers.<br><em>Each independently valuable.</em></span></h2>
+    <div class="layers-grid" style="margin-top:2rem">
+      <div class="lc pri fade">
+        <div class="ln">L03 · <span data-de>PRIMÄRER EINSTIEG · TAG 1</span><span data-en>PRIMARY ENTRY · DAY 1</span></div>
+        <h3>Compliance Engine</h3>
+        <div class="lp">€299–1.500/mo · standalone</div>
+        <ul class="lf">
+          <li>EPR REFASHION FR · UPV NL · Naber DE · ARA AT</li>
+          <li>CSRD ESRS E5 · EFRAG-<span data-de>konform</span><span data-en>aligned</span></li>
+          <li>ESPR-<span data-de>ausgerichteter</span><span data-en>aligned</span> DPP (JSON-LD · UPI/UOI/UFI)</li>
+          <li>SHA-256 · AWS S3 Object Lock · 3 <span data-de>Jahre</span><span data-en>year</span> archive</li>
+          <li><span data-de>Nur DQL 2+ generiert Compliance-Dokumente</span><span data-en>Only DQL 2+ generates compliance documents</span></li>
+        </ul>
+        <span class="lb ba"><span data-de>Verfügbar · France First</span><span data-en>Available · France First</span></span>
+      </div>
+      <div class="lc fade">
+        <div class="ln">L01 · <span data-de>Marktplatz</span><span data-en>Marketplace</span></div>
+        <h3><span data-de>Marktplatz</span><span data-en>Marketplace</span></h3>
+        <div class="lp">5–8% <span data-de>Provision</span><span data-en>Commission</span></div>
+        <ul class="lf">
+          <li><span data-de>Hersteller ↔ GRS-zertifizierte Recycler</span><span data-en>Manufacturers ↔ GRS-certified recyclers</span></li>
+          <li><span data-de>Escrow-Payment · Käuferschutz</span><span data-en>Escrow payment · buyer protection</span></li>
+          <li><span data-de>UPI-Identifikator je Lot (ESPR Annex III)</span><span data-en>UPI identifier per lot (ESPR Annex III)</span></li>
+          <li><span data-de>Vollständige Transaktionshistorie</span><span data-en>Complete transaction history</span></li>
+        </ul>
+        <span class="lb bs"><span data-de>Manuell ab Tag 1</span><span data-en>Manual from Day 1</span></span>
+      </div>
+      <div class="lc fade">
+        <div class="ln">L02 · <span data-de>Material Intelligence</span><span data-en>Material Intelligence</span></div>
+        <h3>Material Intelligence</h3>
+        <div class="lp">€199–799/mo</div>
+        <ul class="lf">
+          <li><span data-de>KI-Faserklassifizierung mit Konfidenzwert</span><span data-en>AI fibre classification with confidence score</span></li>
+          <li>CO₂ <span data-de>Kalkulation (IPCC AR6 WG3 2022)</span><span data-en>calculation (IPCC AR6 WG3 2022)</span></li>
+          <li><span data-de>Recyclingweg-Empfehlung</span><span data-en>Recycling pathway recommendation</span></li>
+          <li><span data-de>Mikroplastikfeld (ISO 4484-2:2023)</span><span data-en>Microplastic field (ISO 4484-2:2023)</span></li>
+        </ul>
+        <span class="lb bs">Beta</span>
+      </div>
+      <div class="lc fade">
+        <div class="ln">L04 · <span data-de>Circular Network</span><span data-en>Circular Network</span></div>
+        <h3>Circular Network</h3>
+        <div class="lp">€149/mo</div>
+        <ul class="lf">
+          <li><span data-de>UOI je Unternehmen · UFI je Anlage</span><span data-en>UOI per company · UFI per facility</span></li>
+          <li><span data-de>GRS/RCS-Ablaufwarnungen automatisch</span><span data-en>GRS/RCS expiry alerts automatic</span></li>
+          <li><span data-de>4-stufiger Datenzugang (ESPR Art. 9(2)(f))</span><span data-en>4-tier data access (ESPR Art. 9(2)(f))</span></li>
+          <li><span data-de>QR-Code-Bürgertransparenz</span><span data-en>QR code citizen transparency</span></li>
+        </ul>
+        <span class="lb bs"><span data-de>Verfügbar ab Monat 6</span><span data-en>Available from Month 6</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DQL -->
+<section class="bgdk" id="dql">
+  <div class="inner">
+    <div class="sl" style="color:var(--teal-lt)"><span data-de>Datenqualität</span><span data-en>Data Quality</span></div>
+    <h2 class="st" style="color:var(--white)"><span data-de>Kein Datenmüll.<br><em style="color:var(--teal-lt)">Vier Qualitätsstufen.</em></span><span data-en>No garbage data.<br><em style="color:var(--teal-lt)">Four quality levels.</em></span></h2>
+    <p class="ss" style="color:var(--grey-lt);margin-top:.75rem">
+      <span data-de>LoopLayer wendet das DQL-Framework aus <strong style="color:var(--white)">DIN SPEC 91446</strong> — ursprünglich für Kunststoffrezyklate, weltweit erstmalig auf Textilfasern angewendet. Compliance-Dokumente werden nur ab DQL 2 generiert. Das ist keine Policy — das ist eine Datenbankregel.</span>
+      <span data-en>LoopLayer applies the DQL framework from <strong style="color:var(--white)">DIN SPEC 91446</strong> — originally for plastic recyclates, applied to textile fibres for the first time globally. Compliance documents only generated from DQL 2 upward. This is not a policy — it is a database rule.</span>
+    </p>
+    <div class="dql-grid" style="margin-top:2rem">
+      <div class="dc d1 fade">
+        <div class="dlv">DQL 1 — <span data-de>Basis</span><span data-en>Basic</span></div>
+        <h4><span data-de>Selbstdeklaration</span><span data-en>Self-declaration</span></h4>
+        <p><span data-de>Materialtyp angegeben, ungeprüft. Kein GRS-Zertifikat. Keine Gewichtsbestätigung.</span><span data-en>Material type declared, unverified. No GRS certificate. No weight confirmation.</span></p>
+        <div class="do">→ <span data-de>Nur Listung · keine Compliance-Dokumente</span><span data-en>Listing only · no compliance documents</span></div>
+      </div>
+      <div class="dc d2 fade">
+        <div class="dlv">DQL 2 — <span data-de>Verifiziert</span><span data-en>Verified</span></div>
+        <h4><span data-de>GRS + Bestätigung</span><span data-en>GRS + Confirmation</span></h4>
+        <p><span data-de>GRS-Zertifikat via Textile Exchange API live geprüft. Gewicht käuferbestätigt. EWC-Code kontrolliert. Verarbeitungsmethode standardisiert.</span><span data-en>GRS certificate verified live via Textile Exchange API. Weight buyer-confirmed. EWC code controlled. Processing method standardised.</span></p>
+        <div class="do">→ EPR <span data-de>Zertifikat</span><span data-en>certificate</span> · ESRS E5 · DPP T1/T2</div>
+      </div>
+      <div class="dc d3 fade">
+        <div class="dlv">DQL 3 — <span data-de>Charakterisiert</span><span data-en>Characterised</span></div>
+        <h4><span data-de>Laboranalysiert</span><span data-en>Lab analysed</span></h4>
+        <p><span data-de>+ Faserkomposition (NIR/Labor) + Kontaminationsgrad + EN 45557:2020 Recyclatanteil zertifiziert. Feedstock-Zertifikat für chemische Recycler.</span><span data-en>+ Fibre composition (NIR/lab) + Contamination level + EN 45557:2020 recycled content certified. Feedstock certificate for chemical recyclers.</span></p>
+        <div class="do">→ <span data-de>Volles ESRS E5 · DPP T3 Operator · Feedstock</span><span data-en>Full ESRS E5 · DPP T3 operator · Feedstock</span></div>
+      </div>
+      <div class="dc d4 fade">
+        <div class="dlv">DQL 4 — <span data-de>Vollständig</span><span data-en>Full traceability</span></div>
+        <h4><span data-de>Vollständige Rückverfolgung</span><span data-en>Complete chain of custody</span></h4>
+        <p><span data-de>+ Vollständige Chain-of-Custody + Substances of Concern (ISO 4484-2:2023) + GRS-Auditpfad. Carbon-Credit-Berechtigung.</span><span data-en>+ Full chain of custody + Substances of Concern (ISO 4484-2:2023) + GRS audit trail. Carbon credit eligibility.</span></p>
+        <div class="do">→ DPP T4 <span data-de>Behörde</span><span data-en>authority</span> · Carbon Credits · <span data-de>Vollaudit</span><span data-en>Full audit</span></div>
+      </div>
+    </div>
+    <div class="dql-note" style="margin-top:1.5rem">
+      <span>🔒</span>
+      <div><strong style="color:var(--white)"><span data-de>Technische Schranke — keine Policy:</span><span data-en>Technical constraint — not a policy:</span></strong> <span data-de>Compliance-Dokumente werden ausschließlich für abgeschlossene, bestätigte Transaktionen generiert. Fehlende Pflichtfelder blockieren die Einreichung strukturell. Plausibilitätsprüfungen (Gewichtsabweichung >25%, GRS-Ablauf, fehlerhafte Fasersummen) erzeugen automatische Prüfmarkierungen.</span><span data-en>Compliance documents are only generated for completed, confirmed transactions. Missing mandatory fields block submission structurally. Plausibility checks (weight deviation >25%, GRS expiry, incorrect fibre totals) trigger automatic review flags.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DPP -->
+<section class="bg1" id="dpp">
+  <div class="inner">
+    <div class="sl"><span data-de>Digital Product Passport</span><span data-en>Digital Product Passport</span></div>
+    <h2 class="st"><span data-de>ESPR-ausgerichtet.<br><em>Anpassungsfähig.</em></span><span data-en>ESPR-aligned.<br><em>Adaptable.</em></span></h2>
+    <div class="dpp-wrap">
+      <div>
+        <p style="color:var(--grey);font-size:.92rem;line-height:1.75;margin-bottom:1.25rem">
+          <span data-de>LoopLayerʼs DPP-Architektur ist ESPR-ausgerichtet und darauf ausgelegt, sich an den finalen textilspezifischen Delegierten Rechtsakt anzupassen. Das Zentralregister der EU wird am 19. Juli 2026 operativ. Unternehmen, die jetzt beginnen, haben beim Inkrafttreten verifizierte Passportierungshistorie.</span>
+          <span data-en>LoopLayer's DPP architecture is ESPR-aligned and designed to adapt to the final textile-specific delegated act. The EU central registry becomes operational on 19 July 2026. Companies starting now have verified passport history when enforcement arrives.</span>
+        </p>
+        <ul class="df">
+          <li>JSON-LD · UPI/UOI/UFI (ESPR Annex III)</li>
+          <li><span data-de>4-stufiger Zugang · T1 öffentlich bis T4 Behörde</span><span data-en>4-tier access · T1 public to T4 authority</span></li>
+          <li>SHA-256 · S3 Object Lock · <span data-de>permanente URL</span><span data-en>permanent URL</span></li>
+          <li><span data-de>QR-Code je Lot · öffentlich scanbar</span><span data-en>QR code per lot · publicly scannable</span></li>
+          <li>JRC145830 · CIRPASS-2 · <span data-de>adaptierbar</span><span data-en>adaptable</span></li>
+          <li>EN 45557:2020 <span data-de>Recyclatanteil-Deklaration</span><span data-en>recycled content declaration</span></li>
+          <li>ISO 4484-2:2023 <span data-de>Mikrofasern / SoC</span><span data-en>microfibres / SoC</span></li>
+        </ul>
+      </div>
+      <div class="dpp-card">
+        <div class="dpph"><h4>Digital Product Passport</h4><span class="sp"><span data-de>Beispieldaten</span><span data-en>Sample data</span></span></div>
+        <div class="dpr"><span class="dk">UPI</span><span class="dv" style="font-family:var(--mono);font-size:.75rem">LL-LOT-2026-FR-NW-00001</span></div>
+        <div class="dpr"><span class="dk"><span data-de>Fasertyp</span><span data-en>Fibre type</span></span><span class="dv"><span data-de>Baumwolle >95%</span><span data-en>Cotton >95%</span></span></div>
         <div class="dpr"><span class="dk"><span data-de>Gewicht</span><span data-en>Weight</span></span><span class="dv"><span data-de>380 kg (bestätigt)</span><span data-en>380 kg (confirmed)</span></span></div>
         <div class="dpr"><span class="dk">CO₂ <span data-de>gespart</span><span data-en>saved</span></span><span class="dv">684 kg CO₂eq (IPCC AR6)</span></div>
         <div class="dpr"><span class="dk">DQL</span><span class="dv"><span class="ok">DQL 2 — <span data-de>Verifiziert</span><span data-en>Verified</span> ✓</span></span></div>
-        <div class="dpr"><span class="dk">GRS</span><span class="dv"><span class="ok"><span data-de>Muster-Zertifikat ✓</span><span data-en>Sample certificate ✓</span></span></span></div>
+        <div class="dpr"><span class="dk">GRS</span><span class="dv"><span class="ok">GRS-2025-FR-XXXXX-A ✓</span></span></div>
+        <div class="dpr"><span class="dk">EPR</span><span class="dv"><span class="ok">REFASHION FR ✓</span></span></div>
+        <div class="dpp-badges">
+          <span class="dbadge">✓ EPR</span>
+          <span class="dbadge">✓ ESRS E5</span>
+          <span class="dbadge">✓ DPP T1/T2</span>
+          <span class="dbadge">✓ SHA-256</span>
+        </div>
+        <div class="dppn">⚠ <span data-de>Beispieldaten zur Illustration · keine echte Transaktion</span><span data-en>Sample data for illustration · not a real transaction</span></div>
       </div>
-      <div class="dppf"><span class="dtick">✓ EPR</span><span class="dtick">✓ ESRS E5</span><span class="dtick">✓ DPP</span><span class="dtick">✓ SHA-256</span></div>
-      <div class="dppn">⚠ <span data-de>Beispieldaten zur Illustration · keine echte Transaktion</span><span data-en>Sample data for illustration · not a real transaction</span></div>
     </div>
   </div>
 </section>
 
+<!-- COMPLIANCE DOCS -->
 <section class="bg2" id="compliance">
-  <div class="sl tc">Compliance Engine</div>
-  <h2 class="st tc"><span data-de>Automatisch. Audit-fertig.<br><em>ESPR-ausgerichtet.</em></span><span data-en>Automatic. Audit-ready.<br><em>ESPR-aligned.</em></span></h2>
-  <div class="docg">
-    <div class="docc fade"><div class="docn"><span data-de>DOKUMENT</span><span data-en>DOCUMENT</span> 01</div><h4>EPR-<span data-de>Zertifikat</span><span data-en>Certificate</span></h4><p><span data-de>Automatisch im korrekten Naber-DE-Format mit Transaktions-ID, Gewicht, GRS-Nummer, EWC-Code. Bereit für 31. Januar.</span><span data-en>Automatically in the correct Naber DE format with transaction ID, weight, GRS number, EWC code. Ready for 31 January.</span></p><div class="docs">Naber DE · REFASHION FR · ARA AT<br>EWC 04 02 21/22 · 6 EU-EPR</div></div>
-    <div class="docc fade"><div class="docn"><span data-de>DOKUMENT</span><span data-en>DOCUMENT</span> 02</div><h4>CSRD ESRS E5</h4><p><span data-de>Vollständiger ESRS-E5-Abschnitt am Jahresende. Tonnenmengen, CO₂-Einsparungen, Verarbeitungsmethoden, Chain-of-Custody. EFRAG-konform.</span><span data-en>Complete ESRS E5 section at year-end. Tonnages, CO₂ savings, processing methods, chain of custody. EFRAG-aligned.</span></p><div class="docs">EFRAG ESRS E5 · EN 45557:2020<br>IPCC AR6 WG3 2022 · Auditor annex</div></div>
-    <div class="docc fade"><div class="docn"><span data-de>DOKUMENT</span><span data-en>DOCUMENT</span> 03</div><h4>ESPR-<span data-de>ausgerichteter</span><span data-en>aligned</span> DPP</h4><p><span data-de>JSON-LD-Format, UPI/UOI/UFI-Identifikatoren, 4-stufiger Datenzugang, QR-Code-Etikett. Adaptierbar an finalen Delegierten Rechtsakt.</span><span data-en>JSON-LD format, UPI/UOI/UFI identifiers, 4-tier data access, QR code label. Adaptable to final delegated act.</span></p><div class="docs">ESPR-<span data-de>ausgerichtet</span><span data-en>aligned</span> · JRC145830 · CIRPASS-2</div></div>
-    <div class="docc fade"><div class="docn"><span data-de>DOKUMENT</span><span data-en>DOCUMENT</span> 04</div><h4><span data-de>Audit-Nachweispaket</span><span data-en>Audit evidence package</span></h4><p><span data-de>SHA-256-Hash in AWS S3 Object Lock. 3 Jahre Aufbewahrung. Jeder Wert bis zur Originaltransaktion rückverfolgbar.</span><span data-en>SHA-256 hash in AWS S3 Object Lock. 3-year retention. Every figure traceable to the original transaction.</span></p><div class="docs">SHA-256 · AWS S3 Object Lock · 3 <span data-de>Jahre</span><span data-en>years</span> · eIDAS</div></div>
+  <div class="inner">
+    <div class="sl"><span data-de>Automatisch. Audit-fertig.</span><span data-en>Automatic. Audit-ready.</span></div>
+    <h2 class="st"><span data-de>Vier Dokumente.<br><em>Eine Transaktion.</em></span><span data-en>Four documents.<br><em>One transaction.</em></span></h2>
+    <div class="docs-grid" style="margin-top:2rem">
+      <div class="docc fade">
+        <div class="docn"><span data-de>DOKUMENT</span><span data-en>DOCUMENT</span> 01</div>
+        <h4>EPR-<span data-de>Zertifikat</span><span data-en>Certificate</span></h4>
+        <p><span data-de>Automatisch im korrekten Format: REFASHION FR (inkl. Ökomodulierungsnachweis), UPV NL, Naber DE, ARA AT. Enthält Transaktions-ID, Gewicht, GRS-Nummer, EWC-Code, eIDAS-Signatur.</span><span data-en>Automatically in the correct format: REFASHION FR (including eco-modulation evidence), UPV NL, Naber DE, ARA AT. Contains transaction ID, weight, GRS number, EWC code, eIDAS signature.</span></p>
+        <div class="docs">REFASHION FR · UPV NL · Naber DE · ARA AT<br>EWC 04 02 21/22 · 6 EU-EPR</div>
+      </div>
+      <div class="docc fade">
+        <div class="docn"><span data-de>DOKUMENT</span><span data-en>DOCUMENT</span> 02</div>
+        <h4>CSRD ESRS E5</h4>
+        <p><span data-de>Vollständiger ESRS-E5-Abschnitt inkl. neuem EFRAG-Pflichtfeld: Anteil Abfall unbekannten Endverbleibs. Tonnenmengen, CO₂-Einsparungen, Verarbeitungsmethoden, Chain-of-Custody. EFRAG-konform.</span><span data-en>Complete ESRS E5 section including new EFRAG mandatory field: percentage of waste with unknown final destination. Tonnages, CO₂ savings, processing methods, chain of custody. EFRAG-aligned.</span></p>
+        <div class="docs">EFRAG ESRS E5 · EN 45557:2020<br>IPCC AR6 WG3 2022 · Auditor annex</div>
+      </div>
+      <div class="docc fade">
+        <div class="docn"><span data-de>DOKUMENT</span><span data-en>DOCUMENT</span> 03</div>
+        <h4>ESPR-<span data-de>ausgerichteter</span><span data-en>aligned</span> DPP</h4>
+        <p><span data-de>JSON-LD-Format, UPI/UOI/UFI-Identifikatoren, 4-stufiger Datenzugang, QR-Code-Etikett. Adaptierbar an finalen Delegierten Rechtsakt. DQL 3/4: Feedstock-Zertifikat für chemische Recycler.</span><span data-en>JSON-LD format, UPI/UOI/UFI identifiers, 4-tier data access, QR code label. Adaptable to final delegated act. DQL 3/4: feedstock certificate for chemical recyclers.</span></p>
+        <div class="docs">ESPR-aligned · JRC145830 · CIRPASS-2<br>DQL 3/4: EN 45557 + Feedstock cert</div>
+      </div>
+      <div class="docc fade">
+        <div class="docn"><span data-de>DOKUMENT</span><span data-en>DOCUMENT</span> 04</div>
+        <h4><span data-de>Audit-Nachweispaket</span><span data-en>Audit evidence package</span></h4>
+        <p><span data-de>SHA-256-Hash in AWS S3 Object Lock. 3 Jahre Aufbewahrung. Jeder Wert bis zur Originaltransaktion rückverfolgbar. GRS-API-Antwort gespeichert.</span><span data-en>SHA-256 hash in AWS S3 Object Lock. 3-year retention. Every figure traceable to the original transaction. GRS API response stored.</span></p>
+        <div class="docs">SHA-256 · AWS S3 Object Lock · 3 <span data-de>Jahre</span><span data-en>years</span> · eIDAS</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="bg1" id="users">
-  <div class="sl"><span data-de>Wer LoopLayer nutzt</span><span data-en>Who uses LoopLayer</span></div>
-  <h2 class="st"><span data-de>Drei Akteure.<br><em>Ein System.</em></span><span data-en>Three participants.<br><em>One system.</em></span></h2>
-  <div class="ug">
-    <div class="uc fade"><div class="uic">🏭</div><h3><span data-de>Textilindustrie &amp; Hersteller</span><span data-en>Textile industry &amp; manufacturers</span></h3><p><span data-de>Verkauft Produktionsabschnitte. Erhält EPR-Zertifikat und ESRS-Dokumentation automatisch. Kein manueller Aufwand bei der Jahreserklärung.</span><span data-en>Sells production offcuts. Receives EPR certificate and ESRS documentation automatically. No manual effort for the annual declaration.</span></p><div class="ug2"><span><span data-de>EPR-Zertifikat bereit 31. Januar</span><span data-en>EPR certificate ready 31 January</span></span><span><span data-de>CSRD-Auditor erhält vollständiges Paket</span><span data-en>CSRD auditor receives complete package</span></span><span><span data-de>DPP als Lieferantendifferenzierung</span><span data-en>DPP as supplier differentiation</span></span></div></div>
-    <div class="uc fade"><div class="uic">♻️</div><h3><span data-de>GRS-zertifizierte Recycler</span><span data-en>GRS-certified recyclers</span></h3><p><span data-de>Kauft konsistenten Feedstock. Liefert Kunden ESRS-Daten automatisch — keine manuellen Zertifikatsanfragen mehr.</span><span data-en>Buys consistent feedstock. Delivers ESRS data to customers automatically — no more manual certificate requests.</span></p><div class="ug2"><span><span data-de>7% Provision vs. 12–18% Brokermargen</span><span data-en>7% commission vs 12–18% broker margins</span></span><span><span data-de>Kunden-EPR-Daten automatisch</span><span data-en>Customer EPR data automatically</span></span><span><span data-de>CO₂-Dokumentation für Carbon Credits</span><span data-en>CO₂ documentation for carbon credits</span></span></div></div>
-    <div class="uc fade"><div class="uic">🏛️</div><h3><span data-de>Kommunen &amp; Entsorgungsbetriebe</span><span data-en>Municipalities &amp; waste authorities</span></h3><p><span data-de>Vermarktet Alttextilsammlungen. Erhält auditierbare CO₂-Einsparungszahl für Klimaschutzbericht nach IPCC AR6.</span><span data-en>Markets old textile collections. Receives auditable CO₂ savings figure for climate report per IPCC AR6.</span></p><div class="ug2"><span><span data-de>EPR-Meldung automatisch 31. Januar</span><span data-en>EPR filing automatic 31 January</span></span><span><span data-de>CO₂-Zahl für Klimaschutzbericht</span><span data-en>CO₂ figure for climate report</span></span><span><span data-de>Bürgertransparenz via QR-Code</span><span data-en>Citizen transparency via QR code</span></span></div></div>
+<!-- VALUE CHAIN -->
+<section class="bg1" id="chain">
+  <div class="inner">
+    <div class="sl"><span data-de>Die gesamte Wertschöpfungskette</span><span data-en>The complete value chain</span></div>
+    <h2 class="st"><span data-de>Jeder Handoff.<br><em>Ein LoopLayer-Datensatz.</em></span><span data-en>Every handoff.<br><em>One LoopLayer record.</em></span></h2>
+    <p class="ss"><span data-de>LoopLayer sitzt nicht nur an einem Punkt der Kette — sondern an jedem Übergabepunkt. Jede Transaktion erzeugt einen verifizierten Compliance-Datensatz.</span><span data-en>LoopLayer sits not just at one point in the chain — but at every handoff. Each transaction generates a verified compliance record.</span></p>
+    <div class="chain-wrap">
+      <div class="chain">
+        <div class="ch-step">
+          <div class="ch-icon">🏭</div>
+          <div class="ch-name"><span data-de>Hersteller</span><span data-en>Manufacturer</span></div>
+          <div class="ch-role"><span data-de>Produziert Abschnitte</span><span data-en>Produces offcuts</span></div>
+          <div class="ch-doc">EPR · ESRS E5</div>
+        </div>
+        <div class="ch-step">
+          <div class="ch-icon">🏛️</div>
+          <div class="ch-name"><span data-de>Kommune</span><span data-en>Municipality</span></div>
+          <div class="ch-role"><span data-de>Sammelt Alttextilien</span><span data-en>Collects textiles</span></div>
+          <div class="ch-doc">EPR · CO₂ · QR</div>
+        </div>
+        <div class="ch-step">
+          <div class="ch-icon">🔀</div>
+          <div class="ch-name"><span data-de>Sortierer</span><span data-en>Sorter</span></div>
+          <div class="ch-role"><span data-de>Trennt nach Qualität</span><span data-en>Grades by quality</span></div>
+          <div class="ch-doc">Multi-Stream · NL F2F</div>
+        </div>
+        <div class="ch-step">
+          <div class="ch-icon">♻️</div>
+          <div class="ch-name"><span data-de>Recycler</span><span data-en>Recycler</span></div>
+          <div class="ch-role">GRS-<span data-de>zertifiziert</span><span data-en>certified</span></div>
+          <div class="ch-doc">DQL 2–4 · Feedstock</div>
+        </div>
+        <div class="ch-step">
+          <div class="ch-icon">⚗️</div>
+          <div class="ch-name"><span data-de>Faserproduzent</span><span data-en>Fibre producer</span></div>
+          <div class="ch-role">EN 45557 <span data-de>Inhalt</span><span data-en>content</span></div>
+          <div class="ch-doc">EN 45557 · CoC</div>
+        </div>
+        <div class="ch-step">
+          <div class="ch-icon">👔</div>
+          <div class="ch-name"><span data-de>Marke</span><span data-en>Brand</span></div>
+          <div class="ch-role"><span data-de>Take-back · DPP</span><span data-en>Take-back · DPP</span></div>
+          <div class="ch-doc">ESPR · Vernichtungsverbot</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="stb">
+<!-- USERS -->
+<section class="bg2" id="users">
+  <div class="inner">
+    <div class="sl"><span data-de>Wer LoopLayer nutzt</span><span data-en>Who uses LoopLayer</span></div>
+    <h2 class="st"><span data-de>Sechs Akteure.<br><em>Eine Infrastruktur.</em></span><span data-en>Six participants.<br><em>One infrastructure.</em></span></h2>
+    <div class="ug">
+      <div class="uc fade">
+        <div class="uic">🏭</div>
+        <h3><span data-de>Textilindustrie &amp; Hersteller</span><span data-en>Textile manufacturers &amp; brands</span></h3>
+        <p><span data-de>REFASHION-Ökomodulierungsbonus-Nachweis (€1.000/t) · EPR-Zertifikat · ESRS-E5-Paket für CSRD-Auditoren · DPP als Lieferantendifferenzierung.</span><span data-en>REFASHION eco-modulation bonus evidence (€1,000/t) · EPR certificate · ESRS E5 package for CSRD auditors · DPP as supplier differentiation.</span></p>
+        <div class="ug2">
+          <span><span data-de>REFASHION FR: €1.000/t Bonus</span><span data-en>REFASHION FR: €1,000/t bonus</span></span>
+          <span><span data-de>EPR NL UPV: 1. April Frist</span><span data-en>EPR NL UPV: 1 April deadline</span></span>
+          <span><span data-de>CSRD-Auditor: vollständiges Evidenzpaket</span><span data-en>CSRD auditor: complete evidence package</span></span>
+        </div>
+      </div>
+      <div class="uc fade">
+        <div class="uic">🏛️</div>
+        <h3><span data-de>Kommunen &amp; Entsorgungsbetriebe</span><span data-en>Municipalities &amp; waste authorities</span></h3>
+        <p><span data-de>Auditierbare CO₂-Einsparung (IPCC AR6) für Klimaschutzbericht. EPR-Jahresmeldung automatisch. Bürger scannen QR-Code und sehen wohin ihre Spende ging.</span><span data-en>Auditable CO₂ savings (IPCC AR6) for climate report. EPR annual filing automatic. Citizens scan QR code to see where their donation went.</span></p>
+        <div class="ug2">
+          <span><span data-de>CO₂-Zahl für Klimaschutzbericht</span><span data-en>CO₂ figure for climate report</span></span>
+          <span><span data-de>EPR automatisch 31. Januar</span><span data-en>EPR automatic 31 January</span></span>
+          <span><span data-de>Bürgertransparenz via QR-Code</span><span data-en>Citizen transparency via QR code</span></span>
+        </div>
+      </div>
+      <div class="uc fade">
+        <div class="uic">🔀</div>
+        <h3><span data-de>Sortierer &amp; Sammelorganisationen</span><span data-en>Sorters &amp; collection organisations</span></h3>
+        <p><span data-de>Jeder Ausgangsstrom erzeugt automatisch Transaktionsdokumente. Kunden erhalten ihre EPR- und ESRS-Daten ohne manuelle Anfragen. NL Fibre-to-Fibre Rate ab 2026 automatisch.</span><span data-en>Each output stream automatically generates transaction documents. Customers receive their EPR and ESRS data without manual requests. NL fibre-to-fibre rate from 2026 automatic.</span></p>
+        <div class="ug2">
+          <span><span data-de>Multi-Stream-Dokumentation</span><span data-en>Multi-stream documentation</span></span>
+          <span><span data-de>NL Fibre-to-Fibre Rate automatisch</span><span data-en>NL fibre-to-fibre rate automatic</span></span>
+          <span><span data-de>Keine manuellen Anfragen mehr</span><span data-en>No more manual certificate requests</span></span>
+        </div>
+      </div>
+      <div class="uc fade">
+        <div class="uic">♻️</div>
+        <h3><span data-de>GRS-zertifizierte Recycler</span><span data-en>GRS-certified recyclers</span></h3>
+        <p><span data-de>Generiert Kundenzertifikate automatisch. DQL 3/4 Feedstock-Zertifikate für chemische Recycler als Mehrwertdienstleistung. CO₂-Dokumentation auditbereit.</span><span data-en>Generates customer certificates automatically. DQL 3/4 feedstock certificates for chemical recyclers as value-added service. CO₂ documentation audit-ready.</span></p>
+        <div class="ug2">
+          <span><span data-de>Kunden-EPR automatisch generiert</span><span data-en>Customer EPR auto-generated</span></span>
+          <span><span data-de>DQL 3/4 Feedstock-Zertifikat</span><span data-en>DQL 3/4 feedstock certificate</span></span>
+          <span><span data-de>CO₂-Dokumentation für Auditoren</span><span data-en>CO₂ documentation for auditors</span></span>
+        </div>
+      </div>
+      <div class="uc fade">
+        <div class="uic">⚗️</div>
+        <h3><span data-de>Chemische Recycler</span><span data-en>Chemical recyclers</span></h3>
+        <p><span data-de>eeden, Reju, Worn Again, Circ — benötigen verifizierte Feedstock-Dokumentation (Fasertyp, Mischungsverhältnis, Kontaminationsgrad) als Nachweis gegenüber Abnehmern wie Inditex oder Patagonia.</span><span data-en>eeden, Reju, Worn Again, Circ — require verified feedstock documentation (fibre type, blend ratio, contamination) as proof for offtake partners like Inditex or Patagonia.</span></p>
+        <div class="ug2">
+          <span><span data-de>DQL 3/4 Feedstock-Zertifikat</span><span data-en>DQL 3/4 feedstock certificate</span></span>
+          <span>EN 45557:2020 <span data-de>Recyclatanteil</span><span data-en>recycled content</span></span>
+          <span><span data-de>Chain-of-Custody bis Ursprung</span><span data-en>Chain-of-custody to origin</span></span>
+        </div>
+      </div>
+      <div class="uc fade">
+        <div class="uic">👔</div>
+        <h3><span data-de>Modemarken &amp; Take-back</span><span data-en>Fashion brands &amp; take-back</span></h3>
+        <p><span data-de>ESPR-Vernichtungsverbot ab 19. Juli 2026: Nachweis dass Waren Recycling oder Re-Use erreichten. REFASHION-EPR-Gutschrift für Rücknahmeprogramme. DPP für Recommerce-Intake-Automatisierung.</span><span data-en>ESPR destruction ban from 19 July 2026: proof goods reached recycling or re-use. REFASHION EPR credit for take-back programmes. DPP for recommerce intake automation.</span></p>
+        <div class="ug2">
+          <span><span data-de>Vernichtungsverbot-Nachweis (19. Juli 2026)</span><span data-en>Destruction ban compliance (19 July 2026)</span></span>
+          <span><span data-de>REFASHION EPR-Gutschrift</span><span data-en>REFASHION EPR credit documentation</span></span>
+          <span><span data-de>DPP für Recommerce-Intake</span><span data-en>DPP for recommerce intake</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATUS -->
+<div class="stb">
   <div class="sti">
     <div class="sbadge">⚠ <span data-de>Aufbauphase 2026</span><span data-en>Build Phase 2026</span></div>
     <h3><span data-de>Wo wir stehen — ehrlich.</span><span data-en>Where we stand — honestly.</span></h3>
-    <p><span data-de>LoopLayer befindet sich in der Konzept- und Aufbauphase. Die Plattformarchitektur ist vollständig ausgearbeitet, die regulatorische Positionierung ist aktiv. Wir suchen unsere ersten Pilotpartner in Bayern.</span><span data-en>LoopLayer is in the concept and build phase. Platform architecture is fully defined, regulatory positioning is active. We are seeking our first pilot partners in Bavaria.</span></p>
+    <p><span data-de>LoopLayer befindet sich in der Konzept- und Aufbauphase. Die Plattformarchitektur ist vollständig ausgearbeitet, die regulatorische Positionierung ist aktiv. Wir suchen erste Pilotpartner in Frankreich, den Niederlanden und Bayern.</span><span data-en>LoopLayer is in the concept and build phase. Platform architecture is fully defined, regulatory positioning is active. We are seeking first pilot partners in France, the Netherlands and Bavaria.</span></p>
     <div class="msl">
-      <div class="ms"><span class="msic">✅</span><div><strong><span data-de>BMUV-Stellungnahme eingereicht — 7. April 2026</span><span data-en>BMUV Stellungnahme submitted — 7 April 2026</span></strong><span><span data-de>LoopLayer als Dateninfrastrukturanbieter im deutschen Textilgesetz positioniert</span><span data-en>LoopLayer positioned as data infrastructure provider under forthcoming German Textile Law</span></span></div></div>
-      <div class="ms"><span class="msic">✅</span><div><strong><span data-de>CIRPASS-2-Netzwerk — Antrag gestellt</span><span data-en>CIRPASS-2 network — application submitted</span></strong><span><span data-de>DPP-Implementierungspartner-Antrag bei der Europäischen Kommission</span><span data-en>DPP implementation partner application submitted to European Commission</span></span></div></div>
-      <div class="ms"><span class="msic">✅</span><div><strong><span data-de>Plattformarchitektur vollständig</span><span data-en>Platform architecture complete</span></strong><span><span data-de>Datenmodell, DQL-Framework, Compliance-Engine-Spec fertig</span><span data-en>Data model, DQL framework, compliance engine spec complete</span></span></div></div>
-      <div class="ms"><span class="msic">🎯</span><div><strong><span data-de>Nächstes Ziel: 3–5 Pilot-LOIs bis Monat 2</span><span data-en>Next goal: 3–5 pilot LOIs by Month 2</span></strong><span><span data-de>3 Monate kostenloser Pilot für alle Partner · Erste zahlende Kunden ab Monat 4</span><span data-en>3-month free pilot for all partners · First paying customers from Month 4</span></span></div></div>
+      <div class="ms">
+        <span class="msic">✅</span>
+        <div>
+          <strong><span data-de>BMUV-Stellungnahme Textilgesetz eingereicht — 7. April 2026</span><span data-en>BMUV Stellungnahme submitted — 7 April 2026</span></strong>
+          <span><span data-de>LoopLayer als Dateninfrastrukturanbieter im deutschen Textilgesetz positioniert</span><span data-en>LoopLayer positioned as data infrastructure provider under forthcoming German Textile Law</span></span>
+        </div>
+      </div>
+      <div class="ms">
+        <span class="msic">✅</span>
+        <div>
+          <strong><span data-de>CIRPASS-2-Partnerantrag gestellt</span><span data-en>CIRPASS-2 partner application filed</span></strong>
+          <span><span data-de>DPP-Implementierungspartner-Antrag bei der Europäischen Kommission</span><span data-en>DPP implementation partner application submitted to European Commission</span></span>
+        </div>
+      </div>
+      <div class="ms">
+        <span class="msic">✅</span>
+        <div>
+          <strong><span data-de>Plattformarchitektur vollständig</span><span data-en>Platform architecture complete</span></strong>
+          <span><span data-de>DQL-Framework, Compliance-Engine-Spec, DSGVO-Protokoll fertig</span><span data-en>DQL framework, compliance engine spec, GDPR protocol complete</span></span>
+        </div>
+      </div>
+      <div class="ms">
+        <span class="msic">🎯</span>
+        <div>
+          <strong><span data-de>Pilotpartner in FR, NL und DE gesucht</span><span data-en>Seeking pilot partners in FR, NL and DE</span></strong>
+          <span><span data-de>3 Monate kostenloser Pilot für erste Partner · info@looplayer.eu</span><span data-en>3-month free pilot for first partners · info@looplayer.eu</span></span>
+        </div>
+      </div>
     </div>
-    <div class="lbox"><strong><span data-de>Hinweis:</span><span data-en>Note:</span></strong> <span data-de>LoopLayer ist Compliance-Infrastruktur-Software — keine Rechtsberatung, keine Prüfungsdienstleistung und keine zertifizierte Meldebehörde. Kunden bleiben für die Prüfung und Einreichung regulatorischer Meldungen selbst verantwortlich.</span><span data-en>LoopLayer is compliance infrastructure software — not legal advice, audit assurance, or a certified reporting authority. Customers remain responsible for reviewing and submitting any regulatory filing.</span></div>
+    <div class="lbox">
+      <strong><span data-de>Hinweis:</span><span data-en>Note:</span></strong>
+      <span data-de> LoopLayer ist Compliance-Infrastruktur-Software — keine Rechtsberatung, keine Prüfungsdienstleistung und keine zertifizierte Meldebehörde. Kunden bleiben für die Prüfung und Einreichung regulatorischer Meldungen selbst verantwortlich. Alle Angaben zu regulatorischen Fristen basieren auf dem aktuellen Stand der Gesetzgebung.</span>
+      <span data-en> LoopLayer is compliance infrastructure software — not legal advice, audit assurance, or a certified reporting authority. Customers remain responsible for reviewing and submitting any regulatory filing. All deadline information is based on current legislation and may change.</span>
+    </div>
   </div>
-</section>
+</div>
 
+<!-- CTA -->
 <section class="cta" id="cta">
   <div class="ctab">
     <h2><span data-de>Bereit für <em style="color:var(--teal-lt)">automatische Compliance</em>?</span><span data-en>Ready for <em style="color:var(--teal-lt)">automated compliance</em>?</span></h2>
-    <p><span data-de>Schreiben Sie uns direkt oder fordern Sie eine 30-minütige Demo an. 3 Monate kostenlos testen. Keine Verpflichtung.</span><span data-en>Write to us directly or request a 30-minute demo. 3-month free pilot. No commitment.</span></p>
+    <p><span data-de>Schreiben Sie uns direkt oder fordern Sie eine 30-minütige Demo an. Kostenloser Pilotbetrieb für erste Partner. Keine Verpflichtung.</span><span data-en>Write to us directly or request a 30-minute demo. Free pilot for first partners. No commitment.</span></p>
     <div class="ctaf">
-      <select class="cs" id="cta-role"><option value="" disabled selected><span data-de>Ich bin...</span><span data-en>I am a...</span></option><option value="Textilindustrie/Hersteller"><span data-de>Textilindustrie / Hersteller / Marke</span><span data-en>Textile industry / Manufacturer / Brand</span></option><option value="Recycler"><span data-de>Recycler / Verarbeiter (GRS-zertifiziert)</span><span data-en>Recycler / Processor (GRS-certified)</span></option><option value="Kommune"><span data-de>Kommune / Entsorgungsbetrieb</span><span data-en>Municipality / Waste authority</span></option><option value="Berater"><span data-de>Nachhaltigkeitsberater / PRO-Operator</span><span data-en>Sustainability consultant / PRO operator</span></option><option value="Investor">Investor</option><option value="Sonstiges"><span data-de>Sonstiges</span><span data-en>Other</span></option></select>
-      <div class="crow"><input class="ci" type="email" id="cta-email" placeholder="ihre@email.de / your@email.com"><button class="btn-p" onclick="sendDemo()"><span data-de>Demo →</span><span data-en>Demo →</span></button></div>
+      <select class="cs" id="cta-role">
+        <option value="" disabled selected><span data-de>Ich bin...</span><span data-en>I am a...</span></option>
+        <option value="Hersteller/Marke"><span data-de>Textilindustrie / Hersteller / Marke</span><span data-en>Textile industry / Manufacturer / Brand</span></option>
+        <option value="Recycler">Recycler / Processor (GRS-certified)</option>
+        <option value="Sortierer"><span data-de>Sortierer / Sammelorganisation</span><span data-en>Sorter / Collection organisation</span></option>
+        <option value="Chemischer Recycler"><span data-de>Chemischer Recycler</span><span data-en>Chemical recycler</span></option>
+        <option value="Kommune"><span data-de>Kommune / Entsorgungsbetrieb</span><span data-en>Municipality / Waste authority</span></option>
+        <option value="Modemarke"><span data-de>Modemarke / Take-back</span><span data-en>Fashion brand / Take-back</span></option>
+        <option value="PRO"><span data-de>PRO-Operator / Nachhaltigkeitsberater</span><span data-en>PRO operator / Sustainability consultant</span></option>
+        <option value="Investor">Investor</option>
+        <option value="Sonstiges"><span data-de>Sonstiges</span><span data-en>Other</span></option>
+      </select>
+      <div class="crow">
+        <input class="ci" type="email" id="cta-email" placeholder="ihre@email.de / your@email.com">
+        <button class="btn-p" onclick="sendDemo()"><span data-de>Demo →</span><span data-en>Demo →</span></button>
+      </div>
       <p class="cn"><span data-de>Oder direkt: <strong>info@looplayer.eu</strong> · Antwort innerhalb 24h · Freising, Bayern</span><span data-en>Or directly: <strong>info@looplayer.eu</strong> · Reply within 24h · Freising, Bavaria</span></p>
     </div>
-    <div class="plls"><div class="pll"><strong>€299</strong>/<span data-de>Monat</span><span data-en>month</span> Compliance</div><div class="pll"><strong>€149</strong>/<span data-de>Monat</span><span data-en>month</span> <span data-de>Netzwerk</span><span data-en>Network</span></div><div class="pll"><strong>3 <span data-de>Monate</span><span data-en>months</span></strong> <span data-de>kostenlos</span><span data-en>free</span></div><div class="pll"><strong>6</strong> EU-EPR</div></div>
+    <div class="cta-mini">
+      <div class="cm-item"><span class="cm-v">€499</span><br><span class="cm-l">REFASHION FR/mo</span></div>
+      <div class="cm-item"><span class="cm-v">27×</span><br><span class="cm-l"><span data-de>Kunden-ROI</span><span data-en>Client ROI</span></span></div>
+      <div class="cm-item"><span class="cm-v">6</span><br><span class="cm-l">EU-EPR <span data-de>Systeme</span><span data-en>schemes</span></span></div>
+    </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <div class="fg">
-    <div class="fb">
-      <h3><span class="loop">Loop</span><span class="layer">Layer</span></h3>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-txt"><span class="tl">Loop</span><span class="ly">Layer</span></div>
       <p><span data-de>Das digitale Rückgrat der europäischen Textilzirkularität. EPR · CSRD ESRS E5 · ESPR Digital Product Passport.</span><span data-en>The digital backbone of European textile circularity. EPR · CSRD ESRS E5 · ESPR Digital Product Passport.</span></p>
       <a href="mailto:info@looplayer.eu">info@looplayer.eu</a>
     </div>
-    <div class="fc">
-      <h4><span data-de>Plattform</span><span data-en>Platform</span></h4>
+    <div class="footer-col">
+      <h5><span data-de>Plattform</span><span data-en>Platform</span></h5>
       <ul>
-        <li><a href="#layers"><span data-de>Marktplatz (L01)</span><span data-en>Marketplace (L01)</span></a></li>
-        <li><a href="#compliance">Compliance Engine (L03)</a></li>
+        <li><a href="#layers">Compliance Engine (L03)</a></li>
+        <li><a href="#layers"><span data-de>Marktplatz</span><span data-en>Marketplace</span> (L01)</a></li>
         <li><a href="#layers">Material Intelligence (L02)</a></li>
         <li><a href="#layers">Circular Network (L04)</a></li>
         <li><a href="#dql"><span data-de>Datenqualität (DQL)</span><span data-en>Data Quality (DQL)</span></a></li>
-        <li><a href="#cta"><span data-de>Demo anfragen</span><span data-en>Request demo</span></a></li>
       </ul>
     </div>
-    <div class="fc">
-      <h4><span data-de>Standards &amp; Fristen</span><span data-en>Standards &amp; Deadlines</span></h4>
+    <div class="footer-col">
+      <h5>Standards & <span data-de>Fristen</span><span data-en>Deadlines</span></h5>
       <ul>
-        <li><strong>EPR Naber DE</strong> — 31. Jan</li>
-        <li><strong>EU EPR</strong> — 17. Apr 2028</li>
-        <li><strong>CSRD ESRS E5</strong> — FY2025/26</li>
-        <li><strong>ESPR DPP</strong> — <span data-de>Delegierter Rechtsakt</span><span data-en>Delegated act</span></li>
-        <li><strong>Textilgesetz DE</strong> — 17.6.2027</li>
-        <li>DIN SPEC 91446 · EN 18065</li>
-        <li>JRC145830 · CIRPASS-2 · GS1</li>
-        <li>EN 45557:2020 · IPCC AR6</li>
-        <li>ISO 4484-2:2023 · EFRAG</li>
+        <li><a href="#problem">REFASHION FR · 30 Nov</a></li>
+        <li><a href="#problem">UPV NL Textiel · 1. Apr</a></li>
+        <li><a href="#problem">EPR Naber DE · 31. Jan</a></li>
+        <li><a href="#problem">EU EPR · 17. Apr 2028</a></li>
+        <li><a href="#problem">CSRD ESRS E5 · EFRAG</a></li>
+        <li><a href="#dpp">ESPR DPP · CIRPASS-2</a></li>
       </ul>
     </div>
   </div>
-  <div class="fbot">
-    <p>© 2026 LoopLayer GmbH (<span data-de>in Gründung</span><span data-en>in formation</span>) · Freising, Bayern · looplayer.eu · <span data-de>Aufbauphase 2026</span><span data-en>Build Phase 2026</span></p>
-    <p><a href="#" style="color:var(--grey-lt);margin-right:1rem">Impressum</a><a href="#" style="color:var(--grey-lt)">Datenschutz / Privacy</a></p>
+  <div class="footer-bottom">
+    <span>© 2026 LoopLayer GmbH (<span data-de>in Gründung</span><span data-en>in formation</span>) · Freising, Bayern · <span data-de>Aufbauphase</span><span data-en>Build Phase</span> 2026</span>
+    <span>DIN SPEC 91446 · EN 45557:2020 · IPCC AR6 · ISO 4484-2:2023 · EFRAG</span>
   </div>
-  <div class="fleg"><span data-de>LoopLayer ist Compliance-Infrastruktur-Software — keine Rechtsberatung, keine Prüfungsdienstleistung und keine zertifizierte Meldebehörde. Kunden bleiben für die Prüfung und Einreichung regulatorischer Meldungen selbst verantwortlich. Alle Angaben zu regulatorischen Fristen basieren auf dem aktuellen Stand der Gesetzgebung und können sich ändern.</span><span data-en>LoopLayer is compliance infrastructure software — not legal advice, audit assurance, or a certified reporting authority. Customers remain responsible for reviewing and submitting any regulatory filing. All regulatory deadline information is based on current legislation and may change.</span></div>
 </footer>
 
 <script>
-function setLang(l){
-  document.body.classList.toggle('en',l==='en');
-  document.documentElement.lang=l;
-  document.getElementById('btn-de').classList.toggle('active',l==='de');
-  document.getElementById('btn-en').classList.toggle('active',l==='en');
-  localStorage.setItem('ll-lang',l);
-  var sel=document.getElementById('cta-role');
-  if(sel)sel.options[0].text=l==='de'?'Ich bin...':'I am a...';
+// Lang
+function setLang(l) {
+  document.body.classList.toggle('en', l === 'en');
+  document.getElementById('btn-de').classList.toggle('active', l === 'de');
+  document.getElementById('btn-en').classList.toggle('active', l === 'en');
+  localStorage.setItem('ll_lang', l);
 }
 (function(){
-  var s=localStorage.getItem('ll-lang')||(navigator.language&&navigator.language.startsWith('en')?'en':'de');
-  setLang(s);
+  const saved = localStorage.getItem('ll_lang');
+  const browser = navigator.language && navigator.language.startsWith('en') ? 'en' : 'de';
+  setLang(saved || browser);
 })();
-var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('in')});},{threshold:0.1});
-document.querySelectorAll('.fade').forEach(function(el){io.observe(el)});
-function sendDemo(){
-  var e=document.getElementById('cta-email').value.trim();
-  var r=document.getElementById('cta-role').value;
-  var l=document.body.classList.contains('en')?'en':'de';
-  var sub=l==='de'?encodeURIComponent('Demo-Anfrage LoopLayer: '+(r||'')):encodeURIComponent('Demo request LoopLayer: '+(r||''));
-  var bod=l==='de'?encodeURIComponent('Hallo,\n\nDemo-Anfrage.\nRolle: '+(r||'')+'\nE-Mail: '+e+'\n\nMit freundlichen Grüßen'):encodeURIComponent('Hello,\n\nDemo request.\nRole: '+(r||'')+'\nEmail: '+e+'\n\nKind regards');
-  window.location.href='mailto:info@looplayer.eu?subject='+sub+'&body='+bod;
+
+// Scroll fade
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+
+// Demo
+function sendDemo() {
+  const role = document.getElementById('cta-role').value;
+  const email = document.getElementById('cta-email').value.trim();
+  if (!email || !email.includes('@')) { alert('Bitte E-Mail eingeben / Please enter your email'); return; }
+  const subject = encodeURIComponent('LoopLayer Demo Request — ' + (role || 'General'));
+  const body = encodeURIComponent('Hallo / Hello,\n\nIch möchte eine 30-minütige Demo von LoopLayer anfragen.\nI would like to request a 30-minute LoopLayer demo.\n\nRolle / Role: ' + (role || '-') + '\nE-Mail: ' + email);
+  window.location.href = 'mailto:info@looplayer.eu?subject=' + subject + '&body=' + body;
 }
+
+// Nav link fix
+document.querySelector('.nav-right a').addEventListener('click', function(e){
+  e.preventDefault();
+  document.querySelector('#cta').scrollIntoView({behavior:'smooth'});
+});
 </script>
 </body>
 </html>
